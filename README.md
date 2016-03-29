@@ -1,6 +1,6 @@
 status_value - a class for status and optional value for C++11 and later&ensp;[![Build Status](https://travis-ci.org/martinmoene/status_value.png?branch=master)](https://travis-ci.org/martinmoene/status_value)
 ------------------------------------------------------------------------
-status_value is a single-file header-only library for objects that represent a status and an optional value. It is intended for use with C++11 and later. The library is based on the proposal for status_value [1].
+status_value is a single-file header-only library for objects that represent a status and an optional value. It is intended for use with C++11 and later. The library is based on the proposal for status_value [[1](#ref1)].
 
 **Contents**  
 - [Example usage](#example-usage)
@@ -55,7 +55,7 @@ Excellent: '123' is 123, Error: 'abc' isn't a number
 
 In a nutshell
 -------------
-**status_value** is a single-file header-only library to represent objects that contain a status and an optional value. The library is an implementation of the  proposal for [std:&#58;status_value](http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2014/n4233.html) [1,2] for use with C++11 and later.
+**status_value** is a single-file header-only library to represent objects that contain a status and an optional value. The library is an implementation of the  proposal for [std:&#58;status_value](http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2014/n4233.html) [[1](#ref1),[2](#ref2)] for use with C++11 and later.
 
 **Features and properties of status_value** are ease of installation (single header), construction of a status, or a status and a value from a value that is convertible to the underlying type, move-construction from another status_value of the same type, testing for the presence of a value, operators and method value() for *checked* access to the value and access to the status.  
 
@@ -118,9 +118,30 @@ Define this macro to 1 to experience the by-design compile-time errors of the li
 Comparison with like types
 --------------------------
 
-|Feature               |std::optional |std::expected |nonstd::status_value |
-|----------------------|--------------|--------------|---------------------|
-|More information      | see [4]      | see [3]      | this work           |
+|Feature               |std::optional     |std::expected     |nonstd::status_value |
+|----------------------|------------------|------------------|---------------------|
+|More information      | see [[4](#ref4)] | see [[3](#ref3)] | this work           |
+|                      |                  |                  |                     |
+| C++98                | &ndash;&ensp;[note 1](#note1) | &ndash;          | &ndash;             |
+| C++11                | &ndash;          | &ndash;&ensp;[note 2](#note2) | &#10003;            |
+| C++14                | &ndash;          | &ndash;          | &#10003;            |
+| C++17                | &#10003;         | &ndash;          | &#10003;            |
+|                      |                  |                  |                     |
+|DefaultConstructible  | &#10003;         | &#10003;         | &#10003;            |
+|In-place construction | &#10003;         | &#10003;         | &ndash;             |
+|Literal type          | &#10003;         | &#10003;         | &ndash;             |
+|                      |                  |                  |                     |
+|Disengaged information| &ndash;          | &#10003;         | &#10003;&ensp;status|
+|Vary disengaged type  | &ndash;          | &#10003;         | &#10003;&ensp;status|
+|Engaged nonuse throws | &ndash;          | &ndash;          | &ndash;             |
+|Disengaged use throws | &#10003;&ensp;value() | &#10003;&ensp;value() | &#10003;&ensp;all |
+|                      |                  |                  |                     |
+|Proxy (rel.ops)       | &#10003;         | &#10003;         | &ndash;             |
+|References            | &#10003;         | &ndash;          | &ndash;             |
+|Chained visitor(s)    | &ndash;          | &#10003;         | &ndash;             |
+
+<a id="note1"></a>Note 1: [optional lite](https://github.com/martinmoene/optional-lite) - Optional (nullable) objects for C++98 and later.  
+<a id="note2"></a>Note 2: [expected lite](https://github.com/martinmoene/expected-lite) - Expected objects for C++11 and later.  
 
 
 Reported to work with
@@ -134,13 +155,13 @@ Implementation notes
 Notes and references
 --------------------
 
-[1] Lawrence Crowl and Chris Mysen. [N4233 - A Class for Status and Optional Value](http://wg21.link/n4233). 10 October 2014.
+<a id="ref1"></a>[1] Lawrence Crowl and Chris Mysen. [N4233 - A Class for Status and Optional Value](http://wg21.link/n4233). 10 October 2014.
 
-[2] Lawrence Crowl. [P0157R0 - Handling Disappointment in C++](http://wg21.link/p0157r0). 7 July 2015.
+<a id="ref2"></a>[2] Lawrence Crowl. [P0157R0 - Handling Disappointment in C++](http://wg21.link/p0157r0). 7 July 2015.
 
-[3] Vicente J. Botet Escriba. [Dxxxxr0 - A proposal to add a utility class to represent expected monad (Revision 2)](https://github.com/viboes/std-make/blob/master/doc/proposal/expected/DXXXXR0_expected.pdf) (PDF). 12 March 2016.
+<a id="ref3"></a>[3] Vicente J. Botet Escriba. [Dxxxxr0 - A proposal to add a utility class to represent expected monad (Revision 2)](https://github.com/viboes/std-make/blob/master/doc/proposal/expected/DXXXXR0_expected.pdf) (PDF). 12 March 2016.
 
-[4] Fernando Cacciola and Andrzej Krzemieński. [N3793 - A proposal to add a utility class to represent optional objects (Revision 5)](http://wg21.link/n3793). ISO/IEC JTC1 SC22 WG21 N3672 2013-04-19.  
+<a id="ref4"></a>[4] Fernando Cacciola and Andrzej Krzemieński. [N3793 - A proposal to add a utility class to represent optional objects (Revision 5)](http://wg21.link/n3793). ISO/IEC JTC1 SC22 WG21 N3672 2013-04-19.  
 
 
 Appendix
