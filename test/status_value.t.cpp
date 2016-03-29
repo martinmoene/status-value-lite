@@ -91,6 +91,7 @@ CASE( "status_value<>: Allows move-construction from other status_value of the s
     status_value<int, move_constructible> sv1( 7, move_constructible( 42 ) );
     status_value<int, move_constructible> sv2( std::move( sv1 ) );    
 
+    EXPECT( ! sv1 );
     EXPECT( sv2.status()  ==  7 );
     EXPECT( sv2.value().x == 42 );
 }

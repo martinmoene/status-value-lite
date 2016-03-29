@@ -139,11 +139,13 @@ public:
 
     status_value( status_value && other )
     : m_status   ( std::move( other.m_status ) )
-    , m_has_value( std::move( other.m_has_value  ) ) 
+    , m_has_value( other.m_has_value ) 
     {
-        if ( m_has_value ) 
+        if ( other.m_has_value ) 
         {
             contained.construct_value( std::move( other.contained.value() ) );
+            other.contained.destruct_value();
+            other.m_has_value = false;
         }
     }
 
