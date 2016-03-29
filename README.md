@@ -122,8 +122,8 @@ Comparison with like types
 |----------------------|------------------|------------------|---------------------|
 |More information      | see [[4](#ref4)] | see [[3](#ref3)] | this work           |
 |                      |                  |                  |                     |
-| C++98                | &ndash;&ensp;[note 1](#note1) | &ndash;          | &ndash;             |
-| C++11                | &ndash;          | &ndash;&ensp;[note 2](#note2) | &#10003;            |
+| C++98                | &ndash;&ensp;[note 2](#note2) | &ndash;          | &ndash;  |
+| C++11                | &ndash;          | &ndash;&ensp;[note 3](#note3) | &#10003; |
 | C++14                | &ndash;          | &ndash;          | &#10003;            |
 | C++17                | &#10003;         | &ndash;          | &#10003;            |
 |                      |                  |                  |                     |
@@ -140,8 +140,8 @@ Comparison with like types
 |References            | &#10003;         | &ndash;          | &ndash;             |
 |Chained visitor(s)    | &ndash;          | &#10003;         | &ndash;             |
 
-<a id="note1"></a>Note 1: [optional lite](https://github.com/martinmoene/optional-lite) - Optional (nullable) objects for C++98 and later.  
-<a id="note2"></a>Note 2: [expected lite](https://github.com/martinmoene/expected-lite) - Expected objects for C++11 and later.  
+<a id="note2"></a>Note 2: [optional lite](https://github.com/martinmoene/optional-lite) - Optional (nullable) objects for C++98 and later.  
+<a id="note3"></a>Note 3: [expected lite](https://github.com/martinmoene/expected-lite) - Expected objects for C++11 and later.  
 
 
 Reported to work with
