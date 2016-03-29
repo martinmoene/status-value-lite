@@ -7,10 +7,10 @@ project( example )
 include_directories  ( "${PROJECT_SOURCE_DIR}/../include/nonstd" )
 
 set( SOURCES_CPP11
-    01-basic.cpp 
 )
 
 set( SOURCES_CPP14 
+    01-basic.cpp 
 )
 
 # note: here variable must be quoted to create semicolon separated list:
