@@ -203,8 +203,10 @@ public:
     // calling std::move on the result of the non-const functions. 
 
 private:
+    using storage_type = status_value_detail::storage_t<status_type, value_type >;
+    
+    storage_type contained;
     status_type m_status;
-    status_value_detail::storage_t<status_type, value_type > contained;
     bool m_has_value;
 };
 
