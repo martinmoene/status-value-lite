@@ -8,6 +8,7 @@ include_directories  ( "${PROJECT_SOURCE_DIR}/../include/nonstd" )
 
 set( SOURCES_CPP11
     02-required.cpp 
+    03-error_condition.cpp
 )
 
 set( SOURCES_CPP14 
