@@ -1,4 +1,4 @@
-// Convert text to number and yield expected with number or error text.
+// Convert text to number and yield status_value with number and error_condition.
 
 #include "status_value.hpp"
 
