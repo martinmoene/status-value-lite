@@ -61,7 +61,7 @@ In a nutshell
 
 **Not provided** are copy-construction of a status_value (by design), ... .
 
-For more examples, see [1].
+For more examples, see [[1](#ref1)].
 
 
 License
@@ -146,6 +146,10 @@ Comparison with like types
 
 Reported to work with
 ---------------------
+*status_value_cpp98* is reported to work with the following compilers: 
+- Visual VC14 (VS2015)
+- GNUC 5.2.0 with -std=c++11, -std=c++14, -std=c++1y 
+- clang 3.6, 3.7 with -std=c++11, -std=c++14 (on Travis)
 
 
 Implementation notes
