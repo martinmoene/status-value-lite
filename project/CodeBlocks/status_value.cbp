@@ -29,7 +29,9 @@
 		<Unit filename="../../CMakeLists.txt" />
 		<Unit filename="../../LICENSE" />
 		<Unit filename="../../README.md" />
+		<Unit filename="../../README_cpp98.md" />
 		<Unit filename="../../example/01-basic.cpp" />
+		<Unit filename="../../example/01-basic_cpp98.cpp" />
 		<Unit filename="../../example/02-required.cpp" />
 		<Unit filename="../../example/03-error_condition.cpp" />
 		<Unit filename="../../example/CMakeLists.txt" />

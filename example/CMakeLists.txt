@@ -6,6 +6,10 @@ project( example )
 
 include_directories  ( "${PROJECT_SOURCE_DIR}/../include/nonstd" )
 
+set( SOURCES_CPP98
+    01-basic_cpp98.cpp 
+)
+
 set( SOURCES_CPP11
     02-required.cpp 
     03-error_condition.cpp
@@ -17,12 +21,14 @@ set( SOURCES_CPP14
 
 # note: here variable must be quoted to create semicolon separated list:
 
+string( REPLACE ".cpp" "" BASENAMES_CPP98 "${SOURCES_CPP98}" )
 string( REPLACE ".cpp" "" BASENAMES_CPP11 "${SOURCES_CPP11}" )
 string( REPLACE ".cpp" "" BASENAMES_CPP14 "${SOURCES_CPP14}" )
 
+set( TARGETS_CPP98 ${BASENAMES_CPP98} )
 set( TARGETS_CPP11 ${BASENAMES_CPP11} )
 set( TARGETS_CPP14 ${BASENAMES_CPP14} )
-set( TARGETS_ALL   ${TARGETS_CPP11} ${TARGETS_CPP14} )
+set( TARGETS_ALL   ${TARGETS_CPP98} ${TARGETS_CPP11} ${TARGETS_CPP14} )
 
 # add targets:
 
@@ -39,6 +45,10 @@ if( ${CMAKE_GENERATOR} MATCHES Visual )
 else()
     foreach( name ${TARGETS_ALL} )
         target_compile_options( ${name} PUBLIC -Wall )
+    endforeach()
+
+    foreach( name ${TARGETS_CPP11} )
+        target_compile_options( ${name} PUBLIC -std=c++98 )
     endforeach()
 
     foreach( name ${TARGETS_CPP11} )

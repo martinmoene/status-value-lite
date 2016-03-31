@@ -528,7 +528,7 @@ public:
     }
 #else
 
-    status_value( status_value & other )
+    status_value( status_value const & other )
     : m_status   ( other.m_status )
     , m_has_value( other.m_has_value ) 
     {
