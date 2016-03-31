@@ -223,7 +223,7 @@ CASE("Show alignment of various types" "[.]" )
     "sizeof( status_value<char," #type "> ): " << \
      sizeof( status_value<char,   type>   )    << " (" << sizeof(type) << ")\n" <<
 
-CASE("Show sizeof various optionals" "[.]" )
+CASE("Show sizeof various status_value types" "[.]" )
 {
     std::cout << 
         "sizeof( nonstd::status_value_detail::storage_t<char, char> ): " << 
