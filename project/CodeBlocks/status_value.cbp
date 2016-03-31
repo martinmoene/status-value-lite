@@ -34,8 +34,10 @@
 		<Unit filename="../../example/03-error_condition.cpp" />
 		<Unit filename="../../example/CMakeLists.txt" />
 		<Unit filename="../../include/nonstd/status_value.hpp" />
+		<Unit filename="../../include/nonstd/status_value_cpp98.hpp" />
 		<Unit filename="../../test/CMakeLists.txt" />
 		<Unit filename="../../test/status_value.t.cpp" />
+		<Unit filename="../../test/status_value_cpp98.t.cpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />
