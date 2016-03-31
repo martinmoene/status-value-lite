@@ -147,10 +147,10 @@ Comparison with like types
 
 Reported to work with
 ---------------------
-*status_value_cpp98* is reported to work with the following compilers: 
-- Visual C++ 6 SP6 (VS6), VC10, (VS2010), VC11 (VS2012), VC12 (VS2013), VC14 (VS2015)
-- GNUC 5.2.0 with -std=c++98, -std=c++03, -std=c++11, -std=c++14, -std=c++1y 
-- clang 3.6, 3.7 with -std=c++03, -std=c++11 (on Travis)
+*status_value* is reported to work with the following compilers: 
+- Visual VC14 (VS2015)
+- GNUC 5.2.0 with -std=c++11, -std=c++14, -std=c++1y 
+- clang 3.6, 3.7 with -std=c++11, -std=c++14 (on Travis)
 
 
 Implementation notes
