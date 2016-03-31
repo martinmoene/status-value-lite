@@ -1,6 +1,6 @@
 status_value - a class for status and optional value for C++11 and later&ensp;[![Build Status](https://travis-ci.org/martinmoene/status_value.png?branch=master)](https://travis-ci.org/martinmoene/status_value)
 ------------------------------------------------------------------------
-status_value is a single-file header-only library for objects that represent a status and an optional value. It is intended for use with C++11 and later. The library is based on the proposal for status_value [[1](#ref1)].
+status_value is a single-file header-only library for objects that represent a status and an optional value. It is intended for use with C++11 and later. There is a [separate variant](README_cpp98.md) for use with C++98 and later. The library is based on the proposal for status_value [[1](#ref1)].
 
 **Contents**  
 - [Example usage](#example-usage)
@@ -84,14 +84,8 @@ Synopsis
 --------
 
 **Contents**  
-- [Configuration macros](#configuration-macros)
 - [Interface of status_value](#interface-of-status_value)  
-
-### Configuration macros
-
-\-D<b>nsel\_CONFIG\_CONFIRMS\_COMPILATION\_ERRORS</b>=0  
-Define this macro to 1 to experience the by-design compile-time errors of the library in the test suite. Default is 0.
-
+- [Configuration macros](#configuration-macros)
 
 ### Interface of status_value
 
@@ -113,6 +107,11 @@ Define this macro to 1 to experience the by-design compile-time errors of the li
 
 <a id="note1"></a>Note 1: checked access: if no content, throws status value.
 
+### Configuration macros
+
+\-D<b>nsel\_CONFIG\_CONFIRMS\_COMPILATION\_ERRORS</b>=0  
+Define this macro to 1 to experience the by-design compile-time errors of the library in the test suite. Default is 0.
+
 
 <a id="comparison"></a>
 Comparison with like types
@@ -122,7 +121,7 @@ Comparison with like types
 |----------------------|------------------|------------------|---------------------|
 |More information      | see [[4](#ref4)] | see [[3](#ref3)] | this work           |
 |                      |                  |                  |                     |
-| C++98                | &ndash;&ensp;[note 2](#note2) | &ndash;          | &ndash;  |
+| C++98                | &ndash;&ensp;[note 2](#note2) | &ndash; | &ndash;&ensp;[note 4](#note4)  |
 | C++11                | &ndash;          | &ndash;&ensp;[note 3](#note3) | &#10003; |
 | C++14                | &ndash;          | &ndash;          | &#10003;            |
 | C++17                | &#10003;         | &ndash;          | &#10003;            |
@@ -142,6 +141,7 @@ Comparison with like types
 
 <a id="note2"></a>Note 2: [optional lite](https://github.com/martinmoene/optional-lite) - Optional (nullable) objects for C++98 and later.  
 <a id="note3"></a>Note 3: [expected lite](https://github.com/martinmoene/expected-lite) - Expected objects for C++11 and later.  
+<a id="note4"></a>Note 4: This project provides a [C++98 variant](README_cpp98.md) for use with C++98 and later.
 
 
 Reported to work with
