@@ -1,4 +1,4 @@
-status_value cpp98 - a class for status and optional value for C++98 and later&ensp;[![Build Status](https://travis-ci.org/martinmoene/status_value.png?branch=master)](https://travis-ci.org/martinmoene/status_value)
+status_value cpp98 - a class for status and optional value for C++98 and later&ensp;[![Build Status](https://travis-ci.org/martinmoene/status_value.svg?branch=master)](https://travis-ci.org/martinmoene/status_value)
 ------------------------------------------------------------------------
 status_value is a single-file header-only library for objects that represent a status and an optional value. This variant is intended for use with C++98 and later. The library is based on the proposal for status_value [[1](#ref1)].
 
