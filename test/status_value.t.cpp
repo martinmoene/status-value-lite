@@ -1,3 +1,12 @@
+// Copyright (C) 2016 Martin Moene.
+//
+// This version targets C++11 and later.
+//
+// This code is licensed under the MIT License (MIT).
+//
+// status_value is based on:
+//   A Class for Status and Optional Value, P0262r0
+//   by Lawrence Crowl and Chris Mysen
 
 #include "status_value.hpp"
 
@@ -81,8 +90,8 @@ CASE( "status_value<>: Allows construction from copied status and copied value" 
 CASE( "status_value<>: Disallows copy-construction from other status_value of the same type" )
 {
 #if nssv_CONFIG_CONFIRMS_COMPILATION_ERRORS
-    status_value<int, move_constructible> sv1( 7, move_constructible( 42 ) );
-    status_value<int, move_constructible> sv2( sv1 );    
+    status_value<int, copy_constructible> sv1( 7, copy_constructible( 42 ) );
+    status_value<int, copy_constructible> sv2( sv1 );    
 #endif
 }
 
