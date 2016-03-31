@@ -94,7 +94,7 @@ Synopsis
 | Kind         | Method                                                       | Result |
 |--------------|--------------------------------------------------------------|--------|
 | Construction | status_value() = delete &ensp; *or* &ensp; private           | disallow default construction |
-| C++11;       | status_value( status_value && other )                        | move-construct from other |
+| C++11        | status_value( status_value && other )                        | move-construct from other |
 | C++98        | status_value( status_value const & other )                   | copy-construct from other |
 | &nbsp;       | status_value( status_type const & s )                        | copy-construct from status |
 | C++11        | status_value( status_type const & s, value_type && v )       | copy-construct from status,<br>move construct from value |
