@@ -84,8 +84,14 @@ Synopsis
 --------
 
 **Contents**  
-- [Interface of status_value](#interface-of-status_value)  
 - [Configuration macros](#configuration-macros)
+- [Interface of status_value](#interface-of-status_value)  
+
+### Configuration macros
+
+\-D<b>nsel\_CONFIG\_CONFIRMS\_COMPILATION\_ERRORS</b>=0  
+Define this macro to 1 to experience the by-design compile-time errors of the library in the test suite. Default is 0.
+
 
 ### Interface of status_value
 
@@ -106,11 +112,6 @@ Synopsis
 | &nbsp;       | value_type & operator *()                                    | the value (non-const ref);<br>see [note 1](#note1) |
 
 <a id="note1"></a>Note 1: checked access: if no content, throws status value.
-
-### Configuration macros
-
-\-D<b>nsel\_CONFIG\_CONFIRMS\_COMPILATION\_ERRORS</b>=0  
-Define this macro to 1 to experience the by-design compile-time errors of the library in the test suite. Default is 0.
 
 
 <a id="comparison"></a>
@@ -141,15 +142,15 @@ Comparison with like types
 
 <a id="note2"></a>Note 2: [optional lite](https://github.com/martinmoene/optional-lite) - Optional (nullable) objects for C++98 and later.  
 <a id="note3"></a>Note 3: [expected lite](https://github.com/martinmoene/expected-lite) - Expected objects for C++11 and later.  
-<a id="note4"></a>Note 4: This project provides a [C++98 variant](README_cpp98.md) for use with C++98 and later.
+<a id="note4"></a>Note 4: This project provides a [variant of status_value](README_cpp98.md) for use with C++98 and later.
 
 
 Reported to work with
 ---------------------
 *status_value_cpp98* is reported to work with the following compilers: 
-- Visual VC14 (VS2015)
-- GNUC 5.2.0 with -std=c++11, -std=c++14, -std=c++1y 
-- clang 3.6, 3.7 with -std=c++11, -std=c++14 (on Travis)
+- Visual C++ 6 SP6 (VS6), VC10, (VS2010), VC11 (VS2012), VC12 (VS2013), VC14 (VS2015)
+- GNUC 5.2.0 with -std=c++98, -std=c++03, -std=c++11, -std=c++14, -std=c++1y 
+- clang 3.6, 3.7 with -std=c++03, -std=c++11 (on Travis)
 
 
 Implementation notes
