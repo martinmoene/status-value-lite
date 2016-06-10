@@ -34,6 +34,7 @@
 		<Unit filename="../../example/01-basic_cpp98.cpp" />
 		<Unit filename="../../example/02-required.cpp" />
 		<Unit filename="../../example/03-error_condition.cpp" />
+		<Unit filename="../../example/04-maybe.cpp" />
 		<Unit filename="../../example/CMakeLists.txt" />
 		<Unit filename="../../include/nonstd/status_value.hpp" />
 		<Unit filename="../../include/nonstd/status_value_cpp98.hpp" />
