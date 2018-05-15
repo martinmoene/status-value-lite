@@ -70,7 +70,7 @@ For more examples, see [[1](#ref1)].
 
 License
 -------
-*status_value* uses the [MIT](LICENSE) license.
+*status_value* is distributed under the [Boost Software License](https://github.com/martinmoene/span-lite/blob/master/LICENSE.txt).
 
 
 Dependencies
