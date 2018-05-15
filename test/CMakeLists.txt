@@ -9,7 +9,7 @@ include_directories  ( "${PROJECT_SOURCE_DIR}/../include/nonstd" )
 
 set( SOURCES status_value.t.cpp )
 
-add_definitions( -Dnsel_CONFIG_CONFIRMS_COMPILATION_ERRORS=0 )
+add_definitions( -Dnssv_CONFIG_CONFIRMS_COMPILATION_ERRORS=0 )
 add_definitions( -Dlest_FEATURE_AUTO_REGISTER=1 )
 
 set( SINGLE_TEST_PROGRAM TRUE )

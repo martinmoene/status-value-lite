@@ -18,10 +18,10 @@
 
 // Compiler detection:
 
-#define nsel_CPP11_OR_GREATER  ( __cplusplus >= 201103L )
-#define nsel_CPP14_OR_GREATER  ( __cplusplus >= 201402L )
+#define nssv_CPP11_OR_GREATER  ( __cplusplus >= 201103L )
+#define nssv_CPP14_OR_GREATER  ( __cplusplus >= 201402L )
 
-#if nsel_CPP14_OR_GREATER
+#if nssv_CPP14_OR_GREATER
 # define nssv_constexpr14 constexpr
 #else
 # define nssv_constexpr14 /*constexpr*/

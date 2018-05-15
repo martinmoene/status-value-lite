@@ -91,7 +91,7 @@ Synopsis
 
 ### Configuration macros
 
-\-D<b>nsel\_CONFIG\_CONFIRMS\_COMPILATION\_ERRORS</b>=0  
+\-D<b>nssv\_CONFIG\_CONFIRMS\_COMPILATION\_ERRORS</b>=0  
 Define this macro to 1 to experience the by-design compile-time errors of the library in the test suite. Default is 0.
 
 
