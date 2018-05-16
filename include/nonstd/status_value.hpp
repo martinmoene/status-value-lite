@@ -205,7 +205,11 @@ public:
         if ( m_has_value )
             return contained.value();
 
+#if nssv_CONFIG_NO_EXCEPTIONS
+        std::terminate();
+#else
         throw status_type( m_status );
+#endif
     }
 
     value_type & value()
@@ -213,7 +217,11 @@ public:
         if ( m_has_value )
             return contained.value();
 
+#if nssv_CONFIG_NO_EXCEPTIONS
+        std::terminate();
+#else
         throw status_type( m_status );
+#endif
     }
 
     value_type const & operator *() const
