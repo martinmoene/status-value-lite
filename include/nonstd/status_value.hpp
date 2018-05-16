@@ -22,10 +22,20 @@
 #define nssv_STRINGIFY(  x )  nssv_STRINGIFY_( x )
 #define nssv_STRINGIFY_( x )  #x
 
-// Compiler detection:
+// Compiler detection (C++20 is speculative):
+// Note: VC14.0/1900 (VS2015) lacks too much from C++14.
 
-#define nssv_CPP11_OR_GREATER  ( __cplusplus >= 201103L )
-#define nssv_CPP14_OR_GREATER  ( __cplusplus >= 201402L )
+#if defined _MSVC_LANG
+# define nssv_CPLUSPLUS  (_MSC_VER == 1900 ? 201103L : _MSVC_LANG )
+#else
+# define nssv_CPLUSPLUS  __cplusplus
+#endif
+
+#define nssv_CPP98_OR_GREATER  ( nssv_CPLUSPLUS >= 199711L )
+#define nssv_CPP11_OR_GREATER  ( nssv_CPLUSPLUS >= 201103L )
+#define nssv_CPP14_OR_GREATER  ( nssv_CPLUSPLUS >= 201402L )
+#define nssv_CPP17_OR_GREATER  ( nssv_CPLUSPLUS >= 201703L )
+#define nssv_CPP20_OR_GREATER  ( nssv_CPLUSPLUS >= 202000L )
 
 #if nssv_CPP14_OR_GREATER
 # define nssv_constexpr14 constexpr
