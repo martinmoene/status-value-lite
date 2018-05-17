@@ -48,6 +48,7 @@ CASE( "status_value<>: Disallows default construction" )
 #if nssv_CONFIG_CONFIRMS_COMPILATION_ERRORS
     status_value<int, int> sv;
 #endif
+    EXPECT( !!"Avoid warning" );
 }
 
 CASE( "status_value<>: Allows construction from only status" )
@@ -94,6 +95,7 @@ CASE( "status_value<>: Disallows copy-construction from other status_value of th
     status_value<int, copy_constructible> sv1( 7, copy_constructible( 42 ) );
     status_value<int, copy_constructible> sv2( sv1 );    
 #endif
+    EXPECT( !!"Avoid warning" );
 }
 
 CASE( "status_value<>: Allows move-construction from other status_value of the same type" )

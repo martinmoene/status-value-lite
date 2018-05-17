@@ -191,7 +191,7 @@ CASE( "status_value<>: Throws status when observing a non-present value" )
 
 struct S{ S(){} };
 
-#if !nssv_FEATURE_MAX_ALIGN_HACK
+#if !nssv_CONFIG_MAX_ALIGN_HACK
 
 #define nssv_OUTPUT_ALIGNMENT_OF( type ) \
     "alignment_of<" #type ">: " <<  \
