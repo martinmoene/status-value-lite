@@ -114,6 +114,9 @@ Synopsis
 
 ### Configuration macros
 
+\-D<b>nssv\_CONFIG\_NO\_EXCEPTIONS</b>=0  
+Define this to 1 if you want to compile without exceptions. If not defined, the header tries and detect if exceptions have been disabled (e.g. via -fno-exceptions). Disabling exceptions will force contract violation to call `std::terminate()`. Default is 0.
+
 \-D<b>nsel\_CONFIG\_CONFIRMS\_COMPILATION\_ERRORS</b>=0  
 Define this macro to 1 to experience the by-design compile-time errors of the library in the test suite. Default is 0.
 
@@ -121,13 +124,13 @@ Define this macro to 1 to experience the by-design compile-time errors of the li
 
 If *status_value* is compiled as C++11 or later, C++11 alignment facilities are used for storage of the underlying object. When compiled as pre-C++11, *status_value* tries to determine proper alignment itself. If this doesn't work out, you can control alignment via the following macros. See also section [Implementation notes](#implementation-notes).
 
--D<b>nssv_FEATURE_MAX_ALIGN_HACK</b>=0  
+-D<b>nssv_CONFIG_MAX_ALIGN_HACK</b>=0  
 Define this to 1 to use the *max align hack* for alignment. Default is 0.
 
--D<b>nssv_FEATURE_ALIGN_AS</b>=*pod-type*  
+-D<b>nssv_CONFIG_ALIGN_AS</b>=*pod-type*  
 Define this to the *pod-type* you want to align to (no default).
 
--D<b>nssv_FEATURE_ALIGN_AS_FALLBACK</b>=*pod-type*  
+-D<b>nssv_CONFIG_ALIGN_AS_FALLBACK</b>=*pod-type*  
 Define this to the *pod-type* to use for alignment if the algorithm of *status_value* cannot find a suitable POD type to use for alignment. Default is double.
 
 
@@ -156,18 +159,18 @@ If *status_value* is compiled as C++11 or later, C++11 alignment facilities are 
 
 1. If the program compiles as C++11 or later, C++11 alignment facilities  are used.
 
-2. If you define -D<b>nssv_FEATURE_MAX_ALIGN_HACK</b>=1 the underlying type is aligned as the most restricted type in `struct max_align_t`. This potentially wastes many bytes per optional if the actually required alignment is much less, e.g. 24 bytes used instead of the 2 bytes required.
+2. If you define -D<b>nssv_CONFIG_MAX_ALIGN_HACK</b>=1 the underlying type is aligned as the most restricted type in `struct max_align_t`. This potentially wastes many bytes per optional if the actually required alignment is much less, e.g. 24 bytes used instead of the 2 bytes required.
 
-3. If you define -D<b>nssv_FEATURE_ALIGN_AS</b>=*pod-type* the underlying type is aligned as *pod-type*. It's your obligation to specify a type with proper alignment.
+3. If you define -D<b>nssv_CONFIG_ALIGN_AS</b>=*pod-type* the underlying type is aligned as *pod-type*. It's your obligation to specify a type with proper alignment.
 
-4. If you define -D<b>nssv_FEATURE_ALIGN_AS_FALLBACK</b>=*pod-type* the fallback type for alignment of rule 5 below becomes *pod-type*. It's your obligation to specify a type with proper alignment.
+4. If you define -D<b>nssv_CONFIG_ALIGN_AS_FALLBACK</b>=*pod-type* the fallback type for alignment of rule 5 below becomes *pod-type*. It's your obligation to specify a type with proper alignment.
 
 5. At default, *status_value* tries to find a POD type with the same alignment as the underlying type. 
 
 	The algorithm for alignment of 5. is:
 	- Determine the alignment A of the underlying type using `alignment_of<>`.
 	- Find a POD type from the list `alignment_types` with exactly alignment A.
-	- If no such POD type is found, use a type with a relatively strict alignment requirement such as double; this type is specified in  `nssv_FEATURE_ALIGN_AS_FALLBACK` (default double).
+	- If no such POD type is found, use a type with a relatively strict alignment requirement such as double; this type is specified in  `nssv_CONFIG_ALIGN_AS_FALLBACK` (default double).
 
 Note that the algorithm of 5. differs from the one Andrei Alexandrescu uses in [6, part 2].
 

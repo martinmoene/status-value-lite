@@ -22,7 +22,7 @@
 #define nssv_STRINGIFY(  x )  nssv_STRINGIFY_( x )
 #define nssv_STRINGIFY_( x )  #x
 
-// Compiler detection (C++20 is speculative):
+// C++ language version detection (C++20 is speculative):
 // Note: VC14.0/1900 (VS2015) lacks too much from C++14.
 
 #if defined _MSVC_LANG

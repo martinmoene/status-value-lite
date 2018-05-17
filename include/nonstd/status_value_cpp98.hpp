@@ -16,53 +16,96 @@
 #include <stdexcept>
 #include <utility>
 
-#define  status_value_VERSION "0.0.0"
+#define status_value_MAJOR  1
+#define status_value_MINOR  0
+#define status_value_PATCH  0
+#define status_value_VERSION  nssv_STRINGIFY(status_value_MAJOR) "." nssv_STRINGIFY(status_value_MINOR) "." nssv_STRINGIFY(status_value_PATCH)
+
+#define nssv_STRINGIFY(  x )  nssv_STRINGIFY_( x )
+#define nssv_STRINGIFY_( x )  #x
 
 // Configuration:
 
-#ifndef  nssv_FEATURE_MAX_ALIGN_HACK
-# define nssv_FEATURE_MAX_ALIGN_HACK  0
+// Control presence of exception handling (try and auto discover):
+
+#ifndef nssv_CONFIG_NO_EXCEPTIONS
+# if defined(__cpp_exceptions) || defined(__EXCEPTIONS) || defined(_CPPUNWIND)
+#  define nssv_CONFIG_NO_EXCEPTIONS  0
+# else
+#  define nssv_CONFIG_NO_EXCEPTIONS  1
+# endif
 #endif
 
-#ifndef nssv_FEATURE_ALIGN_AS
+#ifndef  nssv_CONFIG_MAX_ALIGN_HACK
+# define nssv_CONFIG_MAX_ALIGN_HACK  0
+#endif
+
+#ifndef nssv_CONFIG_ALIGN_AS
 // used in #if defined(), so no default...
 #endif
 
-#ifndef  nssv_FEATURE_ALIGN_AS_FALLBACK
-# define nssv_FEATURE_ALIGN_AS_FALLBACK  double
+#ifndef  nssv_CONFIG_ALIGN_AS_FALLBACK
+# define nssv_CONFIG_ALIGN_AS_FALLBACK  double
 #endif
+
+// C++ language version detection (C++20 is speculative):
+// Note: VC14.0/1900 (VS2015) lacks too much from C++14.
+
+#if defined _MSVC_LANG
+# define nssv_CPLUSPLUS  (_MSC_VER == 1900 ? 201103L : _MSVC_LANG )
+#else
+# define nssv_CPLUSPLUS  __cplusplus
+#endif
+
+#define nssv_CPP98_OR_GREATER  ( nssv_CPLUSPLUS >= 199711L )
+#define nssv_CPP11_OR_GREATER  ( nssv_CPLUSPLUS >= 201103L )
+#define nssv_CPP14_OR_GREATER  ( nssv_CPLUSPLUS >= 201402L )
+#define nssv_CPP17_OR_GREATER  ( nssv_CPLUSPLUS >= 201703L )
+#define nssv_CPP20_OR_GREATER  ( nssv_CPLUSPLUS >= 202000L )
+
+// C++ language version (represent 98 as 3):
+
+#define nssv_CPLUSPLUS_V  ( nssv_CPLUSPLUS / 100 - (nssv_CPLUSPLUS > 200000 ? 2000 : 1994) )
 
 // Compiler detection:
 
-#if defined(_MSC_VER)
-# define nssv_COMPILER_MSVC_VERSION   (_MSC_VER / 100 - 5 - (_MSC_VER < 1900))
+#if defined( _MSC_VER ) && !defined( __clang__ )
+# define nssv_COMPILER_MSVC_VERSION  (_MSC_VER / 10 - 10 * ( 5 + ( _MSC_VER < 1900 ) ) )
 #else
-# define nssv_COMPILER_MSVC_VERSION   0
+# define nssv_COMPILER_MSVC_VERSION  0
 #endif
 
-#define nssv_COMPILER_IS_VC6   ( nssv_COMPILER_MSVC_VERSION == 6 )
+#define nssv_COMPILER_VERSION( major, minor, patch ) ( 10 * ( 10 * (major) + (minor) ) + (patch) )
 
-#define nssv_CPP11_OR_GREATER  ( __cplusplus >= 201103L )
-#define nssv_CPP14_OR_GREATER  ( __cplusplus >= 201402L )
+#if defined __clang__
+# define nssv_COMPILER_CLANG_VERSION nssv_COMPILER_VERSION( __clang_major__, __clang_minor__, __clang_patchlevel__ )
+#else
+# define nssv_COMPILER_CLANG_VERSION 0
+#endif
+
+#if defined __GNUC__
+# define nssv_COMPILER_GNUC_VERSION nssv_COMPILER_VERSION( __GNUC__, __GNUC_MINOR__, __GNUC_PATCHLEVEL__ )
+#else
+# define nssv_COMPILER_GNUC_VERSION 0
+#endif
+
+// half-open range [lo..hi):
+#define nssv_BETWEEN( v, lo, hi ) ( (lo) <= (v) && (v) < (hi) )
+
+// Presence of language & library features:
+
+#define nssv_COMPILER_IS_VC6  ( nssv_COMPILER_MSVC_VERSION == 60 )
+
+#define nssv_CPP14_000  (nssv_CPP14_OR_GREATER)
+#define nssv_CPP11_140  (nssv_CPP11_OR_GREATER || nssv_COMPILER_MSVC_VERSION >= 140)
 
 // Presence of C++11 language features:
 
-#if nssv_CPP11_OR_GREATER || nssv_COMPILER_MSVC_VERSION >= 14
-# define nssv_HAVE_CONSTEXPR_11  1
-#endif
+#define nssv_HAVE_CONSTEXPR_11  nssv_CPP11_140
 
 // Presence of C++14 language features:
 
-#if nssv_CPP14_OR_GREATER
-# define nssv_HAVE_CONSTEXPR_14  1
-#endif
-
-// For the rest, consider VC12, VC14 as C++11 for GSL Lite:
-
-#if nssv_COMPILER_MSVC_VERSION >= 12
-# undef  nssv_CPP11_OR_GREATER
-# define nssv_CPP11_OR_GREATER  1
-#endif
+#define nssv_HAVE_CONSTEXPR_14  nssv_CPP14_000
 
 // C++ feature usage:
 
@@ -103,16 +146,16 @@
  * 1. If the program compiles as C++11 or later, C++11 alignment facilities
  * are used.
  *
- * 2. If you define -Dnssv_FEATURE_MAX_ALIGN_HACK=1 the underlying
+ * 2. If you define -Dnssv_CONFIG_MAX_ALIGN_HACK=1 the underlying
  * type is aligned as the most restricted type in `struct max_align_t`. This
  * potentially wastes many bytes per optional if the actually required
  * alignment is much less, e.g. 24 bytes used instead of the 2 bytes required.
  *
- * 3. If you define -Dnssv_FEATURE_ALIGN_AS='pod-type' the
+ * 3. If you define -Dnssv_CONFIG_ALIGN_AS='pod-type' the
  * underlying type is aligned as 'pod-type'. It's your obligation to specify a
  * type with proper alignment.
  *
- * 4. If you define -Dnssv_FEATURE_ALIGN_AS_FALLBACK='pod-type' the
+ * 4. If you define -Dnssv_CONFIG_ALIGN_AS_FALLBACK='pod-type' the
  * fallback type for alignment of rule 5 below becomes 'pod-type'. It's your
  * obligation to specify a type with proper alignment.
  *
@@ -124,7 +167,7 @@
  * - Find a POD type from the list `alignment_types` with exactly alignment A.
  * - If no such POD type is found, use a type with a relatively strict
  *   alignment requirement such as double; this type is specified in
- *   `nssv_FEATURE_ALIGN_AS_FALLBACK` (default double).
+ *   `nssv_CONFIG_ALIGN_AS_FALLBACK` (default double).
  *
  * Note that the algorithm of 5. differs from the one Andrei Alexandrescu uses
  * in Generic<Programming>: Discriminated Unions, part 2 (see below).
@@ -148,7 +191,7 @@ class status_value;
 
 namespace status_value_detail {
 
-#if nssv_FEATURE_MAX_ALIGN_HACK
+#if nssv_CONFIG_MAX_ALIGN_HACK
 
 // Max align, use most restricted type for alignment:
 
@@ -201,14 +244,14 @@ union max_align_t
 
 #undef nssv_ALIGN_TYPE
 
-#elif defined( nssv_FEATURE_ALIGN_AS ) // nssv_FEATURE_MAX_ALIGN_HACK
+#elif defined( nssv_CONFIG_ALIGN_AS ) // nssv_CONFIG_MAX_ALIGN_HACK
 
 // Use user-specified type for alignment:
 
 #define nssv_ALIGN_AS( unused ) \
-    nssv_FEATURE_ALIGN_AS
+    nssv_CONFIG_ALIGN_AS
 
-#else // nssv_FEATURE_MAX_ALIGN_HACK
+#else // nssv_CONFIG_MAX_ALIGN_HACK
 
 // Determine POD type to use for alignment:
 
@@ -283,7 +326,7 @@ struct type_of_size
 template< size_t N >
 struct type_of_size< nulltype, N >
 {
-    typedef nssv_FEATURE_ALIGN_AS_FALLBACK type;
+    typedef nssv_CONFIG_ALIGN_AS_FALLBACK type;
 };
 
 #else // nssv_COMPILER_IS_VC6
@@ -294,7 +337,7 @@ struct type_of_size< nulltype, N >
     template<> \
     struct type_of_size< nulltype, n > \
     { \
-        typedef nssv_FEATURE_ALIGN_AS_FALLBACK type; \
+        typedef nssv_CONFIG_ALIGN_AS_FALLBACK type; \
     }
 
 MK_TYPE_OF_SIZE( 1  );
@@ -349,7 +392,7 @@ typedef
 
 #undef nssv_ALIGN_TYPE
 
-#endif // nssv_FEATURE_MAX_ALIGN_HACK
+#endif // nssv_CONFIG_MAX_ALIGN_HACK
 
 /// C++98 union to hold value.
 
@@ -434,7 +477,7 @@ private:
     using aligned_storage_t = typename std::aligned_storage< sizeof(value_type), alignof(value_type) >::type;
     aligned_storage_t buffer;
 
-#elif nssv_FEATURE_MAX_ALIGN_HACK
+#elif nssv_CONFIG_MAX_ALIGN_HACK
 
     typedef struct { unsigned char data[ sizeof(value_type) ]; } aligned_storage_t;
 
@@ -449,7 +492,7 @@ private:
 
 #   undef nssv_ALIGN_AS
 
-#endif // nssv_FEATURE_MAX_ALIGN_HACK
+#endif // nssv_CONFIG_MAX_ALIGN_HACK
 
     // Note: VC6 cannot handle as<T>():
 
@@ -569,7 +612,11 @@ public:
         if ( m_has_value )
             return contained.value();
             
+#if nssv_CONFIG_NO_EXCEPTIONS
+        std::terminate();
+#else
         throw status_type( m_status );
+#endif
     }
     
     value_type & value()
@@ -577,7 +624,11 @@ public:
         if ( m_has_value )
             return contained.value();
             
+#if nssv_CONFIG_NO_EXCEPTIONS
+        std::terminate();
+#else
         throw status_type( m_status );
+#endif
     }
     
     value_type const & operator *() const
