@@ -182,13 +182,13 @@ For more information on constructed unions and alignment, see [5-9].
 Notes and references
 --------------------
 
-<a id="ref1"></a>[1] Lawrence Crowl and Chris Mysen. [N4233 - A Class for Status and Optional Value](http://wg21.link/n4233). 10 October 2014.
+<a id="ref1"></a>[1] Lawrence Crowl and Chris Mysen. [p0262 - A Class for Status and Optional Value (latest)](http://wg21.link/p0262), 14 February 2016. [N4233](http://wg21.link/n4233), 10 October 2014.
 
-<a id="ref2"></a>[2] Lawrence Crowl. [P0157R0 - Handling Disappointment in C++](http://wg21.link/p0157r0). 7 July 2015.
+<a id="ref2"></a>[2] Lawrence Crowl. [p0157 - Handling Disappointment in C++ (latest)](http://wg21.link/p0157), 7 July 2015.
 
-<a id="ref3"></a>[3] Vicente J. Botet Escriba. [Dxxxxr0 - A proposal to add a utility class to represent expected monad (Revision 2)](https://github.com/viboes/std-make/blob/master/doc/proposal/expected/DXXXXR0_expected.pdf) (PDF). 12 March 2016.
+<a id="ref3"></a>[3] Vicente J. Botet Escriba. [p0323 - A proposal to add a utility class to represent expected object (latest)](http://wg21.link/p0323) (PDF). ([r6](http://wg21.link/p0323r6), [r5](http://wg21.link/p0323r5), [r4](http://wg21.link/p0323r4), [r3](http://wg21.link/p0323r3), [r2](http://wg21.link/p0323r2), [r1](http://wg21.link/n4109), [r0](http://wg21.link/n4015), [draft](https://github.com/viboes/std-make/blob/master/doc/proposal/expected/DXXXXR0_expected.pdf)).
 
-<a id="ref4"></a>[4] Fernando Cacciola and Andrzej Krzemieński. [N3793 - A proposal to add a utility class to represent optional objects (Revision 5)](http://wg21.link/n3793). 2013-10-03.  
+<a id="ref4"></a>[4] Fernando Cacciola and Andrzej Krzemieński. [N3793 - A proposal to add a utility class to represent optional objects (Revision 5)](http://wg21.link/n3793). 03 October 2013. [N3672 r4](http://wg21.link/n3672), [N3527 r3](http://wg21.link/n3527), [N3406 r2](http://wg21.link/n3406), [N1878 r1](http://wg21.link/n1878), [N3966 - Fixes for optional objects](http://wg21.link/n3966).
 
 <a id="ref5"></a>[5] Andrei Alexandrescu. [Generic<Programming>: Discriminated Unions part 1](http://collaboration.cmc.ec.gc.ca/science/rpn/biblio/ddj/Website/articles/CUJ/2002/cexp2004/alexandr/alexandr.htm), [part 2](http://collaboration.cmc.ec.gc.ca/science/rpn/biblio/ddj/Website/articles/CUJ/2002/cexp2006/alexandr/alexandr.htm), [part 3](http://collaboration.cmc.ec.gc.ca/science/rpn/biblio/ddj/Website/articles/CUJ/2002/cexp2008/alexandr/alexandr.htm). April 2002. 
 
