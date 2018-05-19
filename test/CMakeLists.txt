@@ -32,17 +32,17 @@ set( HAS_CPP17_FLAG FALSE )
 set( HAS_CPP20_FLAG FALSE )
 
 if( MSVC )
-    set( HAS_STD_FLAGS TRUE )
-
     set( STD_OPT     -std: )
     set( OPTIONS     -W3 -EHsc )
     set( DEFINITIONS -D_SCL_SECURE_NO_WARNINGS -DNOMINMAX ${NSSV_CONFIG} )
 
     if( NOT CMAKE_CXX_COMPILER_VERSION VERSION_LESS 19.00 )
+        set( HAS_STD_FLAGS TRUE )
         set( HAS_CPP14_FLAG TRUE )
         set( HAS_CPPLATEST_FLAG TRUE )
     endif()
     if( NOT CMAKE_CXX_COMPILER_VERSION VERSION_LESS 19.11 )
+        set( HAS_STD_FLAGS TRUE )
         set( HAS_CPP17_FLAG TRUE )
     endif()
 
@@ -117,7 +117,7 @@ endfunction()
 # C++11 version:
 
 if( NOT HAS_STD_FLAGS )
-    make_target( ${MAIN_BASE}.t "${SOURCES}" "" )
+#    make_target( ${MAIN_BASE}.t "${SOURCES}" "" )
 else()
     if( HAS_CPP11_FLAG )
         make_target( ${MAIN_BASE}-cpp11.t "${SOURCES}" c++11 )
@@ -142,11 +142,8 @@ endif()
 if( NOT HAS_STD_FLAGS )
     make_target( ${MAIN_BASE98}.t "${SOURCES98}" "" )
 else()
-    # unconditionally add C++98 variant as MSVC has no option for it:
     if( HAS_CPP98_FLAG )
         make_target( ${MAIN_BASE98}-cpp98.t "${SOURCES98}" c++98 )
-    else()
-        make_target( ${MAIN_BASE98}-cpp98.t "${SOURCES98}" "" )
     endif()
 
     if( HAS_CPP03_FLAG )
@@ -173,9 +170,9 @@ endif()
 
 # configure unit tests via CTest:
 
-# C++11 version:
-
 enable_testing()
+
+# C++11 version:
 
 if( HAS_STD_FLAGS )
     if( HAS_CPP11_FLAG )
@@ -191,10 +188,10 @@ if( HAS_STD_FLAGS )
         add_test( NAME test-cpplatest COMMAND ${MAIN_BASE}-cpplatest.t )
     endif()
 else()
-    add_test(     NAME test           COMMAND ${MAIN_BASE}.t --pass )
-    add_test(     NAME list_version   COMMAND ${MAIN_BASE}.t --version )
-    add_test(     NAME list_tags      COMMAND ${MAIN_BASE}.t --list-tags )
-    add_test(     NAME list_tests     COMMAND ${MAIN_BASE}.t --list-tests )
+#    add_test(     NAME test           COMMAND ${MAIN_BASE}.t --pass )
+#    add_test(     NAME list_version   COMMAND ${MAIN_BASE}.t --version )
+#    add_test(     NAME list_tags      COMMAND ${MAIN_BASE}.t --list-tags )
+#    add_test(     NAME list_tests     COMMAND ${MAIN_BASE}.t --list-tests )
 endif()
 
 # C++98 version:
@@ -219,7 +216,7 @@ if( HAS_STD_FLAGS )
         add_test( NAME test98-cpplatest COMMAND ${MAIN_BASE98}-cpplatest.t )
     endif()
 else()
-    add_test(     NAME test9898         COMMAND ${MAIN_BASE98}.t --pass )
+    add_test(     NAME test98-cpp98     COMMAND ${MAIN_BASE98}.t --pass )
     add_test(     NAME list98_version   COMMAND ${MAIN_BASE98}.t --version )
     add_test(     NAME list98_tags      COMMAND ${MAIN_BASE98}.t --list-tags )
     add_test(     NAME list98_tests     COMMAND ${MAIN_BASE98}.t --list-tests )
