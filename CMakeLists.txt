@@ -5,11 +5,23 @@
 
 cmake_minimum_required( VERSION 2.8 )
 
+# At default, enable building and performing of tests and building of examples:
+
+option( NSSV_OPT_BUILD_TESTS    "Build and perform status_value tests" ON )
+option( NSSV_OPT_BUILD_EXAMPLES "Build status_value examples" ON )
+
 project( status_value )
 
 enable_testing()
 
-add_subdirectory( test )
-add_subdirectory( example )
+# If requested, build and perform tests, build examples:
+
+if ( NSSV_OPT_BUILD_TESTS )
+    add_subdirectory( test )
+endif()
+
+if ( NSSV_OPT_BUILD_EXAMPLES )
+    add_subdirectory( example )
+endif()
 
 # end of file
