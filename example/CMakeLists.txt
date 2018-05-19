@@ -5,7 +5,7 @@
 
 project( example )
 
-include_directories  ( "${PROJECT_SOURCE_DIR}/../include/nonstd" )
+set( HDRDIR  ${PROJECT_SOURCE_DIR}/../include/nonstd )
 
 set( SOURCES_CPP98
     01-basic_cpp98.cpp 
@@ -29,45 +29,136 @@ string( REPLACE ".cpp" "" BASENAMES_CPP14 "${SOURCES_CPP14}" )
 set( TARGETS_CPP98 ${BASENAMES_CPP98} )
 set( TARGETS_CPP11 ${BASENAMES_CPP11} )
 set( TARGETS_CPP14 ${BASENAMES_CPP14} )
-set( TARGETS_ALL   ${TARGETS_CPP98} ${TARGETS_CPP11} ${TARGETS_CPP14} )
+set( TARGETS_CPP17 ${BASENAMES_CPP17} )
+set( TARGETS_CPP12 ${BASENAMES_CPP20} )
+set( TARGETS_ALL   ${TARGETS_CPP98} ${TARGETS_CPP11} ${TARGETS_CPP14} ${TARGETS_CPP17} ${TARGETS_CPP20} )
 
-# add targets:
+# Configure status_value for testing:
 
-foreach( name ${TARGETS_ALL} )
-    add_executable( ${name} ${name}.cpp )
-endforeach()
+set( OPTIONS "" )
+set( NSSV_CONFIG -Dlest_FEATURE_AUTO_REGISTER=1 )
+
+# Preset available C++ language compiler flags:
+
+set( HAS_CPP98_FLAG FALSE )
+set( HAS_CPP03_FLAG FALSE )
+set( HAS_CPP11_FLAG FALSE )
+set( HAS_CPP14_FLAG FALSE )
+set( HAS_CPP17_FLAG FALSE )
+set( HAS_CPP20_FLAG FALSE )
+
+if( MSVC )
+    set( STD_OPT     -std: )
+    set( OPTIONS     -W3 -EHsc -wd4814 -Zc:implicitNoexcept- )
+    set( DEFINITIONS -D_SCL_SECURE_NO_WARNINGS -DNOMINMAX ${NSSV_CONFIG} )
+
+    if( NOT CMAKE_CXX_COMPILER_VERSION VERSION_LESS 19.00 )
+        set( HAS_CPP14_FLAG TRUE )
+        set( HAS_CPPLATEST_FLAG TRUE )
+    endif()
+    if( NOT CMAKE_CXX_COMPILER_VERSION VERSION_LESS 19.11 )
+        set( HAS_CPP17_FLAG TRUE )
+    endif()
+
+elseif( CMAKE_CXX_COMPILER_ID MATCHES GNU OR
+        CMAKE_CXX_COMPILER_ID MATCHES Clang )
+
+    set( HAS_CPP98_FLAG TRUE )
+    set( HAS_CPP03_FLAG TRUE )
+
+    set( STD_OPT     -std= )
+    set( OPTIONS     -Wall -Wno-missing-braces -fno-elide-constructors )
+    set( DEFINITIONS ${NSSV_CONFIG} )
+
+    # GNU: available -std flags depends on version
+    if( CMAKE_CXX_COMPILER_ID MATCHES "GNU" )
+        if( NOT CMAKE_CXX_COMPILER_VERSION VERSION_LESS 4.8.0 )
+            set( HAS_CPP11_FLAG TRUE )
+        endif()
+        if( NOT CMAKE_CXX_COMPILER_VERSION VERSION_LESS 4.9.2 )
+            set( HAS_CPP14_FLAG TRUE )
+        endif()
+        if( NOT CMAKE_CXX_COMPILER_VERSION VERSION_LESS 7.1.0 )
+            set( HAS_CPP17_FLAG TRUE )
+        endif()
+    endif()
+
+    # Clang: available -std flags depends on version
+    if( CMAKE_CXX_COMPILER_ID MATCHES Clang )
+        if( NOT CMAKE_CXX_COMPILER_VERSION VERSION_LESS 3.3.0 )
+            set( HAS_CPP11_FLAG TRUE )
+        endif()
+        if( NOT CMAKE_CXX_COMPILER_VERSION VERSION_LESS 3.4.0 )
+            set( HAS_CPP14_FLAG TRUE )
+        endif()
+        if( NOT CMAKE_CXX_COMPILER_VERSION VERSION_LESS 5.0.0 )
+            set( HAS_CPP17_FLAG TRUE )
+        endif()
+    endif()
+
+elseif( CMAKE_CXX_COMPILER_ID MATCHES Intel )
+# as is
+else()
+# as is
+endif()
+
+# make target, compile for given standard if specified:
+
+function( make_target target sources std )
+    if( std )
+        set( OPTIONAL_STD ${STD_OPT}${std} )
+    endif()
+    add_executable            ( ${target} ${sources} ${HDRPATH} )
+    target_compile_options    ( ${target} PRIVATE ${OPTIONS} ${OPTIONAL_STD} )
+    target_compile_definitions( ${target} PRIVATE ${DEFINITIONS} )
+    target_include_directories( ${target} PRIVATE ${HDRDIR} )
+endfunction()
 
 # set compiler options:
 
-if( ${CMAKE_GENERATOR} MATCHES Visual )
+if( HAS_CPPLATEST_FLAG )
     foreach( name ${TARGETS_ALL} )
-        target_compile_options( ${name} PUBLIC -W3 -EHsc -wd4814 -Zc:implicitNoexcept- )
+        make_target( ${name}-c++latest.e ${name} c++latest )
     endforeach()
-else()
+
+elseif( HAS_CPP20_FLAG )
+    foreach( name ${TARGETS_ALL} )
+        make_target( ${name}-c++20.e ${name} c++20 )
+    endforeach()
+
+elseif( HAS_CPP17_FLAG )
+    foreach( name ${TARGETS_ALL} )
+        make_target( ${name}-c++17.e ${name} c++17 )
+    endforeach()
+
+elseif( HAS_CPP14_FLAG )
+    foreach( name ${TARGETS_CPP98} ${TARGETS_CPP11} ${TARGETS_CPP14} )
+        make_target( ${name}-c++14.e ${name} c++14 )
+    endforeach()
+
+elseif( HAS_CPP11_FLAG )
+    foreach( name ${TARGETS_CPP98} ${TARGETS_CPP11} )
+        make_target( ${name}-c++11.e ${name} c++11 )
+    endforeach()
+
+elseif( HAS_CPP98_FLAG )
     foreach( name ${TARGETS_CPP98} )
-        target_compile_options( ${name} PUBLIC -Wall -std=c++98 )
+        make_target( ${name}-c++98.e ${name} c++98 )
     endforeach()
 
-    foreach( name ${TARGETS_CPP11} )
-        target_compile_options( ${name} PUBLIC -Wall -std=c++98 )
-    endforeach()
-
-    foreach( name ${TARGETS_CPP11} )
-        target_compile_options( ${name} PUBLIC -Wall -std=c++11 )
-    endforeach()
-
-    foreach( name ${TARGETS_CPP14} )
-        target_compile_options( ${name} PUBLIC -Wall -std=c++14 )
+elseif( MSVC )
+    foreach( name ${TARGETS_CPP98} )
+        make_target( ${name}-c++98.e ${name} "" )
     endforeach()
 endif()
 
 # configure unit tests via CTest:
 
-enable_testing()
-
-foreach( name ${TARGETS_ALL} )
-    add_test    ( NAME ${name} COMMAND ${name} )
-    set_property( TEST ${name} PROPERTY LABELS example )
-endforeach()
+#enable_testing()
+#
+#foreach( name ${TARGETS_ALL} )
+#    add_test    ( NAME ${name} COMMAND ${name} )
+#    set_property( TEST ${name} PROPERTY LABELS example )
+#endforeach()
 
 # end of file
