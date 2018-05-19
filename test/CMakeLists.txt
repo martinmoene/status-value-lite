@@ -197,9 +197,9 @@ endif()
 # C++98 version:
 
 if( HAS_STD_FLAGS )
-    # unconditionally add C++98 variant for MSVC:
-    add_test(     NAME test98-cpp98     COMMAND ${MAIN_BASE98}-cpp98.t )
-
+    if( HAS_CPP98_FLAG )
+        add_test( NAME test98-cpp98     COMMAND ${MAIN_BASE98}-cpp98.t )
+    endif()
     if( HAS_CPP03_FLAG )
         add_test( NAME test98-cpp03     COMMAND ${MAIN_BASE98}-cpp03.t )
     endif()
