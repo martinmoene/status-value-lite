@@ -445,7 +445,7 @@ private:
         return * value_ptr();
     }
 
-    constexpr value_type && value() &&
+    constexpr value_type && value() const &&
     {
         return std::move( * value_ptr() );
     }

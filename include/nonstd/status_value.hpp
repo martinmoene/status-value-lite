@@ -99,7 +99,7 @@ private:
         return m_value;
     }
 
-    constexpr value_type && value() &&
+    constexpr value_type && value() const &&
     {
         return std::move( m_value );
     }
