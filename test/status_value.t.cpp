@@ -154,7 +154,8 @@ CASE( "status_value<>: Throws status when observing a non-present value" )
     status_value<int, int> sv( 7 );
 
     EXPECT_THROWS(      sv.value() );
-    EXPECT_THROWS_AS(   sv.value(), int );
+    EXPECT_THROWS_AS(   sv.value(), std::logic_error );
+    EXPECT_THROWS_AS(   sv.value(), bad_status_value_access<int> );
 
 //  EXPECT_THROWS_WITH( sv.value(), 7 );
 
@@ -162,9 +163,9 @@ CASE( "status_value<>: Throws status when observing a non-present value" )
     {
         sv.value();
     }
-    catch ( int const & e )
+    catch ( bad_status_value_access<int> const & e )
     {
-        EXPECT( e == 7 );
+        EXPECT( e.status() == 7 );
     }
 }
 
