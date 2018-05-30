@@ -1,6 +1,6 @@
 status_value - a class for status and optional value for C++11 and later
 ------------------------------------------------------------------------
-[![Language](https://img.shields.io/badge/language-C++-blue.svg)](https://isocpp.org/)  [![Standard](https://img.shields.io/badge/c%2B%2B-11-blue.svg)](https://en.wikipedia.org/wiki/C%2B%2B#Standardization) [![Standard](https://img.shields.io/badge/c%2B%2B-98-orange.svg)](https://en.wikipedia.org/wiki/C%2B%2B#Standardization) [![License](https://img.shields.io/badge/license-BSL-blue.svg)](https://opensource.org/licenses/BSL-1.0) [![Build Status](https://travis-ci.org/martinmoene/status_value.svg?branch=master)](https://travis-ci.org/martinmoene/status_value) [![Build status](https://ci.appveyor.com/api/projects/status/i51ywyur2brx7r5q?svg=true)](https://ci.appveyor.com/project/martinmoene/status_value) [![Version](https://badge.fury.io/gh/martinmoene%2Fstatus_value.svg)](https://github.com/martinmoene/status_value/releases) [![download](https://img.shields.io/badge/latest%20version%20%20-download-blue.svg)](https://raw.githubusercontent.com/martinmoene/status_value/master/include/nonstd/status_value.hpp)
+[![Language](https://img.shields.io/badge/language-C++-blue.svg)](https://isocpp.org/)  [![Standard](https://img.shields.io/badge/c%2B%2B-11-blue.svg)](https://en.wikipedia.org/wiki/C%2B%2B#Standardization) [![Standard](https://img.shields.io/badge/c%2B%2B-98-orange.svg)](https://en.wikipedia.org/wiki/C%2B%2B#Standardization) [![License](https://img.shields.io/badge/license-BSL-blue.svg)](https://opensource.org/licenses/BSL-1.0) [![Build Status](https://travis-ci.org/martinmoene/status_value.svg?branch=master)](https://travis-ci.org/martinmoene/status_value) [![Build status](https://ci.appveyor.com/api/projects/status/i51ywyur2brx7r5q?svg=true)](https://ci.appveyor.com/project/martinmoene/status-value) [![Version](https://badge.fury.io/gh/martinmoene%2Fstatus_value.svg)](https://github.com/martinmoene/status_value/releases) [![download](https://img.shields.io/badge/latest%20version%20%20-download-blue.svg)](https://raw.githubusercontent.com/martinmoene/status_value/master/include/nonstd/status_value.hpp)
 
 status_value is a single-file header-only library for objects that represent a status and an optional value. It is intended for use with C++11 and later. There is a [separate variant](README_cpp98.md) for use with C++98 and later. The library is based on the proposal for status_value [[1](#ref1)].
 
@@ -100,21 +100,21 @@ Define this macro to 1 to experience the by-design compile-time errors of the li
 
 ### Interface of status_value
 
-| Kind         | Method                                                       | Result |
-|--------------|--------------------------------------------------------------|--------|
-| Construction | status_value() = delete                                      | disallow default construction |
-| &nbsp;       | status_value( status_value && other )                        | move-construct from other |
-| &nbsp;       | status_value( status_type const & s )                        | copy-construct from status |
-| &nbsp;       | status_value( status_type const & s, value_type && v )       | copy-construct from status,<br>move construct from value |
-| &nbsp;       | status_value(  status_type const & s, value_type const & v ) | copy-construct from status and value |
-| Destruction  | ~status_value()                                              | status, value destroyed if present|
-| Observers    | operator bool() const                                        | true if contains value |
-| &nbsp;       | bool has_value() const                                       | true if contains value |
-| &nbsp;       | status_type const & status() const                           | the status |
-| &nbsp;       | value_type const & value() const                             | the value (const ref);<br>see [note 1](#note1) |
-| &nbsp;       | value_type & value()                                         | the value (non-const ref);<br>see [note 1](#note1) |
-| &nbsp;       | value_type const & operator *() const                        | the value (const ref);<br>see [note 1](#note1) |
-| &nbsp;       | value_type & operator *()                                    | the value (non-const ref);<br>see [note 1](#note1) |
+| Kind         | Method                                                           | Result |
+|--------------|------------------------------------------------------------------|--------|
+| Construction | **status_value**() = delete                                      | disallow default construction |
+| &nbsp;       | **status_value**( status_value && other )                        | move-construct from other |
+| &nbsp;       | **status_value**( status_type const & s )                        | copy-construct from status |
+| &nbsp;       | **status_value**( status_type const & s, value_type && v )       | copy-construct from status,<br>move construct from value |
+| &nbsp;       | **status_value**(  status_type const & s, value_type const & v ) | copy-construct from status and value |
+| Destruction  | **~status_value**()                                              | status, value destroyed if present|
+| Observers    | operator **bool**() const                                        | true if contains value |
+| &nbsp;       | bool **has_value**() const                                       | true if contains value |
+| &nbsp;       | status_type const & **status**() const                           | the status |
+| &nbsp;       | value_type const & **value**() const                             | the value (const ref);<br>see [note 1](#note1) |
+| &nbsp;       | value_type & **value**()                                         | the value (non-const ref);<br>see [note 1](#note1) |
+| &nbsp;       | value_type const & **operator \***() const                       | the value (const ref);<br>see [note 1](#note1) |
+| &nbsp;       | value_type & **operator \***()                                   | the value (non-const ref);<br>see [note 1](#note1) |
 
 <a id="note1"></a>Note 1: checked access: if no content, throws status value.
 
