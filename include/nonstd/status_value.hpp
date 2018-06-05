@@ -1,4 +1,4 @@
-// Copyright (C) 2016-2018 Martin Moene.
+// Copyright 2016-2018 by Martin Moene
 //
 // This version targets C++11 and later.
 //
