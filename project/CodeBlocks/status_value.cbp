@@ -2,9 +2,14 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="status-value - A Class for Status and Optional Value" />
+		<Option title="Status-value" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
+		<Option show_notes="0">
+			<notes>
+				<![CDATA[A Class for Status and Optional Value]]>
+			</notes>
+		</Option>
 		<Build>
 			<Target title="Release">
 				<Option output="bin/Release/optional3" prefix_auto="1" extension_auto="1" />
