@@ -1,4 +1,4 @@
-// Copyright (C) 2016 Martin Moene.
+// Copyright 2016-2018 by Martin Moene
 //
 // This version targets C++98 and later.
 //
@@ -101,11 +101,12 @@
 
 // Presence of C++11 language features:
 
-#define nssv_HAVE_CONSTEXPR_11  nssv_CPP11_140
+#define nssv_HAVE_CONSTEXPR_11   nssv_CPP11_140
+#define nssv_HAVE_REF_QUALIFIER  nssv_CPP11_140
 
 // Presence of C++14 language features:
 
-#define nssv_HAVE_CONSTEXPR_14  nssv_CPP14_000
+#define nssv_HAVE_CONSTEXPR_14   nssv_CPP14_000
 
 // C++ feature usage:
 
@@ -119,6 +120,14 @@
 # define nssv_constexpr14 constexpr
 #else
 # define nssv_constexpr14 /*nothing*/
+#endif
+
+#if nssv_HAVE_REF_QUALIFIER
+# define nssv_ref_qual  &
+# define nssv_refref_qual  &&
+#else
+# define nssv_ref_qual  /*&*/
+# define nssv_refref_qual  /*&&*/
 #endif
 
 /* Object allocation and alignment

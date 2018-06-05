@@ -77,7 +77,7 @@
 
 // Additional includes:
 
-#if ! nssv_CONFIG_NO_EXCEPTIONS  
+#if ! nssv_CONFIG_NO_EXCEPTIONS
 # include <stdexcept>
 #endif
 
@@ -180,13 +180,13 @@ public:
   {
       return m_status;
   }
-  
+
 private:
     S m_status;
 };
 
 template< typename S >
-inline void report_bad_status_value_access( S && status ) 
+inline void report_bad_status_value_access( S && status )
 {
     throw bad_status_value_access<typename std::remove_reference<S>::type>( std::forward<S>( status ) );
 }
@@ -206,23 +206,23 @@ public:
     typedef V value_type;
 
     // ?.?.3.1 constructors
-    
+
     status_value() = delete;
 
     status_value( status_type s )
-    : m_status( s )
+    : m_status( std::move( s ) )
     , m_has_value( false )
     {}
 
     status_value(  status_type s, value_type const & v )
-    : m_status( s )
+    : m_status( std::move( s ) )
     , m_has_value( true )
     {
         contained.construct_value( v );
     }
 
     status_value( status_type s, value_type && v )
-    : m_status( s )
+    : m_status( std::move( s ) )
     , m_has_value( true )
     {
         contained.construct_value( std::move( v ) );
@@ -241,7 +241,7 @@ public:
     }
 
     // ?.?.3.2 destructor
-    
+
     ~status_value()
     {
         if ( m_has_value )
@@ -253,16 +253,16 @@ public:
     // assignment
 
     status_value & operator=( status_value const & ) = delete;
-  
+
     // ?.?.3.3 status observers
-  
+
     status_type const & status() const nssv_noexcept
     {
         return m_status;
     }
 
     // ?.?.3.4 state observers
-    
+
     constexpr bool has_value() const nssv_noexcept
     {
         return m_has_value;
@@ -274,7 +274,7 @@ public:
     }
 
     // ?.?.3.5 value observers
-    
+
     value_type const & value() const &
     {
         if ( ! has_value() )
@@ -295,7 +295,7 @@ public:
     {
         if ( ! has_value() )
             report_bad_status_value_access( std::move( m_status ) );
-            
+
         return std::move( contained.value() );
     }
 
@@ -303,7 +303,7 @@ public:
     {
         if ( ! has_value() )
             report_bad_status_value_access( std::move( m_status ) );
-            
+
         return std::move( contained.value() );
     }
 
@@ -311,7 +311,7 @@ public:
     {
         if ( ! has_value() )
             report_bad_status_value_access( m_status );
-            
+
         return contained.value_ptr();
     }
 
@@ -319,7 +319,7 @@ public:
     {
         if ( ! has_value() )
             report_bad_status_value_access( m_status );
-            
+
         return contained.value_ptr();
     }
 
@@ -342,7 +342,7 @@ public:
     {
         return std::move( value() );
     }
-    
+
 private:
     using storage_type = status_value_detail::storage_t<status_type, value_type>;
 
