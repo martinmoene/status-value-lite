@@ -1,6 +1,6 @@
 # Copyright 2016-2018 by Martin Moene
 #
-# Distributed under the Boost Software License, Version 1.0. 
+# Distributed under the Boost Software License, Version 1.0.
 # (See accompanying file LICENSE.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
 project( example LANGUAGES CXX )
@@ -8,16 +8,16 @@ project( example LANGUAGES CXX )
 set( HDRDIR  ${PROJECT_SOURCE_DIR}/../include/nonstd )
 
 set( SOURCES_CPP98
-    01-basic_cpp98.cpp 
+    01-basic_cpp98.cpp
 )
 
 set( SOURCES_CPP11
-    02-required.cpp 
+    02-required.cpp
     03-error_condition.cpp
 )
 
-set( SOURCES_CPP14 
-    01-basic.cpp 
+set( SOURCES_CPP14
+    01-basic.cpp
 )
 
 # note: here variable must be quoted to create semicolon separated list:
@@ -41,14 +41,13 @@ set( NSSV_CONFIG -Dlest_FEATURE_AUTO_REGISTER=1 )
 # Preset available C++ language compiler flags:
 
 set( HAS_CPP98_FLAG FALSE )
-set( HAS_CPP03_FLAG FALSE )
 set( HAS_CPP11_FLAG FALSE )
 set( HAS_CPP14_FLAG FALSE )
 set( HAS_CPP17_FLAG FALSE )
 set( HAS_CPP20_FLAG FALSE )
+set( HAS_CPPLATEST_FLAG FALSE )
 
 if( MSVC )
-    set( STD_OPT     -std: )
     set( OPTIONS     -W3 -EHsc -wd4814 -Zc:implicitNoexcept- )
     set( DEFINITIONS -D_SCL_SECURE_NO_WARNINGS -DNOMINMAX ${NSSV_CONFIG} )
 
@@ -60,13 +59,10 @@ if( MSVC )
         set( HAS_CPP17_FLAG TRUE )
     endif()
 
-elseif( CMAKE_CXX_COMPILER_ID MATCHES GNU OR
-        CMAKE_CXX_COMPILER_ID MATCHES Clang )
+elseif( CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang" )
 
     set( HAS_CPP98_FLAG TRUE )
-    set( HAS_CPP03_FLAG TRUE )
 
-    set( STD_OPT     -std= )
     set( OPTIONS     -Wall -Wno-missing-braces -fno-elide-constructors )
     set( DEFINITIONS ${NSSV_CONFIG} )
 
@@ -84,7 +80,7 @@ elseif( CMAKE_CXX_COMPILER_ID MATCHES GNU OR
     endif()
 
     # Clang: available -std flags depends on version
-    if( CMAKE_CXX_COMPILER_ID MATCHES Clang )
+    if( CMAKE_CXX_COMPILER_ID MATCHES "Clang" )
         if( NOT CMAKE_CXX_COMPILER_VERSION VERSION_LESS 3.3.0 )
             set( HAS_CPP11_FLAG TRUE )
         endif()
@@ -96,7 +92,7 @@ elseif( CMAKE_CXX_COMPILER_ID MATCHES GNU OR
         endif()
     endif()
 
-elseif( CMAKE_CXX_COMPILER_ID MATCHES Intel )
+elseif( CMAKE_CXX_COMPILER_ID MATCHES "Intel" )
 # as is
 else()
 # as is
@@ -105,13 +101,22 @@ endif()
 # make target, compile for given standard if specified:
 
 function( make_target target sources std )
-    if( std )
-        set( OPTIONAL_STD ${STD_OPT}${std} )
-    endif()
     add_executable            ( ${target} ${sources} ${HDRPATH} )
-    target_compile_options    ( ${target} PRIVATE ${OPTIONS} ${OPTIONAL_STD} )
+    target_compile_options    ( ${target} PRIVATE ${OPTIONS} )
     target_compile_definitions( ${target} PRIVATE ${DEFINITIONS} )
     target_include_directories( ${target} PRIVATE ${HDRDIR} )
+    if( std )
+        if( MSVC )
+            target_compile_options( ${target} PRIVATE -std:c++${std} )
+        else()
+            # Necessary for clang 3.x:
+            target_compile_options( ${target} PRIVATE -std=c++${std} )
+            # Ok for clang 4 and later:
+            # set( CMAKE_CXX_STANDARD ${std} )
+            # set( CMAKE_CXX_STANDARD_REQUIRED ON )
+            # set( CMAKE_CXX_EXTENSIONS OFF )
+        endif()
+    endif()
 endfunction()
 
 # set compiler options:
