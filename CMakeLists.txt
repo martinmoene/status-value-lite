@@ -10,7 +10,7 @@ cmake_minimum_required( VERSION 3.0 )
 option( NSSV_OPT_BUILD_TESTS    "Build and perform status_value tests" ON )
 option( NSSV_OPT_BUILD_EXAMPLES "Build status_value examples" ON )
 
-project( status_value )
+project( status_value LANGUAGES CXX )
 
 set( package_name "status-value" )
 set( include_source_dir "${PROJECT_SOURCE_DIR}/include" )
