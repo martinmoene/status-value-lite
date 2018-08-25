@@ -2,7 +2,7 @@
 //
 // This version targets C++98 and later.
 //
-// Distributed under the Boost Software License, Version 1.0. 
+// Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
 // status_value is based on:
@@ -288,10 +288,10 @@ template < typename Then, typename Else > struct select< false, Then, Else > { t
 
 #endif // nssv_COMPILER_IS_VC6
 
-template <typename T>
+template< typename T >
 struct alignment_of;
 
-template <typename T>
+template< typename T >
 struct alignment_of_hack
 {
     char c;
@@ -299,7 +299,7 @@ struct alignment_of_hack
     alignment_of_hack();
 };
 
-template <unsigned A, unsigned S>
+template< size_t A, size_t S >
 struct alignment_logic
 {
     enum { value = A < S ? A : S };
@@ -520,7 +520,7 @@ class status_value
 public:
     typedef S status_type;
     typedef V value_type;
-    
+
     // Construction of status_value must include a status.
 
 #if nssv_CPP11_OR_GREATER
@@ -534,22 +534,22 @@ public:
     // Construction of a status_value can be done with or without a value.
 
     status_value( status_type const & s )
-    : m_status( s ) 
-    , m_has_value( false ) 
+    : m_status( s )
+    , m_has_value( false )
     {}
-    
+
 #if nssv_CPP11_OR_GREATER
     status_value( status_type const & s, value_type && v )
-    : m_status( s ) 
-    , m_has_value( true ) 
+    : m_status( s )
+    , m_has_value( true )
     {
         contained.construct_value( std::move( v ) );
     }
-#endif 
-           
+#endif
+
     status_value(  status_type const & s, value_type const & v )
-    : m_status( s ) 
-    , m_has_value( true ) 
+    : m_status( s )
+    , m_has_value( true )
     {
         contained.construct_value( v );
     }
@@ -562,17 +562,17 @@ public:
         }
     }
 
-    // A status_value may be moved. 
-    // A copy operation would make the type unusable for non-copyable 
+    // A status_value may be moved.
+    // A copy operation would make the type unusable for non-copyable
     // contained objects, so we do not provide a copy operation.
 
 #if nssv_CPP11_OR_GREATER
 
     status_value( status_value && other )
     : m_status   ( std::move( other.m_status ) )
-    , m_has_value( other.m_has_value ) 
+    , m_has_value( other.m_has_value )
     {
-        if ( other.m_has_value ) 
+        if ( other.m_has_value )
         {
             contained.construct_value( std::move( other.contained.value() ) );
             other.contained.destruct_value();
@@ -583,16 +583,16 @@ public:
 
     status_value( status_value const & other )
     : m_status   ( other.m_status )
-    , m_has_value( other.m_has_value ) 
+    , m_has_value( other.m_has_value )
     {
-        if ( other.m_has_value ) 
+        if ( other.m_has_value )
         {
             contained.construct_value( other.contained.value() );
         }
     }
 #endif
 
-    // They may be queried for status. The design assumes that inlining 
+    // They may be queried for status. The design assumes that inlining
     // will remove the cost of returning a reference for cheap copyable types.
 
     status_type const & status() const
@@ -606,56 +606,56 @@ public:
     {
         return m_has_value;
     }
-    
+
     operator bool() const
     {
         return has_value();
     }
 
-    // They may provide access to their value. 
-    // If they have no value, an exception of type Status, 
+    // They may provide access to their value.
+    // If they have no value, an exception of type Status,
     // the status value passed to the constructor, is thrown.
 
     value_type const & value() const
     {
         if ( m_has_value )
             return contained.value();
-            
+
 #if nssv_CONFIG_NO_EXCEPTIONS
         std::terminate();
 #else
         throw status_type( m_status );
 #endif
     }
-    
+
     value_type & value()
     {
         if ( m_has_value )
             return contained.value();
-            
+
 #if nssv_CONFIG_NO_EXCEPTIONS
         std::terminate();
 #else
         throw status_type( m_status );
 #endif
     }
-    
+
     value_type const & operator *() const
     {
         return value();
     }
-    
+
     value_type & operator *()
     {
         return value();
     }
 
-    // This design enables moving out of the class by 
-    // calling std::move on the result of the non-const functions. 
+    // This design enables moving out of the class by
+    // calling std::move on the result of the non-const functions.
 
 private:
     typedef status_value_detail::storage_t<status_type, value_type > storage_type;
-    
+
     storage_type contained;
     status_type m_status;
     bool m_has_value;
