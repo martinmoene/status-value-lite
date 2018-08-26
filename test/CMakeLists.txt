@@ -3,6 +3,8 @@
 # Distributed under the Boost Software License, Version 1.0.
 # (See accompanying file LICENSE.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
+cmake_minimum_required( VERSION 3.5 )
+
 project( test LANGUAGES CXX )
 
 # Test sources:
@@ -32,16 +34,16 @@ set( HAS_CPP20_FLAG FALSE )
 set( HAS_CPPLATEST_FLAG FALSE )
 
 if( MSVC )
+    set( HAS_STD_FLAGS TRUE )
+
     set( OPTIONS     -W3 -EHsc )
     set( DEFINITIONS -D_SCL_SECURE_NO_WARNINGS -DNOMINMAX ${NSSV_CONFIG} )
 
     if( NOT CMAKE_CXX_COMPILER_VERSION VERSION_LESS 19.00 )
-        set( HAS_STD_FLAGS TRUE )
         set( HAS_CPP14_FLAG TRUE )
         set( HAS_CPPLATEST_FLAG TRUE )
     endif()
     if( NOT CMAKE_CXX_COMPILER_VERSION VERSION_LESS 19.11 )
-        set( HAS_STD_FLAGS TRUE )
         set( HAS_CPP17_FLAG TRUE )
     endif()
 
@@ -125,20 +127,20 @@ if( NOT HAS_STD_FLAGS )
 #    make_target( ${MAIN_BASE}.t "${SOURCES}" "" )
 else()
     if( HAS_CPP11_FLAG )
-        make_target( ${MAIN_BASE}-cpp11.t "${SOURCES}" c++11 )
+        make_target( ${MAIN_BASE}-cpp11.t "${SOURCES}" 11 )
     endif()
 
     if( HAS_CPP14_FLAG )
-        make_target( ${MAIN_BASE}-cpp14.t "${SOURCES}" c++14 )
+        make_target( ${MAIN_BASE}-cpp14.t "${SOURCES}" 14 )
     endif()
 
     if( HAS_CPP17_FLAG )
-        make_target( ${MAIN_BASE}-cpp17.t "${SOURCES}" c++17 )
+        make_target( ${MAIN_BASE}-cpp17.t "${SOURCES}" 17 )
         enable_msvs_guideline_checker( ${MAIN_BASE}-cpp17.t )
     endif()
 
     if( HAS_CPPLATEST_FLAG )
-        make_target( ${MAIN_BASE}-cpplatest.t "${SOURCES}" c++latest )
+        make_target( ${MAIN_BASE}-cpplatest.t "${SOURCES}" latest )
     endif()
 endif()
 
@@ -148,24 +150,24 @@ if( NOT HAS_STD_FLAGS )
     make_target( ${MAIN_BASE98}.t "${SOURCES98}" "" )
 else()
     if( HAS_CPP98_FLAG )
-        make_target( ${MAIN_BASE98}-cpp98.t "${SOURCES98}" c++98 )
+        make_target( ${MAIN_BASE98}-cpp98.t "${SOURCES98}" 98 )
     endif()
 
     if( HAS_CPP11_FLAG )
-        make_target( ${MAIN_BASE98}-cpp11.t "${SOURCES98}" c++11 )
+        make_target( ${MAIN_BASE98}-cpp11.t "${SOURCES98}" 11 )
     endif()
 
     if( HAS_CPP14_FLAG )
-        make_target( ${MAIN_BASE98}-cpp14.t "${SOURCES98}" c++14 )
+        make_target( ${MAIN_BASE98}-cpp14.t "${SOURCES98}" 14 )
     endif()
 
     if( HAS_CPP17_FLAG )
-        make_target( ${MAIN_BASE98}-cpp17.t "${SOURCES98}" c++17 )
+        make_target( ${MAIN_BASE98}-cpp17.t "${SOURCES98}" 17 )
         enable_msvs_guideline_checker( ${MAIN_BASE98}-cpp17.t )
     endif()
 
     if( HAS_CPPLATEST_FLAG )
-        make_target( ${MAIN_BASE98}-cpplatest.t "${SOURCES98}" c++latest )
+        make_target( ${MAIN_BASE98}-cpplatest.t "${SOURCES98}" latest )
     endif()
 endif()
 

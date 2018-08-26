@@ -128,27 +128,27 @@ if( HAS_CPPLATEST_FLAG )
 
 elseif( HAS_CPP20_FLAG )
     foreach( name ${TARGETS_ALL} )
-        make_target( ${name}-c++20.e ${name} c++20 )
+        make_target( ${name}-c++20.e ${name} 20 )
     endforeach()
 
 elseif( HAS_CPP17_FLAG )
     foreach( name ${TARGETS_ALL} )
-        make_target( ${name}-c++17.e ${name} c++17 )
+        make_target( ${name}-c++17.e ${name} 17 )
     endforeach()
 
 elseif( HAS_CPP14_FLAG )
     foreach( name ${TARGETS_CPP98} ${TARGETS_CPP11} ${TARGETS_CPP14} )
-        make_target( ${name}-c++14.e ${name} c++14 )
+        make_target( ${name}-c++14.e ${name} 14 )
     endforeach()
 
 elseif( HAS_CPP11_FLAG )
     foreach( name ${TARGETS_CPP98} ${TARGETS_CPP11} )
-        make_target( ${name}-c++11.e ${name} c++11 )
+        make_target( ${name}-c++11.e ${name} 11 )
     endforeach()
 
 elseif( HAS_CPP98_FLAG )
     foreach( name ${TARGETS_CPP98} )
-        make_target( ${name}-c++98.e ${name} c++98 )
+        make_target( ${name}-c++98.e ${name} 98 )
     endforeach()
 
 elseif( MSVC )
