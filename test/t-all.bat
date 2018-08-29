@@ -44,7 +44,6 @@ set cppStandards=^
 )
 
 set msvc_defines=^
-    -DNOMINMAX ^
     -D_CRT_SECURE_NO_WARNINGS ^
     -Dlest_FEATURE_AUTO_REGISTER=1
 

@@ -24,7 +24,6 @@ set span_config=^
     -Dnssv_CONFIG_MAX_ALIGN_HACK=0
 
 set msvc_defines=^
-    -DNOMINMAX ^
     -D_CRT_SECURE_NO_WARNINGS ^
     -Dlest_FEATURE_AUTO_REGISTER=1
 
