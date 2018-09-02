@@ -44,6 +44,7 @@
 		<Unit filename="../../example/CMakeLists.txt" />
 		<Unit filename="../../include/nonstd/status_value.hpp" />
 		<Unit filename="../../include/nonstd/status_value_cpp98.hpp" />
+		<Unit filename="../../script/update-version.py" />
 		<Unit filename="../../test/CMakeLists.txt" />
 		<Unit filename="../../test/status_value.t.cpp" />
 		<Unit filename="../../test/status_value_cpp98.t.cpp" />

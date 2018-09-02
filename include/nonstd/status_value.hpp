@@ -17,6 +17,7 @@
 #define status_value_MAJOR  1
 #define status_value_MINOR  0
 #define status_value_PATCH  0
+
 #define status_value_VERSION  nssv_STRINGIFY(status_value_MAJOR) "." nssv_STRINGIFY(status_value_MINOR) "." nssv_STRINGIFY(status_value_PATCH)
 
 #define nssv_STRINGIFY(  x )  nssv_STRINGIFY_( x )

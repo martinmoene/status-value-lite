@@ -5,6 +5,10 @@
 
 cmake_minimum_required( VERSION 3.5 )
 
+# status-value version, updated by script/update-version.py:
+
+set( status_value_version "1.0.0" )
+
 # Enable building and performing of tests and building of examples:
 
 option( NSSV_OPT_BUILD_TESTS    "Build and perform status_value tests" ON )
