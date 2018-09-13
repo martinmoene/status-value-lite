@@ -23,7 +23,7 @@ set span_config=
 set gcc_defines=^
     -Dlest_FEATURE_AUTO_REGISTER=1
 
-set flags=-Wpedantic -Wno-padded -Wno-missing-noreturn
+set flags=-Wpedantic -Wconversion -Wsign-conversion -Wno-padded -Wno-missing-noreturn
 set   gpp=g++
 
 %gpp% -std=%std% -O2 -Wall -Wextra %flags% %stdspn% %span_contract% %span_config% %gcc_defines% -o %basename%.t.exe -I../include/nonstd %basename%.t.cpp && %basename%.t.exe
