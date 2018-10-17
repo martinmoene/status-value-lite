@@ -11,8 +11,8 @@ set( status_value_version "1.0.0" )
 
 # Enable building and performing of tests and building of examples:
 
-option( NSSV_OPT_BUILD_TESTS    "Build and perform status_value tests" ON )
-option( NSSV_OPT_BUILD_EXAMPLES "Build status_value examples" ON )
+option( NSSV_OPT_BUILD_TESTS    "Build and perform status_value tests" OFF )
+option( NSSV_OPT_BUILD_EXAMPLES "Build status_value examples" OFF )
 
 project( status_value LANGUAGES CXX )
 
@@ -31,7 +31,7 @@ target_include_directories(
 
 # Installation:
 
-install( 
+install(
     DIRECTORY ${CMAKE_SOURCE_DIR}/include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} )
 
 # If requested, build and perform tests, build examples:
