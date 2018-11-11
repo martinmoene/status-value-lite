@@ -70,9 +70,11 @@
 
 // Compiler detection:
 
-#if defined( _MSC_VER ) && !defined( __clang__ )
-# define nssv_COMPILER_MSVC_VERSION  (_MSC_VER / 10 - 10 * ( 5 + ( _MSC_VER < 1900 ) ) )
+#if defined(_MSC_VER ) && !defined(__clang__)
+# define nssv_COMPILER_MSVC_VER      (_MSC_VER )
+# define nssv_COMPILER_MSVC_VERSION  (_MSC_VER / 10 - 10 * ( 5 + (_MSC_VER < 1900 ) ) )
 #else
+# define nssv_COMPILER_MSVC_VER      0
 # define nssv_COMPILER_MSVC_VERSION  0
 #endif
 
@@ -98,7 +100,7 @@
 #define nssv_COMPILER_IS_VC6  ( nssv_COMPILER_MSVC_VERSION == 60 )
 
 #define nssv_CPP14_000  (nssv_CPP14_OR_GREATER)
-#define nssv_CPP11_140  (nssv_CPP11_OR_GREATER || nssv_COMPILER_MSVC_VERSION >= 140)
+#define nssv_CPP11_140  (nssv_CPP11_OR_GREATER || nssv_COMPILER_MSVC_VER >= 1900)
 
 // Presence of C++11 language features:
 
