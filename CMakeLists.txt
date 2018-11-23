@@ -5,16 +5,24 @@
 
 cmake_minimum_required( VERSION 3.5 )
 
-# status-value version, updated by script/update-version.py:
+# status-value project and version, updated by script/update-version.py:
+
+project( status_value LANGUAGES CXX )
 
 set( status_value_version "1.0.0" )
 
+# Toplevel or subproject:
+
+if ( CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR )
+    set( status_value_IS_TOPLEVEL_PROJECT TRUE )
+else()
+    set( status_value_IS_TOPLEVEL_PROJECT FALSE )
+endif()
+
 # Enable building and performing of tests and building of examples:
 
-option( NSSV_OPT_BUILD_TESTS    "Build and perform status_value tests" OFF )
+option( NSSV_OPT_BUILD_TESTS    "Build and perform status_value tests" ${status_value_IS_TOPLEVEL_PROJECT} )
 option( NSSV_OPT_BUILD_EXAMPLES "Build status_value examples" OFF )
-
-project( status_value LANGUAGES CXX )
 
 include( GNUInstallDirs )
 
