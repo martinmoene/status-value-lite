@@ -3,31 +3,40 @@
 :: t.bat - compile & run tests (MSVC).
 ::
 
-set basename=status_value
+set      unit=status_value
+set unit_file=status_value
 
-set arg1=%1
-if  "%arg1%"=="c++98" ( 
-   set basename=status_value_cpp98
-) else (
-   if not "%arg1%"=="" set std=-std:%std%
+if  "%1"=="c++98" ( 
+    set      unit=status_value_cpp98
+    set unit_file=status_value_cpp98
 )
 
-set CppCoreCheckInclude=%VCINSTALLDIR%\Auxiliary\VS\include
+:: if no std is given, use compiler default
+
+set std=%1
+if not "%std%"=="" set std=-std:%std%
 
 call :CompilerVersion version
 echo VC%version%: %args%
 
-set span_contract=^
-    -Dnssv_CONFIG_NO_EXCEPTIONS=0
-    
-set span_config=^
-    -Dnssv_CONFIG_MAX_ALIGN_HACK=0
+set UCAP=%unit%
+call :toupper UCAP
+
+set unit_select=-D%unit%_CONFIG_SELECT_%UCAP%=%unit%_%UCAP%_DEFAULT
+::set unit_select=-D%unit%_CONFIG_SELECT_%UCAP%=%unit%_%UCAP%_NONSTD
+::set unit_select=-D%unit%_CONFIG_SELECT_%UCAP%=%unit%_%UCAP%_STD
+
+set unit_config=^
+    -Dlest_FEATURE_AUTO_REGISTER=1
 
 set msvc_defines=^
     -D_CRT_SECURE_NO_WARNINGS ^
-    -Dlest_FEATURE_AUTO_REGISTER=1
+    -D_SCL_SECURE_NO_WARNINGS
 
-cl -W3 -EHsc %std% %stdspn% %span_contract% %span_config% %msvc_defines% -I../include/nonstd %basename%.t.cpp && %basename%.t.exe
+set CppCoreCheckInclude=%VCINSTALLDIR%\Auxiliary\VS\include
+
+::cl -W3 -EHsc %std% %unit_select% %unit_config% %msvc_defines% -I"%CppCoreCheckInclude%" -I../include/nonstd %unit_file%-main.t.cpp %unit_file%.t.cpp && %unit_file%-main.t.exe
+cl -W3 -EHsc %std% %unit_select% %unit_config% %msvc_defines% -I"%CppCoreCheckInclude%" -I../include/nonstd %unit_file%.t.cpp && %unit_file%.t.exe
 endlocal & goto :EOF
 
 :: subroutines:
@@ -47,3 +56,9 @@ set offset=0
 if %version% LSS 1900 set /a offset=1
 set /a version="version / 10 - 10 * ( 5 + offset )"
 endlocal & set %1=%version%& goto :EOF
+
+:: toupper; makes use of the fact that string 
+:: replacement (via SET) is not case sensitive
+:toupper
+for %%L IN (A B C D E F G H I J K L M N O P Q R S T U V W X Y Z) DO SET %1=!%1:%%L=%%L!
+goto :EOF
