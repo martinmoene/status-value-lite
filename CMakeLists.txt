@@ -1,5 +1,7 @@
 # Copyright 2016-2018 by Martin Moene
 #
+# https://github.com/martinmoene/status-value
+#
 # Distributed under the Boost Software License, Version 1.0.
 # (See accompanying file LICENSE.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
@@ -7,9 +9,14 @@ cmake_minimum_required( VERSION 3.5 )
 
 # status-value project and version, updated by script/update-version.py:
 
-project( status_value LANGUAGES CXX )
+project(
+    status_value
+    VERSION 1.0.0
+    DESCRIPTION "A class for status and optional value for C++11 and later, C++98 variant provided in a single-file header-only library"
+#   HOMEPAGE_URL "https://github.com/martinmoene/status-value"
+    LANGUAGES CXX )
 
-set( status_value_version "1.0.0" )
+set( ${PROJECT_NAME}_version "${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH}" )
 
 # Toplevel or subproject:
 
@@ -19,7 +26,7 @@ else()
     set( status_value_IS_TOPLEVEL_PROJECT FALSE )
 endif()
 
-# Enable building and performing of tests and building of examples:
+# If toplevel project, enable building and performing of tests, disable building of examples:
 
 option( NSSV_OPT_BUILD_TESTS    "Build and perform status_value tests" ${status_value_IS_TOPLEVEL_PROJECT} )
 option( NSSV_OPT_BUILD_EXAMPLES "Build status_value examples" OFF )

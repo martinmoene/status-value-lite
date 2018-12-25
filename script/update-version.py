@@ -20,6 +20,10 @@ import sys
 table = (
     # path, substitute find, substitute format
     ( 'CMakeLists.txt'
+        , r'\W{2,4}VERSION\W+([0-9]+\.[0-9]+\.[0-9]+)\W*$'
+        , '    VERSION {major}.{minor}.{patch}' )
+
+    , ( 'CMakeLists.txt'
         , r'set\W+status_value_version\W+"([0-9]+\.[0-9]+\.[0-9]+)"\W+$'
         , 'set( status_value_version "{major}.{minor}.{patch}" )\n' )
 
@@ -42,7 +46,7 @@ table = (
     , ( 'include/nonstd/status_value_cpp98.hpp'
         , r'\#define\s+status_value_PATCH\s+[0-9]+\s*$'
         , '#define status_value_PATCH  {patch}\n' )
-        
+
     , ( 'include/nonstd/status_value.hpp'
         , r'\#define\s+status_value_MAJOR\s+[0-9]+\s*$'
         , '#define status_value_MAJOR  {major}' )
