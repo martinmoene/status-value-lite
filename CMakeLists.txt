@@ -12,7 +12,7 @@ cmake_minimum_required( VERSION 3.5 )
 project(
     status_value
     VERSION 1.0.0
-    DESCRIPTION "A class for status and optional value for C++11 and later, C++98 variant provided in a single-file header-only library"
+#   DESCRIPTION "A class for status and optional value for C++11 and later, C++98 variant provided in a single-file header-only library"
 #   HOMEPAGE_URL "https://github.com/martinmoene/status-value"
     LANGUAGES CXX )
 
