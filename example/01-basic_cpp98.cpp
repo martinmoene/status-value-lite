@@ -1,6 +1,6 @@
 // Convert text to number and yield status_value with number and error_condition.
 
-#include "status_value_cpp98.hpp"
+#include "nonstd/status_value_cpp98.hpp"
 
 #include <cstdlib>
 #include <iostream>
@@ -9,7 +9,7 @@
 using namespace nonstd;
 
 status_value< std::string, int >
-to_int( char const * const text ) 
+to_int( char const * const text )
 {
     char * pos = NULL;
     long value = strtol( text, &pos, 0 );

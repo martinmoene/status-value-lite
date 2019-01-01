@@ -1,15 +1,15 @@
 // Convert text to number and yield status_value with number and error_condition.
 
-#include "status_value.hpp"
+#include "nonstd/status_value.hpp"
 
 #include <cstdlib>
 #include <iostream>
 #include <string>           // required by VC14 (VS2015)
 #include <system_error>
-		
+
 using namespace nonstd;
 
-auto to_int( char const * const text ) -> status_value<std::error_condition, int> 
+auto to_int( char const * const text ) -> status_value<std::error_condition, int>
 {
     char * pos = nullptr;
     auto value = strtol( text, &pos, 0 );

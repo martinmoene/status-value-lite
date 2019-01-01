@@ -2,14 +2,14 @@
 //
 // This version targets C++98 and later.
 //
-// Distributed under the Boost Software License, Version 1.0. 
+// Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
 // status_value is based on:
 //   A Class for Status and Optional Value, P0262r0
 //   by Lawrence Crowl and Chris Mysen
 
-#include "status_value_cpp98.hpp"
+#include "nonstd/status_value_cpp98.hpp"
 
 #include "lest_cpp03.hpp"
 
@@ -33,7 +33,7 @@ struct move_constructible
     move_constructible( move_constructible && other ) : x( std::move( other.x ) ) {}
     move_constructible( move_constructible const & other ) = delete;
 };
-#endif 
+#endif
 
 struct copy_constructible
 {
@@ -55,7 +55,7 @@ CASE( "status_value<>: Disallows default construction" )
 CASE( "status_value<>: Allows construction from only status" )
 {
     status_value<int, int> sv( 7 );
-    
+
     EXPECT( sv.status() == 7 );
 }
 
@@ -90,8 +90,8 @@ CASE( "status_value<>: Allows construction from copied status and copied value" 
     EXPECT( sv.value().x == 42 );
 }
 
-// A status_value may be moved. 
-// A copy operation would make the type unusable for non-copyable 
+// A status_value may be moved.
+// A copy operation would make the type unusable for non-copyable
 // contained objects, so we do not provide a copy operation.
 
 #if nssv_CPP11_OR_GREATER
@@ -100,14 +100,14 @@ CASE( "status_value<>: Disallows copy-construction from other status_value of th
 {
 # if nssv_CONFIG_CONFIRMS_COMPILATION_ERRORS
     status_value<int, copy_constructible> sv1( 7, copy_constructible( 42 ) );
-    status_value<int, copy_constructible> sv2( sv1 );    
+    status_value<int, copy_constructible> sv2( sv1 );
 # endif
 }
 #else
 CASE( "status_value<>: Allows copy-construction from other status_value of the same type (pre C++11)" )
 {
     status_value<int, copy_constructible> sv1( 7, copy_constructible( 42 ) );
-    status_value<int, copy_constructible> sv2( sv1 );    
+    status_value<int, copy_constructible> sv2( sv1 );
 }
 
 #endif
@@ -116,7 +116,7 @@ CASE( "status_value<>: Allows move-construction from other status_value of the s
 {
 #if nssv_CPP11_OR_GREATER
     status_value<int, move_constructible> sv1( 7, move_constructible( 42 ) );
-    status_value<int, move_constructible> sv2( std::move( sv1 ) );    
+    status_value<int, move_constructible> sv2( std::move( sv1 ) );
 
     EXPECT( ! sv1 );
     EXPECT( sv2.status()  ==  7 );
@@ -126,13 +126,13 @@ CASE( "status_value<>: Allows move-construction from other status_value of the s
 #endif
 }
 
-// They may be queried for status. The design assumes that inlining 
+// They may be queried for status. The design assumes that inlining
 // will remove the cost of returning a reference for cheap copyable types.
 
 CASE( "status_value<>: Allows to observe its status" )
 {
     status_value<int, int> sv( 7 );
-    
+
     EXPECT( sv.status() == 7 );
 }
 
@@ -142,7 +142,7 @@ CASE( "status_value<>: Allows to observe the presence of a value (has_value())" 
 {
     status_value<int, int> sv1( 7 );
     status_value<int, int> sv2( 7, 42 );
-    
+
     EXPECT(  ! sv1.has_value() );
     EXPECT( !! sv2.has_value() );
 }
@@ -151,19 +151,19 @@ CASE( "status_value<>: Allows to observe the presence of a value (operator bool)
 {
     status_value<int, int> sv1( 7 );
     status_value<int, int> sv2( 7, 42 );
-        
+
     EXPECT(  ! sv1 );
     EXPECT( !! sv2 );
 }
 
-// They may provide access to their value. 
-// If they have no value, an exception of type Status, 
+// They may provide access to their value.
+// If they have no value, an exception of type Status,
 // with the status value passed to the constructor, is thrown.
 
 CASE( "status_value<>: Allows to observe its value" )
 {
     status_value<int, int> sv( 7, 42 );
-        
+
     EXPECT( sv.value() == 42 );
 }
 
@@ -199,14 +199,14 @@ struct S{ S(){} };
 
 CASE("Show alignment of various types" "[.]" )
 {
-#if nssv_CPP11_OR_GREATER  
+#if nssv_CPP11_OR_GREATER
     using std::alignment_of;
 #elif nssv_COMPILER_IS_VC6
     using namespace ::nonstd::status_value_detail;
 #else
     using ::nonstd::status_value_detail::alignment_of;
-#endif    
-    std::cout << 
+#endif
+    std::cout <<
         nssv_OUTPUT_ALIGNMENT_OF( char )
         nssv_OUTPUT_ALIGNMENT_OF( short )
         nssv_OUTPUT_ALIGNMENT_OF( int )
@@ -226,9 +226,9 @@ CASE("Show alignment of various types" "[.]" )
 
 CASE("Show sizeof various status_value types" "[.]" )
 {
-    std::cout << 
-        "sizeof( nonstd::status_value_detail::storage_t<char, char> ): " << 
-         sizeof( nonstd::status_value_detail::storage_t<char, char> )    << "\n" << 
+    std::cout <<
+        "sizeof( nonstd::status_value_detail::storage_t<char, char> ): " <<
+         sizeof( nonstd::status_value_detail::storage_t<char, char> )    << "\n" <<
          nssv_OUTPUT_SIZEOF( char )
          nssv_OUTPUT_SIZEOF( short )
          nssv_OUTPUT_SIZEOF( int )
@@ -250,7 +250,7 @@ int main( int argc, char * argv[] )
 }
 
 #if 0
-//  
+//
 cl -nologo -W3   -wd4814 -EHsc -Dnssv_CONFIG_CONFIRMS_COMPILATION_ERRORS=0 -Dlest_FEATURE_AUTO_REGISTER=1 -I../include/nonstd status_value_cpp98.t.cpp && status_value_cpp98.t --pass
 cl -nologo -Wall -wd4814 -EHsc -Dnssv_CONFIG_CONFIRMS_COMPILATION_ERRORS=0 -Dlest_FEATURE_AUTO_REGISTER=1 -I../include/nonstd status_value_cpp98.t.cpp && status_value_cpp98.t --pass
 

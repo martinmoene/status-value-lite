@@ -1,6 +1,6 @@
 // Create a maybe type.
 
-#include "status_value.hpp"
+#include "nonstd/status_value.hpp"
 
 #include <iostream>
 
@@ -17,7 +17,7 @@ auto empty() -> maybe<int> { return {    }; }
 void print( char const * text, maybe<int> value )
 {
     if ( value ) std::cout << text << ": contents: " << *value << "\n";
-    else         std::cout << text << ": no contents\n" ;    
+    else         std::cout << text << ": no contents\n" ;
 }
 
 int main( int argc, char * argv[] )

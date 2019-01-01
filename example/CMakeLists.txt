@@ -5,7 +5,9 @@
 
 project( example LANGUAGES CXX )
 
-set( HDRDIR  ${PROJECT_SOURCE_DIR}/../include/nonstd )
+set( PACKAGE ${package_name} )
+
+message( STATUS "Subproject '${PROJECT_NAME}'")
 
 set( SOURCES_CPP98
     01-basic_cpp98.cpp
@@ -75,7 +77,7 @@ elseif( CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang|AppleClang" )
     # GNU: available -std flags depends on version
     if( CMAKE_CXX_COMPILER_ID MATCHES "GNU" )
         message( STATUS "Matched: GNU")
-    
+
         if( NOT CMAKE_CXX_COMPILER_VERSION VERSION_LESS 4.8.0 )
             set( HAS_CPP11_FLAG TRUE )
         endif()
@@ -89,7 +91,7 @@ elseif( CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang|AppleClang" )
     # AppleClang: available -std flags depends on version
     elseif( CMAKE_CXX_COMPILER_ID MATCHES "AppleClang" )
         message( STATUS "Matched: AppleClang")
-    
+
         if( NOT CMAKE_CXX_COMPILER_VERSION VERSION_LESS 5.0.0 )
             set( HAS_CPP11_FLAG TRUE )
         endif()
@@ -103,7 +105,7 @@ elseif( CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang|AppleClang" )
     # Clang: available -std flags depends on version
     elseif( CMAKE_CXX_COMPILER_ID MATCHES "Clang" )
         message( STATUS "Matched: Clang")
-    
+
         if( NOT CMAKE_CXX_COMPILER_VERSION VERSION_LESS 3.3.0 )
             set( HAS_CPP11_FLAG TRUE )
         endif()
@@ -126,10 +128,11 @@ endif()
 # make target, compile for given standard if specified:
 
 function( make_target target sources std )
-    add_executable            ( ${target} ${sources} ${HDRPATH} )
+    add_executable            ( ${target} ${sources} )
+    target_link_libraries     ( ${target} PRIVATE ${PACKAGE} )
     target_compile_options    ( ${target} PRIVATE ${OPTIONS} )
     target_compile_definitions( ${target} PRIVATE ${DEFINITIONS} )
-    target_include_directories( ${target} PRIVATE ${HDRDIR} )
+
     if( std )
         if( MSVC )
             target_compile_options( ${target} PRIVATE -std:c++${std} )

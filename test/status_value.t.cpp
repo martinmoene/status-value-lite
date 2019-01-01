@@ -2,14 +2,14 @@
 //
 // This version targets C++11 and later.
 //
-// Distributed under the Boost Software License, Version 1.0. 
+// Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
 // status_value is based on:
 //   A Class for Status and Optional Value, P0262r0
 //   by Lawrence Crowl and Chris Mysen
 
-#include "status_value.hpp"
+#include "nonstd/status_value.hpp"
 
 #include "lest.hpp"
 
@@ -54,7 +54,7 @@ CASE( "status_value<>: Disallows default construction" )
 CASE( "status_value<>: Allows construction from only status" )
 {
     status_value<int, int> sv( 7 );
-    
+
     EXPECT( sv.status() == 7 );
 }
 
@@ -85,15 +85,15 @@ CASE( "status_value<>: Allows construction from copied status and copied value" 
     EXPECT( sv.value().x == 42 );
 }
 
-// A status_value may be moved. 
-// A copy operation would make the type unusable for non-copyable 
+// A status_value may be moved.
+// A copy operation would make the type unusable for non-copyable
 // contained objects, so we do not provide a copy operation.
 
 CASE( "status_value<>: Disallows copy-construction from other status_value of the same type" )
 {
 #if nssv_CONFIG_CONFIRMS_COMPILATION_ERRORS
     status_value<int, copy_constructible> sv1( 7, copy_constructible( 42 ) );
-    status_value<int, copy_constructible> sv2( sv1 );    
+    status_value<int, copy_constructible> sv2( sv1 );
 #endif
     EXPECT( !!"Avoid warning" );
 }
@@ -101,20 +101,20 @@ CASE( "status_value<>: Disallows copy-construction from other status_value of th
 CASE( "status_value<>: Allows move-construction from other status_value of the same type" )
 {
     status_value<int, move_constructible> sv1( 7, move_constructible( 42 ) );
-    status_value<int, move_constructible> sv2( std::move( sv1 ) );    
+    status_value<int, move_constructible> sv2( std::move( sv1 ) );
 
     EXPECT( ! sv1 );
     EXPECT( sv2.status()  ==  7 );
     EXPECT( sv2.value().x == 42 );
 }
 
-// They may be queried for status. The design assumes that inlining 
+// They may be queried for status. The design assumes that inlining
 // will remove the cost of returning a reference for cheap copyable types.
 
 CASE( "status_value<>: Allows to observe its status" )
 {
     status_value<int, int> sv( 7 );
-    
+
     EXPECT( sv.status() == 7 );
 }
 
@@ -124,7 +124,7 @@ CASE( "status_value<>: Allows to observe the presence of a value (has_value())" 
 {
     status_value<int, int> sv1( 7 );
     status_value<int, int> sv2( 7, 42 );
-    
+
     EXPECT(  ! sv1.has_value() );
     EXPECT( !! sv2.has_value() );
 }
@@ -133,19 +133,19 @@ CASE( "status_value<>: Allows to observe the presence of a value (operator bool)
 {
     status_value<int, int> sv1( 7 );
     status_value<int, int> sv2( 7, 42 );
-        
+
     EXPECT(  ! sv1 );
     EXPECT( !! sv2 );
 }
 
-// They may provide access to their value. 
-// If they have no value, an exception of type Status, 
+// They may provide access to their value.
+// If they have no value, an exception of type Status,
 // with the status value passed to the constructor, is thrown.
 
 CASE( "status_value<>: Allows to observe its value" )
 {
     status_value<int, int> sv( 7, 42 );
-        
+
     EXPECT( sv.value() == 42 );
 }
 
@@ -178,7 +178,7 @@ int main( int argc, char * argv[] )
 }
 
 #if 0
-//  
+//
 cl -nologo -W3   -wd4814 -EHsc -Dnssv_CONFIG_CONFIRMS_COMPILATION_ERRORS=0 -Dlest_FEATURE_AUTO_REGISTER=1 -I../include/nonstd status_value.t.cpp && status_value.t --pass
 cl -nologo -Wall -wd4814 -EHsc -Dnssv_CONFIG_CONFIRMS_COMPILATION_ERRORS=0 -Dlest_FEATURE_AUTO_REGISTER=1 -I../include/nonstd status_value.t.cpp && status_value.t --pass
 
