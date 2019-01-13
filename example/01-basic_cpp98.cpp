@@ -30,6 +30,6 @@ int main( int argc, char * argv[] )
     return 0; // VC6
 }
 
-// cl -EHsc -wd4814 -I../include/nonstd 01-basic_cpp98.cpp && 01-basic_cpp98.exe 123 && 01-basic_cpp98.exe abc
-// g++ -std=c++98 -Wall -I../include/nonstd -o 01-basic_cpp98.exe 01-basic_cpp98.cpp && 01-basic_cpp98.exe 123 && 01-basic_cpp98.exe abc
+// cl -EHsc -wd4814 -I../include 01-basic_cpp98.cpp && 01-basic_cpp98.exe 123 && 01-basic_cpp98.exe abc
+// g++ -std=c++98 -Wall -I../include -o 01-basic_cpp98.exe 01-basic_cpp98.cpp && 01-basic_cpp98.exe 123 && 01-basic_cpp98.exe abc
 // Excellent: '123' is 123, Error: 'abc' isn't a number

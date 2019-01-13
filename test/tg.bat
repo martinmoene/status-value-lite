@@ -6,7 +6,7 @@
 set      unit=status_value
 set unit_file=status_value
 
-if  "%1"=="c++98" ( 
+if  "%1"=="c++98" (
     set      unit=status_value_cpp98
     set unit_file=status_value_cpp98
 )
@@ -36,8 +36,8 @@ rem -flto / -fwhole-program
 set  optflags=-O2
 set warnflags=-Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wno-padded -Wno-missing-noreturn
 
-::%gpp% -std=%std% %optflags% %warnflags% %unit_select% %unit_config% -o %unit_file%-main.t.exe -I../include/nonstd %unit_file%-main.t.cpp %unit_file%.t.cpp && %unit_file%-main.t.exe
-%gpp% -std=%std% %optflags% %warnflags% %unit_select% %unit_config% -o %unit_file%.t.exe -I../include/nonstd %unit_file%.t.cpp && %unit_file%.t.exe
+::%gpp% -std=%std% %optflags% %warnflags% %unit_select% %unit_config% -o %unit_file%-main.t.exe -I../include %unit_file%-main.t.cpp %unit_file%.t.cpp && %unit_file%-main.t.exe
+%gpp% -std=%std% %optflags% %warnflags% %unit_select% %unit_config% -o %unit_file%.t.exe -I../include %unit_file%.t.cpp && %unit_file%.t.exe
 
 endlocal & goto :EOF
 

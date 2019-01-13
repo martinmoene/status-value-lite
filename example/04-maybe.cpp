@@ -26,7 +26,7 @@ int main( int argc, char * argv[] )
     print( "empty()", empty() );
 }
 
-// cl -EHsc -wd4814 -I../include/nonstd 04-maybe.cpp && 04-maybe.exe
-// g++ -std=c++11 -Wall -I../include/nonstd -o 04-maybe.exe 04-maybe.cpp && 04-maybe.exe
+// cl -EHsc -wd4814 -I../include 04-maybe.cpp && 04-maybe.exe
+// g++ -std=c++11 -Wall -I../include -o 04-maybe.exe 04-maybe.cpp && 04-maybe.exe
 // value(): contents: 42
 // empty(): no contents

@@ -179,12 +179,12 @@ int main( int argc, char * argv[] )
 
 #if 0
 //
-cl -nologo -W3   -wd4814 -EHsc -Dnssv_CONFIG_CONFIRMS_COMPILATION_ERRORS=0 -Dlest_FEATURE_AUTO_REGISTER=1 -I../include/nonstd status_value.t.cpp && status_value.t --pass
-cl -nologo -Wall -wd4814 -EHsc -Dnssv_CONFIG_CONFIRMS_COMPILATION_ERRORS=0 -Dlest_FEATURE_AUTO_REGISTER=1 -I../include/nonstd status_value.t.cpp && status_value.t --pass
+cl -nologo -W3   -wd4814 -EHsc -Dnssv_CONFIG_CONFIRMS_COMPILATION_ERRORS=0 -Dlest_FEATURE_AUTO_REGISTER=1 -I../include status_value.t.cpp && status_value.t --pass
+cl -nologo -Wall -wd4814 -EHsc -Dnssv_CONFIG_CONFIRMS_COMPILATION_ERRORS=0 -Dlest_FEATURE_AUTO_REGISTER=1 -I../include status_value.t.cpp && status_value.t --pass
 
-g++ -Wall -Wextra -std=c++03 -Wno-unused-parameter -Dlest_FEATURE_AUTO_REGISTER=1 -I../include/nonstd -o status_value.t.exe status_value.t.cpp && status_value.t --pass
-g++ -Wall -Wextra -std=c++11 -Wno-unused-parameter -Dlest_FEATURE_AUTO_REGISTER=1 -I../include/nonstd -o status_value.t.exe status_value.t.cpp && status_value.t --pass
-g++ -Wall -Wextra -std=c++14 -Wno-unused-parameter -Dlest_FEATURE_AUTO_REGISTER=1 -I../include/nonstd -o status_value.t.exe status_value.t.cpp && status_value.t --pass
-g++ -Wall -Wextra -std=c++1y -Wno-unused-parameter -Dlest_FEATURE_AUTO_REGISTER=1 -I../include/nonstd -o status_value.t.exe status_value.t.cpp && status_value.t --pass
+g++ -Wall -Wextra -std=c++03 -Wno-unused-parameter -Dlest_FEATURE_AUTO_REGISTER=1 -I../include -o status_value.t.exe status_value.t.cpp && status_value.t --pass
+g++ -Wall -Wextra -std=c++11 -Wno-unused-parameter -Dlest_FEATURE_AUTO_REGISTER=1 -I../include -o status_value.t.exe status_value.t.cpp && status_value.t --pass
+g++ -Wall -Wextra -std=c++14 -Wno-unused-parameter -Dlest_FEATURE_AUTO_REGISTER=1 -I../include -o status_value.t.exe status_value.t.cpp && status_value.t --pass
+g++ -Wall -Wextra -std=c++1y -Wno-unused-parameter -Dlest_FEATURE_AUTO_REGISTER=1 -I../include -o status_value.t.exe status_value.t.cpp && status_value.t --pass
 
 #endif // 0

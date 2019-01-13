@@ -6,7 +6,7 @@
 set basename=status_value
 
 set arg1=%1
-if  "%arg1%"=="c++98" ( 
+if  "%arg1%"=="c++98" (
    set basename=status_value_cpp98
 )
 
@@ -21,9 +21,9 @@ set spanSources=%basename%.t.cpp
 
 set cvResponses=^
     "nssv_CONFIG_NO_EXCEPTIONS=0" ^
-    "nssv_CONFIG_NO_EXCEPTIONS=1" 
+    "nssv_CONFIG_NO_EXCEPTIONS=1"
 
-if  "%arg1%"=="c++98" ( 
+if  "%arg1%"=="c++98" (
 
 set spanFeatures=^
     "nssv_CONFIG_MAX_ALIGN_HACK=0" ^
@@ -31,7 +31,7 @@ set spanFeatures=^
 
 set cppStandards=^
     c++98
-    
+
 ) else (
 
 set spanFeatures=^
@@ -90,7 +90,7 @@ goto :EOF
 :Compile  contractViolationResponse spanFeature [CppStd]
 ::call t.bat %*
 set args=%*
-set compile=cl -EHsc -I../include/nonstd -I"%CppCoreCheckInclude%" %args% %msvc_defines% %spanSources%
+set compile=cl -EHsc -I../include -I"%CppCoreCheckInclude%" %args% %msvc_defines% %spanSources%
 echo %compile% && %compile%
 goto :EOF
 

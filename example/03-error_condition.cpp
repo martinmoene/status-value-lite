@@ -28,6 +28,6 @@ int main( int argc, char * argv[] )
     else       std::cout << "Error: " << svi.status().message();
 }
 
-// cl -EHsc -wd4814 -I../include/nonstd 03-error_condition.cpp && 03-error_condition.exe 123 && 03-error_condition.exe abc
-// g++ -std=c++14 -Wall -I../include/nonstd -o 03-error_condition.exe 03-error_condition.cpp && 03-error_condition.exe 123 && 03-error_condition.exe abc
+// cl -EHsc -wd4814 -I../include 03-error_condition.cpp && 03-error_condition.exe 123 && 03-error_condition.exe abc
+// g++ -std=c++14 -Wall -I../include -o 03-error_condition.exe 03-error_condition.cpp && 03-error_condition.exe 123 && 03-error_condition.exe abc
 // No error: '123' is 123, Error: Invalid argument
