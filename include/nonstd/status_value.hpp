@@ -64,7 +64,7 @@
 # define nssv_constexpr14 /*constexpr*/
 #endif
 
-#if nssv_HAVE_NOEXCEPT && ! nssv_CONFIG_NO_EXCEPTIONS
+#if nssv_HAVE_NOEXCEPT
 # define nssv_noexcept noexcept
 #else
 # define nssv_noexcept /*noexcept*/
