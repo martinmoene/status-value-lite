@@ -5,7 +5,8 @@
 
 project( example LANGUAGES CXX )
 
-set( PACKAGE ${package_name} )
+set( unit_name "status_value" )
+set( PACKAGE   "${unit_name}-lite" )
 
 message( STATUS "Subproject '${PROJECT_NAME}'")
 

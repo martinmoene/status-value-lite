@@ -9,11 +9,12 @@ project( test LANGUAGES CXX )
 
 # Test sources:
 
-set( PACKAGE   ${package_name} )
-set( PROGRAM   ${unit_name} )
-set( SOURCES   ${PROGRAM}.t.cpp )
-set( PROGRAM98 ${unit_name}_cpp98 )
-set( SOURCES98 ${PROGRAM98}.t.cpp )
+set( unit_name "status_value" )
+set( PACKAGE   ${unit_name}-lite )
+set( PROGRAM   ${unit_name}-lite )
+set( PROGRAM98 ${unit_name}-lite_cpp98 )
+set( SOURCES   ${unit_name}.t.cpp )
+set( SOURCES98 ${unit_name}_cpp98.t.cpp )
 
 message( STATUS "Subproject '${PROJECT_NAME}', programs '${PROGRAM}-*', '${PROGRAM98}-*'")
 
