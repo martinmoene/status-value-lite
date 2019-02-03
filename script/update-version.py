@@ -35,6 +35,10 @@ table = (
 #        , r'\status_value_version\s+=\s+"([0-9]+\.[0-9]+\.[0-9]+)"\s*$'
 #        , 'status_value_version = "{major}.{minor}.{patch}"\n' )
 
+    , ( 'conanfile.py'
+        , r'version\s+=\s+"([0-9]+\.[0-9]+\.[0-9]+)"\s*$'
+        , 'version = "{major}.{minor}.{patch}"' )
+
     , ( 'include/nonstd/status_value_cpp98.hpp'
         , r'\#define\s+status_value_MAJOR\s+[0-9]+\s*$'
         , '#define status_value_MAJOR  {major}' )
