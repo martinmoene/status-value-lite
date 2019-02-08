@@ -110,7 +110,7 @@ private:
 
     void construct_value( value_type && v )
     {
-        new( &m_value ) value_type( std::forward<V>( v ) );
+        new( &m_value ) value_type( std::move( v ) );
     }
 
     void destruct_value() nssv_noexcept

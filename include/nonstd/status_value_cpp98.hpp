@@ -434,7 +434,7 @@ private:
 
     void construct_value( value_type && v )
     {
-        new( value_ptr() ) value_type( std::forward<V>( v ) );
+        new( value_ptr() ) value_type( std::move( v ) );
     }
 #endif
 
