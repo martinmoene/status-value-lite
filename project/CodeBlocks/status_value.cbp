@@ -46,6 +46,7 @@
 		<Unit filename="../../example/CMakeLists.txt" />
 		<Unit filename="../../include/nonstd/status_value.hpp" />
 		<Unit filename="../../include/nonstd/status_value_cpp98.hpp" />
+		<Unit filename="../../script/create-vcpkg.py" />
 		<Unit filename="../../script/update-version.py" />
 		<Unit filename="../../script/upload-conan.py" />
 		<Unit filename="../../test/CMakeLists.txt" />
