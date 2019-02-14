@@ -175,7 +175,12 @@ Notes and references
 
 Appendix
 --------
-### A.1 status_value test specification
+
+### A.1 Compile-time information
+
+The version of *status-value lite* is available via tag `[.version]`. The following tags are available for information on the compiler and on the C++ standard library used: `[.compiler]`, `[.stdc++]`, `[.stdlanguage]` and `[.stdlibrary]`.
+
+### A.2 Status_value test specification
 
 ```
 status_value<>: Disallows default construction
