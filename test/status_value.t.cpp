@@ -142,31 +142,150 @@ CASE( "status_value<>: Allows to observe the presence of a value (operator bool)
 // If they have no value, an exception of type Status,
 // with the status value passed to the constructor, is thrown.
 
-CASE( "status_value<>: Allows to observe its value" )
+CASE( "status_value<>: Allows to observe its value (value())" )
 {
-    status_value<int, int> sv( 7, 42 );
+    status_value<int, int>        sv( 7, 42 );
+    status_value<int, int> const csv( 7, 42 );
 
-    EXPECT( sv.value() == 42 );
+    EXPECT(  sv.value() == 42 );
+    EXPECT( csv.value() == 42 );
+    EXPECT( std::move(  sv ).value() == 42 );
+    EXPECT( std::move( csv ).value() == 42 );
 }
 
-CASE( "status_value<>: Throws status when observing a non-present value" )
+CASE( "status_value<>: Allows to observe its value (operator*)" )
 {
-    status_value<int, int> sv( 7 );
+    status_value<int, int>        sv( 7, 42 );
+    status_value<int, int> const csv( 7, 42 );
 
-    EXPECT_THROWS(      sv.value() );
-    EXPECT_THROWS_AS(   sv.value(), std::logic_error );
-    EXPECT_THROWS_AS(   sv.value(), bad_status_value_access<int> );
+    EXPECT(  *sv == 42 );
+    EXPECT( *csv == 42 );
+    EXPECT( *std::move(  sv ) == 42 );
+    EXPECT( *std::move( csv ) == 42 );
+}
 
-//  EXPECT_THROWS_WITH( sv.value(), 7 );
+CASE( "status_value<>: Allows to observe its value (operator->)" )
+{
+    struct V { int i = 42; } v;
+    status_value<int, V>        sv( 7, v );
+    status_value<int, V> const csv( 7, v );
 
-    try
+    EXPECT(  sv->i == 42 );
+    EXPECT( csv->i == 42 );
+    EXPECT( std::move(  sv )->i == 42 );
+    EXPECT( std::move( csv )->i == 42 );
+
+}
+
+CASE( "status_value<>: Throws when observing non-engaged (value())" )
+{
+    SETUP("") {
+        status_value<int, int>        sv( 7 );
+        status_value<int, int> const csv( 7 );
+
+    SECTION("for l-value reference")
     {
-        sv.value();
+        EXPECT_THROWS(     sv.value() );
+        EXPECT_THROWS(    csv.value() );
+
+        EXPECT_THROWS_AS(  sv.value(), std::logic_error );
+        EXPECT_THROWS_AS( csv.value(), std::logic_error );
+
+        EXPECT_THROWS_AS(  sv.value(), bad_status_value_access<int> );
+        EXPECT_THROWS_AS( csv.value(), bad_status_value_access<const int> );
     }
-    catch ( bad_status_value_access<int> const & e )
+    SECTION("for r-value reference (throws)")
     {
-        EXPECT( e.status() == 7 );
+        EXPECT_THROWS( std::move(  sv ).value() );
+        EXPECT_THROWS( std::move( csv ).value() );
     }
+    SECTION("for r-value reference (throws-as)")
+    {
+        EXPECT_THROWS_AS( std::move(  sv ).value(), bad_status_value_access<int> );
+        EXPECT_THROWS_AS( std::move( csv ).value(), bad_status_value_access<const int> );
+    }}
+}
+
+CASE( "status_value<>: Throws when observing non-engaged (operator*())" )
+{
+    SETUP("") {
+        status_value<int, int>        sv( 7 );
+        status_value<int, int> const csv( 7 );
+
+    SECTION("for l-value reference")
+    {
+        EXPECT_THROWS(     *sv );
+        EXPECT_THROWS(    *csv );
+
+        EXPECT_THROWS_AS(  *sv, std::logic_error );
+        EXPECT_THROWS_AS( *csv, std::logic_error );
+
+        EXPECT_THROWS_AS(  *sv, bad_status_value_access<int> );
+        EXPECT_THROWS_AS( *csv, bad_status_value_access<const int> );
+    }
+    SECTION("for r-value reference (throws)")
+    {
+        EXPECT_THROWS( *std::move(  sv ) );
+        EXPECT_THROWS( *std::move( csv ) );
+    }
+    SECTION("for r-value reference (throws-as)")
+    {
+        EXPECT_THROWS_AS( *std::move(  sv ), bad_status_value_access<int> );
+        EXPECT_THROWS_AS( *std::move( csv ), bad_status_value_access<const int> );
+    }}
+}
+
+CASE( "status_value<>: Throws when observing non-engaged (operator->())" )
+{
+    SETUP("") {
+        struct V { int i = 42; } v;
+        status_value<int, V>        sv( 7 );
+        status_value<int, V> const csv( 7 );
+
+    SECTION("for l-value reference")
+    {
+        EXPECT_THROWS(     sv->i );
+        EXPECT_THROWS(    csv->i );
+
+        EXPECT_THROWS_AS(  sv->i, std::logic_error );
+        EXPECT_THROWS_AS( csv->i, std::logic_error );
+
+        EXPECT_THROWS_AS(  sv->i, bad_status_value_access<int> );
+        EXPECT_THROWS_AS( csv->i, bad_status_value_access<const int> );
+
+//      EXPECT_THROWS_WITH(     sv->i, 7 );
+//      EXPECT_THROWS_WITH(    csv->i, 7 );
+
+    }
+    SECTION("for r-value reference (throws)")
+    {
+        EXPECT_THROWS( std::move(  sv )->i );
+        EXPECT_THROWS( std::move( csv )->i );
+
+//      EXPECT_THROWS_WITH( std::move(  sv )->i, 7 );
+//      EXPECT_THROWS_WITH( std::move( csv )->i, 7 );
+
+    }
+    SECTION("for r-value reference (throws-as)")
+    {
+        EXPECT_THROWS_AS( std::move(  sv )->i, bad_status_value_access<int> );
+        EXPECT_THROWS_AS( std::move( csv )->i, bad_status_value_access<const int> );
+
+    //  EXPECT_THROWS_WITH( std::move(  sv )->i, 7 );
+    //  EXPECT_THROWS_WITH( std::move( csv )->i, 7 );
+
+    }
+    SECTION("throw with expected status value")
+    {
+        try
+        {
+            sv.value();
+        }
+        catch ( bad_status_value_access<int> const & e )
+        {
+            EXPECT( e.status() == 7 );
+        }
+    }}
 }
 
 // -----------------------------------------------------------------------
