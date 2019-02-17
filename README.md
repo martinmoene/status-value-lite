@@ -193,6 +193,10 @@ status_value<>: Allows move-construction from other status_value of the same typ
 status_value<>: Allows to observe its status
 status_value<>: Allows to observe the presence of a value (has_value())
 status_value<>: Allows to observe the presence of a value (operator bool)
-status_value<>: Allows to observe its value
-status_value<>: Throws status when observing a non-present value
+status_value<>: Allows to observe its value (value())
+status_value<>: Allows to observe its value (operator*)
+status_value<>: Allows to observe its value (operator->)
+status_value<>: Throws when observing non-engaged (value())
+status_value<>: Throws when observing non-engaged (operator*())
+status_value<>: Throws when observing non-engaged (operator->())
 ```
