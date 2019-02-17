@@ -152,6 +152,9 @@ matrix:
       compiler: clang
       env: COMPILER='clang++'
 
+  allow_failures:
+    - env: COMPILER=g++-4.8
+
 script:
   - export CXX=${COMPILER}
   - JOBS=2 # Travis machines have 2 cores.
