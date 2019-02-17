@@ -21,7 +21,7 @@ status_value is a single-file header-only library for objects that represent a s
 Example usage
 -------------
 ```C++
-#include "status_value.hpp"
+#include "nonstd/status_value.hpp"
 
 #include <cstdlib>
 #include <iostream>
@@ -51,7 +51,7 @@ int main( int argc, char * argv[] )
 ```
 ### Compile and run
 ```
-prompt> g++ -std=c++14 -Wall -I../include/nonstd -o 01-basic.exe 01-basic.cpp && 01-basic.exe 123 && 01-basic.exe abc
+prompt> g++ -std=c++14 -Wall -I../include -o 01-basic.exe 01-basic.cpp && 01-basic.exe 123 && 01-basic.exe abc
 Excellent: '123' is 123, Error: 'abc' isn't a number
 ```
 
