@@ -128,12 +128,17 @@ private:
         return m_value;
     }
 
-    constexpr value_type && value() const &&
+    constexpr value_type const && value() const &&
     {
         return std::move( m_value );
     }
 
-    value_type * value_ptr() const  nssv_noexcept
+    value_type && value() &&
+    {
+        return std::move( m_value );
+    }
+
+    value_type const * value_ptr() const  nssv_noexcept
     {
         return &m_value;
     }
@@ -297,7 +302,7 @@ public:
         if ( ! has_value() )
             report_bad_status_value_access( std::move( m_status ) );
 
-        return std::move( contained.value() );
+        return std::move( contained ).value();
     }
 
     value_type const && value() const &&
@@ -305,7 +310,7 @@ public:
         if ( ! has_value() )
             report_bad_status_value_access( std::move( m_status ) );
 
-        return std::move( contained.value() );
+        return std::move( contained ).value();
     }
 
     value_type const * operator->() const
