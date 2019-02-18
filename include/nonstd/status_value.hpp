@@ -26,10 +26,12 @@
 // C++ language version detection (C++20 is speculative):
 // Note: VC14.0/1900 (VS2015) lacks too much from C++14.
 
-#if defined _MSVC_LANG
-# define nssv_CPLUSPLUS  (_MSC_VER == 1900 ? 201103L : _MSVC_LANG )
-#else
-# define nssv_CPLUSPLUS  __cplusplus
+#ifndef   nssv_CPLUSPLUS
+# if defined(_MSVC_LANG ) && !defined(__clang__)
+#  define nssv_CPLUSPLUS  (_MSC_VER == 1900 ? 201103L : _MSVC_LANG )
+# else
+#  define nssv_CPLUSPLUS  __cplusplus
+# endif
 #endif
 
 #define nssv_CPP98_OR_GREATER  ( nssv_CPLUSPLUS >= 199711L )
