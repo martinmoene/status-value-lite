@@ -51,6 +51,7 @@
 		<Unit filename="../../script/update-version.py" />
 		<Unit filename="../../script/upload-conan.py" />
 		<Unit filename="../../test/CMakeLists.txt" />
+		<Unit filename="../../test/lest_cpp03.hpp" />
 		<Unit filename="../../test/status_value.t.cpp" />
 		<Unit filename="../../test/status_value_cpp98.t.cpp" />
 		<Unit filename="../../test/t-all.bat" />
