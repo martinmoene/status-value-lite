@@ -1,4 +1,4 @@
-// Copyright 2016-2018 by Martin Moene
+// Copyright 2016-2019 by Martin Moene
 //
 // This version targets C++11 and later.
 //
@@ -15,7 +15,7 @@
 #include <utility>
 
 #define status_value_MAJOR  1
-#define status_value_MINOR  0
+#define status_value_MINOR  1
 #define status_value_PATCH  0
 
 #define status_value_VERSION  nssv_STRINGIFY(status_value_MAJOR) "." nssv_STRINGIFY(status_value_MINOR) "." nssv_STRINGIFY(status_value_PATCH)

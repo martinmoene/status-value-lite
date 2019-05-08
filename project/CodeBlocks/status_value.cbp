@@ -36,6 +36,7 @@
 		<Unit filename="../../README.md" />
 		<Unit filename="../../README_cpp98.md" />
 		<Unit filename="../../appveyor.yml" />
+		<Unit filename="../../cmake/status_value-lite-config-version.cmake.in" />
 		<Unit filename="../../cmake/status_value-lite-config.cmake.in" />
 		<Unit filename="../../conanfile.py" />
 		<Unit filename="../../example/01-basic.cpp" />
