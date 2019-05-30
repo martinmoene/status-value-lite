@@ -20,7 +20,7 @@ status_value is a single-file header-only library for objects that represent a s
 
 Example usage
 -------------
-```C++
+```Cpp
 #include "nonstd/status_value.hpp"
 
 #include <cstdlib>
