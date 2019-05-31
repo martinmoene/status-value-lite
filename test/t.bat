@@ -3,12 +3,12 @@
 :: t.bat - compile & run tests (MSVC).
 ::
 
-set      unit=status_value
-set unit_file=status_value
+set      unit=nssv
+set unit_file=status-value
 
 if  "%1"=="c++98" (
-    set      unit=status_value_cpp98
-    set unit_file=status_value_cpp98
+    set      unit=status-value_cpp98
+    set unit_file=status-value_cpp98
 )
 
 :: if no std is given, use compiler default

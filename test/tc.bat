@@ -3,12 +3,12 @@
 :: tc.bat - compile & run tests (clang).
 ::
 
-set      unit=status_value
-set unit_file=status_value
+set      unit=status-value
+set unit_file=status-value
 
 if  "%1"=="c++98" (
-    set      unit=status_value_cpp98
-    set unit_file=status_value_cpp98
+    set      unit=status-value_cpp98
+    set unit_file=status-value_cpp98
 )
 
 :: if no std is given, use c++14

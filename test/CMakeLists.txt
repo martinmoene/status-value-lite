@@ -11,7 +11,7 @@ project( test LANGUAGES CXX )
 
 # Test sources:
 
-set( unit_name "status_value" )
+set( unit_name "status-value" )
 set( PACKAGE   ${unit_name}-lite )
 set( PROGRAM   ${unit_name}-lite )
 set( PROGRAM98 ${unit_name}-lite_cpp98 )

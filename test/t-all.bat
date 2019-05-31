@@ -3,11 +3,11 @@
 :: t-all.bat [c++98] - perform tests with varying contract violation response, features and C++ standard (MSVC).
 ::
 
-set basename=status_value
+set basename=status-value
 
 set arg1=%1
 if  "%arg1%"=="c++98" (
-   set basename=status_value_cpp98
+   set basename=status-value_cpp98
 )
 
 set log=%0.log

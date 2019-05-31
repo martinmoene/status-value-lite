@@ -36,8 +36,8 @@
 		<Unit filename="../../README.md" />
 		<Unit filename="../../README_cpp98.md" />
 		<Unit filename="../../appveyor.yml" />
-		<Unit filename="../../cmake/status_value-lite-config-version.cmake.in" />
-		<Unit filename="../../cmake/status_value-lite-config.cmake.in" />
+		<Unit filename="../../cmake/status-value-lite-config-version.cmake.in" />
+		<Unit filename="../../cmake/status-value-lite-config.cmake.in" />
 		<Unit filename="../../conanfile.py" />
 		<Unit filename="../../example/01-basic.cpp" />
 		<Unit filename="../../example/01-basic_cpp98.cpp" />
@@ -53,8 +53,8 @@
 		<Unit filename="../../script/upload-conan.py" />
 		<Unit filename="../../test/CMakeLists.txt" />
 		<Unit filename="../../test/lest_cpp03.hpp" />
-		<Unit filename="../../test/status_value.t.cpp" />
-		<Unit filename="../../test/status_value_cpp98.t.cpp" />
+		<Unit filename="../../test/status-value.t.cpp" />
+		<Unit filename="../../test/status-value_cpp98.t.cpp" />
 		<Unit filename="../../test/t-all.bat" />
 		<Unit filename="../../test/t.bat" />
 		<Unit filename="../../test/tc.bat" />
