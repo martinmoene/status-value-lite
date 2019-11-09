@@ -1,7 +1,7 @@
 from conans import ConanFile, CMake
 
 class StatusValueLiteConan(ConanFile):
-    version = "1.1.0"
+    version = "1.2.0"
     name = "status-value-lite"
     description = "A class for status and optional value for C++11 and later, C++98 variant provided in a single-file  header-only library"
     license = "Boost Software License - Version 1.0. http://www.boost.org/LICENSE_1_0.txt"

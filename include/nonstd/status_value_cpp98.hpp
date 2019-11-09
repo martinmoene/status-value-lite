@@ -17,7 +17,7 @@
 #include <utility>
 
 #define status_value_MAJOR  1
-#define status_value_MINOR  1
+#define status_value_MINOR  2
 #define status_value_PATCH  0
 
 #define status_value_VERSION  nsstsv_STRINGIFY(status_value_MAJOR) "." nsstsv_STRINGIFY(status_value_MINOR) "." nsstsv_STRINGIFY(status_value_PATCH)
