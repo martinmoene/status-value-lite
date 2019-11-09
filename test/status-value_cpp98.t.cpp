@@ -24,7 +24,7 @@ class not_default_constructible
     not_default_constructible();
 };
 
-#if nssv_CPP11_OR_GREATER
+#if nsstsv_CPP11_OR_GREATER
 
 struct move_constructible
 {
@@ -47,7 +47,7 @@ struct copy_constructible
 
 CASE( "status_value<>: Disallows default construction" )
 {
-#if nssv_CONFIG_CONFIRMS_COMPILATION_ERRORS
+#if nsstsv_CONFIG_CONFIRMS_COMPILATION_ERRORS
     status_value<int, int> sv;
 #endif
 }
@@ -61,7 +61,7 @@ CASE( "status_value<>: Allows construction from only status" )
 
 CASE( "status_value<>: Allows construction from status and non-default-constructible value" )
 {
-#if nssv_CONFIG_CONFIRMS_COMPILATION_ERRORS
+#if nsstsv_CONFIG_CONFIRMS_COMPILATION_ERRORS
     not_default_constructible x;
 #endif
     status_value<int, not_default_constructible> sv( 7 );
@@ -71,7 +71,7 @@ CASE( "status_value<>: Allows construction from status and non-default-construct
 
 CASE( "status_value<>: Allows construction from copied status and moved value (C++11)" )
 {
-#if nssv_CPP11_OR_GREATER
+#if nsstsv_CPP11_OR_GREATER
     status_value<int, move_constructible> sv( 7, move_constructible( 42 ) );
 
     EXPECT( sv.status()  ==  7 );
@@ -94,11 +94,11 @@ CASE( "status_value<>: Allows construction from copied status and copied value" 
 // A copy operation would make the type unusable for non-copyable
 // contained objects, so we do not provide a copy operation.
 
-#if nssv_CPP11_OR_GREATER
+#if nsstsv_CPP11_OR_GREATER
 
 CASE( "status_value<>: Disallows copy-construction from other status_value of the same type (C++11)" )
 {
-# if nssv_CONFIG_CONFIRMS_COMPILATION_ERRORS
+# if nsstsv_CONFIG_CONFIRMS_COMPILATION_ERRORS
     status_value<int, copy_constructible> sv1( 7, copy_constructible( 42 ) );
     status_value<int, copy_constructible> sv2( sv1 );
 # endif
@@ -114,7 +114,7 @@ CASE( "status_value<>: Allows copy-construction from other status_value of the s
 
 CASE( "status_value<>: Allows move-construction from other status_value of the same type (C++11)" )
 {
-#if nssv_CPP11_OR_GREATER
+#if nsstsv_CPP11_OR_GREATER
     status_value<int, move_constructible> sv1( 7, move_constructible( 42 ) );
     status_value<int, move_constructible> sv2( std::move( sv1 ) );
 
@@ -191,36 +191,36 @@ CASE( "status_value<>: Throws status when observing a non-present value" )
 
 struct S{ S(){} };
 
-#if !nssv_CONFIG_MAX_ALIGN_HACK
+#if !nsstsv_CONFIG_MAX_ALIGN_HACK
 
-#define nssv_OUTPUT_ALIGNMENT_OF( type ) \
+#define nsstsv_OUTPUT_ALIGNMENT_OF( type ) \
     "alignment_of<" #type ">: " <<  \
      alignment_of<type>::value  << "\n" <<
 
 CASE("Show alignment of various types" "[.]" )
 {
-#if nssv_CPP11_OR_GREATER
+#if nsstsv_CPP11_OR_GREATER
     using std::alignment_of;
-#elif nssv_COMPILER_IS_VC6
+#elif nsstsv_COMPILER_IS_VC6
     using namespace ::nonstd::status_value_detail;
 #else
     using ::nonstd::status_value_detail::alignment_of;
 #endif
     std::cout <<
-        nssv_OUTPUT_ALIGNMENT_OF( char )
-        nssv_OUTPUT_ALIGNMENT_OF( short )
-        nssv_OUTPUT_ALIGNMENT_OF( int )
-        nssv_OUTPUT_ALIGNMENT_OF( long )
-        nssv_OUTPUT_ALIGNMENT_OF( float )
-        nssv_OUTPUT_ALIGNMENT_OF( double )
-        nssv_OUTPUT_ALIGNMENT_OF( long double )
-        nssv_OUTPUT_ALIGNMENT_OF( S )
+        nsstsv_OUTPUT_ALIGNMENT_OF( char )
+        nsstsv_OUTPUT_ALIGNMENT_OF( short )
+        nsstsv_OUTPUT_ALIGNMENT_OF( int )
+        nsstsv_OUTPUT_ALIGNMENT_OF( long )
+        nsstsv_OUTPUT_ALIGNMENT_OF( float )
+        nsstsv_OUTPUT_ALIGNMENT_OF( double )
+        nsstsv_OUTPUT_ALIGNMENT_OF( long double )
+        nsstsv_OUTPUT_ALIGNMENT_OF( S )
          "";
 }
-#undef nssv_OUTPUT_ALIGNMENT_OF
+#undef nsstsv_OUTPUT_ALIGNMENT_OF
 #endif
 
-#define nssv_OUTPUT_SIZEOF( type ) \
+#define nsstsv_OUTPUT_SIZEOF( type ) \
     "sizeof( status_value<char," #type "> ): " << \
      sizeof( status_value<char,   type>   )    << " (" << sizeof(type) << ")\n" <<
 
@@ -229,17 +229,17 @@ CASE("Show sizeof various status_value types" "[.]" )
     std::cout <<
         "sizeof( nonstd::status_value_detail::storage_t<char, char> ): " <<
          sizeof( nonstd::status_value_detail::storage_t<char, char> )    << "\n" <<
-         nssv_OUTPUT_SIZEOF( char )
-         nssv_OUTPUT_SIZEOF( short )
-         nssv_OUTPUT_SIZEOF( int )
-         nssv_OUTPUT_SIZEOF( long )
-         nssv_OUTPUT_SIZEOF( float )
-         nssv_OUTPUT_SIZEOF( double )
-         nssv_OUTPUT_SIZEOF( long double )
-         nssv_OUTPUT_SIZEOF( S )
+         nsstsv_OUTPUT_SIZEOF( char )
+         nsstsv_OUTPUT_SIZEOF( short )
+         nsstsv_OUTPUT_SIZEOF( int )
+         nsstsv_OUTPUT_SIZEOF( long )
+         nsstsv_OUTPUT_SIZEOF( float )
+         nsstsv_OUTPUT_SIZEOF( double )
+         nsstsv_OUTPUT_SIZEOF( long double )
+         nsstsv_OUTPUT_SIZEOF( S )
          "";
 }
-#undef nssv_OUTPUT_SIZEOF
+#undef nsstsv_OUTPUT_SIZEOF
 
 // -----------------------------------------------------------------------
 // test driver:
@@ -251,8 +251,8 @@ int main( int argc, char * argv[] )
 
 #if 0
 //
-cl -nologo -W3   -wd4814 -EHsc -Dnssv_CONFIG_CONFIRMS_COMPILATION_ERRORS=0 -Dlest_FEATURE_AUTO_REGISTER=1 -I../include status_value_cpp98.t.cpp && status_value_cpp98.t --pass
-cl -nologo -Wall -wd4814 -EHsc -Dnssv_CONFIG_CONFIRMS_COMPILATION_ERRORS=0 -Dlest_FEATURE_AUTO_REGISTER=1 -I../include status_value_cpp98.t.cpp && status_value_cpp98.t --pass
+cl -nologo -W3   -wd4814 -EHsc -Dnsstsv_CONFIG_CONFIRMS_COMPILATION_ERRORS=0 -Dlest_FEATURE_AUTO_REGISTER=1 -I../include status_value_cpp98.t.cpp && status_value_cpp98.t --pass
+cl -nologo -Wall -wd4814 -EHsc -Dnsstsv_CONFIG_CONFIRMS_COMPILATION_ERRORS=0 -Dlest_FEATURE_AUTO_REGISTER=1 -I../include status_value_cpp98.t.cpp && status_value_cpp98.t --pass
 
 g++ -Wall -Wextra -std=c++03 -Wno-unused-parameter -Dlest_FEATURE_AUTO_REGISTER=1 -I../include -o status_value_cpp98.t.exe status_value_cpp98.t.cpp && status_value_cpp98.t --pass
 g++ -Wall -Wextra -std=c++11 -Wno-unused-parameter -Dlest_FEATURE_AUTO_REGISTER=1 -I../include -o status_value_cpp98.t.exe status_value_cpp98.t.cpp && status_value_cpp98.t --pass

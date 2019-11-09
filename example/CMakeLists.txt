@@ -39,7 +39,7 @@ set( TARGETS_ALL   ${TARGETS_CPP98} ${TARGETS_CPP11} ${TARGETS_CPP14} ${TARGETS_
 # Configure status_value for testing:
 
 set( OPTIONS "" )
-set( NSSV_CONFIG -Dlest_FEATURE_AUTO_REGISTER=1 )
+set( NSSTSV_CONFIG -Dlest_FEATURE_AUTO_REGISTER=1 )
 
 # Preset available C++ language compiler flags:
 
@@ -56,7 +56,7 @@ if( MSVC )
     set( HAS_STD_FLAGS TRUE )
 
     set( OPTIONS     -W3 -EHsc -wd4814 -Zc:implicitNoexcept- )
-    set( DEFINITIONS -D_SCL_SECURE_NO_WARNINGS ${NSSV_CONFIG} )
+    set( DEFINITIONS -D_SCL_SECURE_NO_WARNINGS ${NSSTSV_CONFIG} )
 
     if( NOT CMAKE_CXX_COMPILER_VERSION VERSION_LESS 19.00 )
         set( HAS_CPP14_FLAG TRUE )
@@ -73,7 +73,7 @@ elseif( CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang|AppleClang" )
     set( HAS_CPP98_FLAG TRUE )
 
     set( OPTIONS     -Wall -Wno-missing-braces -fno-elide-constructors )
-    set( DEFINITIONS ${NSSV_CONFIG} )
+    set( DEFINITIONS ${NSSTSV_CONFIG} )
 
     # GNU: available -std flags depends on version
     if( CMAKE_CXX_COMPILER_ID MATCHES "GNU" )

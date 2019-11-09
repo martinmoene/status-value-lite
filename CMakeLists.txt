@@ -35,17 +35,17 @@ endif()
 
 # If toplevel project, enable building and performing of tests, disable building of examples:
 
-option( NSSV_OPT_BUILD_TESTS    "Build and perform status_value tests" ${status_value_IS_TOPLEVEL_PROJECT} )
-option( NSSV_OPT_BUILD_EXAMPLES "Build status_value examples" OFF )
+option( NSSTSV_OPT_BUILD_TESTS    "Build and perform status_value tests" ${status_value_IS_TOPLEVEL_PROJECT} )
+option( NSSTSV_OPT_BUILD_EXAMPLES "Build status_value examples" OFF )
 
 # If requested, build and perform tests, build examples:
 
-if ( NSSV_OPT_BUILD_TESTS )
+if ( NSSTSV_OPT_BUILD_TESTS )
     enable_testing()
     add_subdirectory( test )
 endif()
 
-if ( NSSV_OPT_BUILD_EXAMPLES )
+if ( NSSTSV_OPT_BUILD_EXAMPLES )
     enable_testing()
     add_subdirectory( example )
 endif()

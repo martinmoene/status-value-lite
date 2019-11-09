@@ -45,7 +45,7 @@ struct copy_constructible
 
 CASE( "status_value<>: Disallows default construction" )
 {
-#if nssv_CONFIG_CONFIRMS_COMPILATION_ERRORS
+#if nsstsv_CONFIG_CONFIRMS_COMPILATION_ERRORS
     status_value<int, int> sv;
 #endif
     EXPECT( !!"Avoid warning" );
@@ -60,7 +60,7 @@ CASE( "status_value<>: Allows construction from only status" )
 
 CASE( "status_value<>: Allows construction from status and non-default-constructible value" )
 {
-#if nssv_CONFIG_CONFIRMS_COMPILATION_ERRORS
+#if nsstsv_CONFIG_CONFIRMS_COMPILATION_ERRORS
     not_default_constructible x;
 #endif
     status_value<int, not_default_constructible> sv( 7 );
@@ -91,7 +91,7 @@ CASE( "status_value<>: Allows construction from copied status and copied value" 
 
 CASE( "status_value<>: Disallows copy-construction from other status_value of the same type" )
 {
-#if nssv_CONFIG_CONFIRMS_COMPILATION_ERRORS
+#if nsstsv_CONFIG_CONFIRMS_COMPILATION_ERRORS
     status_value<int, copy_constructible> sv1( 7, copy_constructible( 42 ) );
     status_value<int, copy_constructible> sv2( sv1 );
 #endif
@@ -298,8 +298,8 @@ int main( int argc, char * argv[] )
 
 #if 0
 //
-cl -nologo -W3   -wd4814 -EHsc -Dnssv_CONFIG_CONFIRMS_COMPILATION_ERRORS=0 -Dlest_FEATURE_AUTO_REGISTER=1 -I../include status_value.t.cpp && status_value.t --pass
-cl -nologo -Wall -wd4814 -EHsc -Dnssv_CONFIG_CONFIRMS_COMPILATION_ERRORS=0 -Dlest_FEATURE_AUTO_REGISTER=1 -I../include status_value.t.cpp && status_value.t --pass
+cl -nologo -W3   -wd4814 -EHsc -Dnsstsv_CONFIG_CONFIRMS_COMPILATION_ERRORS=0 -Dlest_FEATURE_AUTO_REGISTER=1 -I../include status_value.t.cpp && status_value.t --pass
+cl -nologo -Wall -wd4814 -EHsc -Dnsstsv_CONFIG_CONFIRMS_COMPILATION_ERRORS=0 -Dlest_FEATURE_AUTO_REGISTER=1 -I../include status_value.t.cpp && status_value.t --pass
 
 g++ -Wall -Wextra -std=c++03 -Wno-unused-parameter -Dlest_FEATURE_AUTO_REGISTER=1 -I../include -o status_value.t.exe status_value.t.cpp && status_value.t --pass
 g++ -Wall -Wextra -std=c++11 -Wno-unused-parameter -Dlest_FEATURE_AUTO_REGISTER=1 -I../include -o status_value.t.exe status_value.t.cpp && status_value.t --pass

@@ -38,7 +38,7 @@ matrix:
 
 before_build:
     - mkdir build && cd build
-    - cmake -A %platform% -G "%generator%" -DNSSV_OPT_BUILD_TESTS=ON -DNSSV_OPT_BUILD_EXAMPLES=ON ..
+    - cmake -A %platform% -G "%generator%" -DNSSTSV_OPT_BUILD_TESTS=ON -DNSSTSV_OPT_BUILD_EXAMPLES=ON ..
 
 build_script:
     - cmake --build . --config %configuration%

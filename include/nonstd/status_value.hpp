@@ -18,69 +18,69 @@
 #define status_value_MINOR  1
 #define status_value_PATCH  0
 
-#define status_value_VERSION  nssv_STRINGIFY(status_value_MAJOR) "." nssv_STRINGIFY(status_value_MINOR) "." nssv_STRINGIFY(status_value_PATCH)
+#define status_value_VERSION  nsstsv_STRINGIFY(status_value_MAJOR) "." nsstsv_STRINGIFY(status_value_MINOR) "." nsstsv_STRINGIFY(status_value_PATCH)
 
-#define nssv_STRINGIFY(  x )  nssv_STRINGIFY_( x )
-#define nssv_STRINGIFY_( x )  #x
+#define nsstsv_STRINGIFY(  x )  nsstsv_STRINGIFY_( x )
+#define nsstsv_STRINGIFY_( x )  #x
 
 // C++ language version detection (C++20 is speculative):
 // Note: VC14.0/1900 (VS2015) lacks too much from C++14.
 
-#ifndef   nssv_CPLUSPLUS
+#ifndef   nsstsv_CPLUSPLUS
 # if defined(_MSVC_LANG ) && !defined(__clang__)
-#  define nssv_CPLUSPLUS  (_MSC_VER == 1900 ? 201103L : _MSVC_LANG )
+#  define nsstsv_CPLUSPLUS  (_MSC_VER == 1900 ? 201103L : _MSVC_LANG )
 # else
-#  define nssv_CPLUSPLUS  __cplusplus
+#  define nsstsv_CPLUSPLUS  __cplusplus
 # endif
 #endif
 
-#define nssv_CPP98_OR_GREATER  ( nssv_CPLUSPLUS >= 199711L )
-#define nssv_CPP11_OR_GREATER  ( nssv_CPLUSPLUS >= 201103L )
-#define nssv_CPP14_OR_GREATER  ( nssv_CPLUSPLUS >= 201402L )
-#define nssv_CPP17_OR_GREATER  ( nssv_CPLUSPLUS >= 201703L )
-#define nssv_CPP20_OR_GREATER  ( nssv_CPLUSPLUS >= 202000L )
+#define nsstsv_CPP98_OR_GREATER  ( nsstsv_CPLUSPLUS >= 199711L )
+#define nsstsv_CPP11_OR_GREATER  ( nsstsv_CPLUSPLUS >= 201103L )
+#define nsstsv_CPP14_OR_GREATER  ( nsstsv_CPLUSPLUS >= 201402L )
+#define nsstsv_CPP17_OR_GREATER  ( nsstsv_CPLUSPLUS >= 201703L )
+#define nsstsv_CPP20_OR_GREATER  ( nsstsv_CPLUSPLUS >= 202000L )
 
-#define nssv_CPP11_140  (nssv_CPP11_OR_GREATER || _MSC_VER >= 1900)
-#define nssv_CPP14_000  (nssv_CPP14_OR_GREATER)
-#define nssv_CPP17_000  (nssv_CPP17_OR_GREATER)
+#define nsstsv_CPP11_140  (nsstsv_CPP11_OR_GREATER || _MSC_VER >= 1900)
+#define nsstsv_CPP14_000  (nsstsv_CPP14_OR_GREATER)
+#define nsstsv_CPP17_000  (nsstsv_CPP17_OR_GREATER)
 
 // Control presence of exception handling (try and auto discover):
 
-#ifndef nssv_CONFIG_NO_EXCEPTIONS
+#ifndef nsstsv_CONFIG_NO_EXCEPTIONS
 # if defined(__cpp_exceptions) || defined(__EXCEPTIONS) || defined(_CPPUNWIND)
-#  define nssv_CONFIG_NO_EXCEPTIONS  0
+#  define nsstsv_CONFIG_NO_EXCEPTIONS  0
 # else
-#  define nssv_CONFIG_NO_EXCEPTIONS  1
+#  define nsstsv_CONFIG_NO_EXCEPTIONS  1
 # endif
 #endif
 
 // Presence of C++ language features:
 
-#define nssv_HAVE_CONSTEXPR_14   nssv_CPP14_000
-#define nssv_HAVE_NOEXCEPT       nssv_CPP11_140
-#define nssv_HAVE_NORETURN       nssv_CPP17_000
+#define nsstsv_HAVE_CONSTEXPR_14   nsstsv_CPP14_000
+#define nsstsv_HAVE_NOEXCEPT       nsstsv_CPP11_140
+#define nsstsv_HAVE_NORETURN       nsstsv_CPP17_000
 
-#if nssv_HAVE_CONSTEXPR_14
-# define nssv_constexpr14 constexpr
+#if nsstsv_HAVE_CONSTEXPR_14
+# define nsstsv_constexpr14 constexpr
 #else
-# define nssv_constexpr14 /*constexpr*/
+# define nsstsv_constexpr14 /*constexpr*/
 #endif
 
-#if nssv_HAVE_NOEXCEPT
-# define nssv_noexcept noexcept
+#if nsstsv_HAVE_NOEXCEPT
+# define nsstsv_noexcept noexcept
 #else
-# define nssv_noexcept /*noexcept*/
+# define nsstsv_noexcept /*noexcept*/
 #endif
 
-#if nssv_HAVE_NORETURN
-# define nssv_noreturn [[noreturn]]
+#if nsstsv_HAVE_NORETURN
+# define nsstsv_noreturn [[noreturn]]
 #else
-# define nssv_noreturn /*[[noreturn]]*/
+# define nsstsv_noreturn /*[[noreturn]]*/
 #endif
 
 // Additional includes:
 
-#if ! nssv_CONFIG_NO_EXCEPTIONS
+#if ! nsstsv_CONFIG_NO_EXCEPTIONS
 # include <stdexcept>
 #endif
 
@@ -102,7 +102,7 @@ private:
     typedef V value_type;
 
     // no-op construction
-    storage_t() nssv_noexcept {}
+    storage_t() nsstsv_noexcept {}
     ~storage_t() {}
 
     void construct_value( value_type const & v )
@@ -115,17 +115,17 @@ private:
         new( &m_value ) value_type( std::move( v ) );
     }
 
-    void destruct_value() nssv_noexcept
+    void destruct_value() nsstsv_noexcept
     {
         m_value.~value_type();
     }
 
-    constexpr value_type const & value() const & nssv_noexcept
+    constexpr value_type const & value() const & nsstsv_noexcept
     {
         return m_value;
     }
 
-    value_type & value() & nssv_noexcept
+    value_type & value() & nsstsv_noexcept
     {
         return m_value;
     }
@@ -140,12 +140,12 @@ private:
         return std::move( m_value );
     }
 
-    value_type const * value_ptr() const  nssv_noexcept
+    value_type const * value_ptr() const  nsstsv_noexcept
     {
         return &m_value;
     }
 
-    value_type * value_ptr() nssv_noexcept
+    value_type * value_ptr() nsstsv_noexcept
     {
         return &m_value;
     }
@@ -156,10 +156,10 @@ private:
 
 } // namespace status_value_detail
 
-#if nssv_CONFIG_NO_EXCEPTIONS
+#if nsstsv_CONFIG_NO_EXCEPTIONS
 
 template< typename S >
-nssv_noreturn inline void report_bad_status_value_access( S & /*status*/ ) nssv_noexcept
+nsstsv_noreturn inline void report_bad_status_value_access( S & /*status*/ ) nsstsv_noexcept
 {
     std::terminate();
 }
@@ -184,7 +184,7 @@ public:
   ~bad_status_value_access() {}
 
   // status observers
-  S const & status() const nssv_noexcept
+  S const & status() const nsstsv_noexcept
   {
       return m_status;
   }
@@ -264,19 +264,19 @@ public:
 
     // ?.?.3.3 status observers
 
-    status_type const & status() const nssv_noexcept
+    status_type const & status() const nsstsv_noexcept
     {
         return m_status;
     }
 
     // ?.?.3.4 state observers
 
-    constexpr bool has_value() const nssv_noexcept
+    constexpr bool has_value() const nsstsv_noexcept
     {
         return m_has_value;
     }
 
-    constexpr explicit operator bool() const nssv_noexcept
+    constexpr explicit operator bool() const nsstsv_noexcept
     {
         return has_value();
     }

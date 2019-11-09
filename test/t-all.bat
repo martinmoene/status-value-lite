@@ -20,14 +20,14 @@ set spanProgram=%basename%.t.exe
 set spanSources=%basename%.t.cpp
 
 set cvResponses=^
-    "nssv_CONFIG_NO_EXCEPTIONS=0" ^
-    "nssv_CONFIG_NO_EXCEPTIONS=1"
+    "nsstsv_CONFIG_NO_EXCEPTIONS=0" ^
+    "nsstsv_CONFIG_NO_EXCEPTIONS=1"
 
 if  "%arg1%"=="c++98" (
 
 set spanFeatures=^
-    "nssv_CONFIG_MAX_ALIGN_HACK=0" ^
-    "nssv_CONFIG_MAX_ALIGN_HACK=1"
+    "nsstsv_CONFIG_MAX_ALIGN_HACK=0" ^
+    "nsstsv_CONFIG_MAX_ALIGN_HACK=1"
 
 set cppStandards=^
     c++98
@@ -35,7 +35,7 @@ set cppStandards=^
 ) else (
 
 set spanFeatures=^
-    "nssv_CONFIG_MAX_ALIGN_HACK=0"
+    "nsstsv_CONFIG_MAX_ALIGN_HACK=0"
 
 set cppStandards=^
     c++14 ^

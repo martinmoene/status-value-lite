@@ -18,8 +18,8 @@ class StatusValueLiteConan(ConanFile):
     def package(self):
         """Run CMake install"""
         cmake = CMake(self)
-        cmake.definitions["NSSV_OPT_BUILD_TESTS"] = "OFF"
-        cmake.definitions["NSSV_OPT_BUILD_EXAMPLES"] = "OFF"
+        cmake.definitions["NSSTSV_OPT_BUILD_TESTS"] = "OFF"
+        cmake.definitions["NSSTSV_OPT_BUILD_EXAMPLES"] = "OFF"
         cmake.configure()
         cmake.install()
 

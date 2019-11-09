@@ -20,117 +20,117 @@
 #define status_value_MINOR  1
 #define status_value_PATCH  0
 
-#define status_value_VERSION  nssv_STRINGIFY(status_value_MAJOR) "." nssv_STRINGIFY(status_value_MINOR) "." nssv_STRINGIFY(status_value_PATCH)
+#define status_value_VERSION  nsstsv_STRINGIFY(status_value_MAJOR) "." nsstsv_STRINGIFY(status_value_MINOR) "." nsstsv_STRINGIFY(status_value_PATCH)
 
-#define nssv_STRINGIFY(  x )  nssv_STRINGIFY_( x )
-#define nssv_STRINGIFY_( x )  #x
+#define nsstsv_STRINGIFY(  x )  nsstsv_STRINGIFY_( x )
+#define nsstsv_STRINGIFY_( x )  #x
 
 // Configuration:
 
 // Control presence of exception handling (try and auto discover):
 
-#ifndef nssv_CONFIG_NO_EXCEPTIONS
+#ifndef nsstsv_CONFIG_NO_EXCEPTIONS
 # if defined(__cpp_exceptions) || defined(__EXCEPTIONS) || defined(_CPPUNWIND)
-#  define nssv_CONFIG_NO_EXCEPTIONS  0
+#  define nsstsv_CONFIG_NO_EXCEPTIONS  0
 # else
-#  define nssv_CONFIG_NO_EXCEPTIONS  1
+#  define nsstsv_CONFIG_NO_EXCEPTIONS  1
 # endif
 #endif
 
-#ifndef  nssv_CONFIG_MAX_ALIGN_HACK
-# define nssv_CONFIG_MAX_ALIGN_HACK  0
+#ifndef  nsstsv_CONFIG_MAX_ALIGN_HACK
+# define nsstsv_CONFIG_MAX_ALIGN_HACK  0
 #endif
 
-#ifndef nssv_CONFIG_ALIGN_AS
+#ifndef nsstsv_CONFIG_ALIGN_AS
 // used in #if defined(), so no default...
 #endif
 
-#ifndef  nssv_CONFIG_ALIGN_AS_FALLBACK
-# define nssv_CONFIG_ALIGN_AS_FALLBACK  double
+#ifndef  nsstsv_CONFIG_ALIGN_AS_FALLBACK
+# define nsstsv_CONFIG_ALIGN_AS_FALLBACK  double
 #endif
 
 // C++ language version detection (C++20 is speculative):
 // Note: VC14.0/1900 (VS2015) lacks too much from C++14.
 
 #if defined _MSVC_LANG
-# define nssv_CPLUSPLUS  (_MSC_VER == 1900 ? 201103L : _MSVC_LANG )
+# define nsstsv_CPLUSPLUS  (_MSC_VER == 1900 ? 201103L : _MSVC_LANG )
 #else
-# define nssv_CPLUSPLUS  __cplusplus
+# define nsstsv_CPLUSPLUS  __cplusplus
 #endif
 
-#define nssv_CPP98_OR_GREATER  ( nssv_CPLUSPLUS >= 199711L )
-#define nssv_CPP11_OR_GREATER  ( nssv_CPLUSPLUS >= 201103L )
-#define nssv_CPP14_OR_GREATER  ( nssv_CPLUSPLUS >= 201402L )
-#define nssv_CPP17_OR_GREATER  ( nssv_CPLUSPLUS >= 201703L )
-#define nssv_CPP20_OR_GREATER  ( nssv_CPLUSPLUS >= 202000L )
+#define nsstsv_CPP98_OR_GREATER  ( nsstsv_CPLUSPLUS >= 199711L )
+#define nsstsv_CPP11_OR_GREATER  ( nsstsv_CPLUSPLUS >= 201103L )
+#define nsstsv_CPP14_OR_GREATER  ( nsstsv_CPLUSPLUS >= 201402L )
+#define nsstsv_CPP17_OR_GREATER  ( nsstsv_CPLUSPLUS >= 201703L )
+#define nsstsv_CPP20_OR_GREATER  ( nsstsv_CPLUSPLUS >= 202000L )
 
 // C++ language version (represent 98 as 3):
 
-#define nssv_CPLUSPLUS_V  ( nssv_CPLUSPLUS / 100 - (nssv_CPLUSPLUS > 200000 ? 2000 : 1994) )
+#define nsstsv_CPLUSPLUS_V  ( nsstsv_CPLUSPLUS / 100 - (nsstsv_CPLUSPLUS > 200000 ? 2000 : 1994) )
 
 // Compiler detection:
 
 #if defined(_MSC_VER ) && !defined(__clang__)
-# define nssv_COMPILER_MSVC_VER      (_MSC_VER )
-# define nssv_COMPILER_MSVC_VERSION  (_MSC_VER / 10 - 10 * ( 5 + (_MSC_VER < 1900 ) ) )
+# define nsstsv_COMPILER_MSVC_VER      (_MSC_VER )
+# define nsstsv_COMPILER_MSVC_VERSION  (_MSC_VER / 10 - 10 * ( 5 + (_MSC_VER < 1900 ) ) )
 #else
-# define nssv_COMPILER_MSVC_VER      0
-# define nssv_COMPILER_MSVC_VERSION  0
+# define nsstsv_COMPILER_MSVC_VER      0
+# define nsstsv_COMPILER_MSVC_VERSION  0
 #endif
 
-#define nssv_COMPILER_VERSION( major, minor, patch ) ( 10 * ( 10 * (major) + (minor) ) + (patch) )
+#define nsstsv_COMPILER_VERSION( major, minor, patch ) ( 10 * ( 10 * (major) + (minor) ) + (patch) )
 
 #if defined(__clang__)
-# define nssv_COMPILER_CLANG_VERSION nssv_COMPILER_VERSION( __clang_major__, __clang_minor__, __clang_patchlevel__ )
+# define nsstsv_COMPILER_CLANG_VERSION nsstsv_COMPILER_VERSION( __clang_major__, __clang_minor__, __clang_patchlevel__ )
 #else
-# define nssv_COMPILER_CLANG_VERSION 0
+# define nsstsv_COMPILER_CLANG_VERSION 0
 #endif
 
 #if defined(__GNUC__) && !defined(__clang__)
-# define nssv_COMPILER_GNUC_VERSION nssv_COMPILER_VERSION( __GNUC__, __GNUC_MINOR__, __GNUC_PATCHLEVEL__ )
+# define nsstsv_COMPILER_GNUC_VERSION nsstsv_COMPILER_VERSION( __GNUC__, __GNUC_MINOR__, __GNUC_PATCHLEVEL__ )
 #else
-# define nssv_COMPILER_GNUC_VERSION 0
+# define nsstsv_COMPILER_GNUC_VERSION 0
 #endif
 
 // half-open range [lo..hi):
-#define nssv_BETWEEN( v, lo, hi ) ( (lo) <= (v) && (v) < (hi) )
+#define nsstsv_BETWEEN( v, lo, hi ) ( (lo) <= (v) && (v) < (hi) )
 
 // Presence of language & library features:
 
-#define nssv_COMPILER_IS_VC6  ( nssv_COMPILER_MSVC_VERSION == 60 )
+#define nsstsv_COMPILER_IS_VC6  ( nsstsv_COMPILER_MSVC_VERSION == 60 )
 
-#define nssv_CPP14_000  (nssv_CPP14_OR_GREATER)
-#define nssv_CPP11_140  (nssv_CPP11_OR_GREATER || nssv_COMPILER_MSVC_VER >= 1900)
+#define nsstsv_CPP14_000  (nsstsv_CPP14_OR_GREATER)
+#define nsstsv_CPP11_140  (nsstsv_CPP11_OR_GREATER || nsstsv_COMPILER_MSVC_VER >= 1900)
 
 // Presence of C++11 language features:
 
-#define nssv_HAVE_CONSTEXPR_11   nssv_CPP11_140
-#define nssv_HAVE_REF_QUALIFIER  nssv_CPP11_140
+#define nsstsv_HAVE_CONSTEXPR_11   nsstsv_CPP11_140
+#define nsstsv_HAVE_REF_QUALIFIER  nsstsv_CPP11_140
 
 // Presence of C++14 language features:
 
-#define nssv_HAVE_CONSTEXPR_14   nssv_CPP14_000
+#define nsstsv_HAVE_CONSTEXPR_14   nsstsv_CPP14_000
 
 // C++ feature usage:
 
-#if nssv_HAVE_CONSTEXPR_11
-# define nssv_constexpr constexpr
+#if nsstsv_HAVE_CONSTEXPR_11
+# define nsstsv_constexpr constexpr
 #else
-# define nssv_constexpr /*nothing*/
+# define nsstsv_constexpr /*nothing*/
 #endif
 
-#if nssv_HAVE_CONSTEXPR_14
-# define nssv_constexpr14 constexpr
+#if nsstsv_HAVE_CONSTEXPR_14
+# define nsstsv_constexpr14 constexpr
 #else
-# define nssv_constexpr14 /*nothing*/
+# define nsstsv_constexpr14 /*nothing*/
 #endif
 
-#if nssv_HAVE_REF_QUALIFIER
-# define nssv_ref_qual  &
-# define nssv_refref_qual  &&
+#if nsstsv_HAVE_REF_QUALIFIER
+# define nsstsv_ref_qual  &
+# define nsstsv_refref_qual  &&
 #else
-# define nssv_ref_qual  /*&*/
-# define nssv_refref_qual  /*&&*/
+# define nsstsv_ref_qual  /*&*/
+# define nsstsv_refref_qual  /*&&*/
 #endif
 
 /* Object allocation and alignment
@@ -158,16 +158,16 @@
  * 1. If the program compiles as C++11 or later, C++11 alignment facilities
  * are used.
  *
- * 2. If you define -Dnssv_CONFIG_MAX_ALIGN_HACK=1 the underlying
+ * 2. If you define -Dnsstsv_CONFIG_MAX_ALIGN_HACK=1 the underlying
  * type is aligned as the most restricted type in `struct max_align_t`. This
  * potentially wastes many bytes per optional if the actually required
  * alignment is much less, e.g. 24 bytes used instead of the 2 bytes required.
  *
- * 3. If you define -Dnssv_CONFIG_ALIGN_AS='pod-type' the
+ * 3. If you define -Dnsstsv_CONFIG_ALIGN_AS='pod-type' the
  * underlying type is aligned as 'pod-type'. It's your obligation to specify a
  * type with proper alignment.
  *
- * 4. If you define -Dnssv_CONFIG_ALIGN_AS_FALLBACK='pod-type' the
+ * 4. If you define -Dnsstsv_CONFIG_ALIGN_AS_FALLBACK='pod-type' the
  * fallback type for alignment of rule 5 below becomes 'pod-type'. It's your
  * obligation to specify a type with proper alignment.
  *
@@ -179,7 +179,7 @@
  * - Find a POD type from the list `alignment_types` with exactly alignment A.
  * - If no such POD type is found, use a type with a relatively strict
  *   alignment requirement such as double; this type is specified in
- *   `nssv_CONFIG_ALIGN_AS_FALLBACK` (default double).
+ *   `nsstsv_CONFIG_ALIGN_AS_FALLBACK` (default double).
  *
  * Note that the algorithm of 5. differs from the one Andrei Alexandrescu uses
  * in Generic<Programming>: Discriminated Unions, part 2 (see below).
@@ -203,74 +203,74 @@ class status_value;
 
 namespace status_value_detail {
 
-#if nssv_CONFIG_MAX_ALIGN_HACK
+#if nsstsv_CONFIG_MAX_ALIGN_HACK
 
 // Max align, use most restricted type for alignment:
 
-#define nssv_UNIQUE(  name )       nssv_UNIQUE2( name, __LINE__ )
-#define nssv_UNIQUE2( name, line ) nssv_UNIQUE3( name, line )
-#define nssv_UNIQUE3( name, line ) name ## line
+#define nsstsv_UNIQUE(  name )       nsstsv_UNIQUE2( name, __LINE__ )
+#define nsstsv_UNIQUE2( name, line ) nsstsv_UNIQUE3( name, line )
+#define nsstsv_UNIQUE3( name, line ) name ## line
 
-#define nssv_ALIGN_TYPE( type ) \
-    type nssv_UNIQUE( _t ); struct_t< type > nssv_UNIQUE( _st )
+#define nsstsv_ALIGN_TYPE( type ) \
+    type nsstsv_UNIQUE( _t ); struct_t< type > nsstsv_UNIQUE( _st )
 
 template< typename T >
 struct struct_t { T _; };
 
 union max_align_t
 {
-    nssv_ALIGN_TYPE( char );
-    nssv_ALIGN_TYPE( short int );
-    nssv_ALIGN_TYPE( int );
-    nssv_ALIGN_TYPE( long int  );
-    nssv_ALIGN_TYPE( float  );
-    nssv_ALIGN_TYPE( double );
-    nssv_ALIGN_TYPE( long double );
-    nssv_ALIGN_TYPE( char * );
-    nssv_ALIGN_TYPE( short int * );
-    nssv_ALIGN_TYPE( int *  );
-    nssv_ALIGN_TYPE( long int * );
-    nssv_ALIGN_TYPE( float * );
-    nssv_ALIGN_TYPE( double * );
-    nssv_ALIGN_TYPE( long double * );
-    nssv_ALIGN_TYPE( void * );
+    nsstsv_ALIGN_TYPE( char );
+    nsstsv_ALIGN_TYPE( short int );
+    nsstsv_ALIGN_TYPE( int );
+    nsstsv_ALIGN_TYPE( long int  );
+    nsstsv_ALIGN_TYPE( float  );
+    nsstsv_ALIGN_TYPE( double );
+    nsstsv_ALIGN_TYPE( long double );
+    nsstsv_ALIGN_TYPE( char * );
+    nsstsv_ALIGN_TYPE( short int * );
+    nsstsv_ALIGN_TYPE( int *  );
+    nsstsv_ALIGN_TYPE( long int * );
+    nsstsv_ALIGN_TYPE( float * );
+    nsstsv_ALIGN_TYPE( double * );
+    nsstsv_ALIGN_TYPE( long double * );
+    nsstsv_ALIGN_TYPE( void * );
 
 #ifdef HAVE_LONG_LONG
-    nssv_ALIGN_TYPE( long long );
+    nsstsv_ALIGN_TYPE( long long );
 #endif
 
     struct Unknown;
 
-    Unknown ( * nssv_UNIQUE(_) )( Unknown );
-    Unknown * Unknown::* nssv_UNIQUE(_);
-    Unknown ( Unknown::* nssv_UNIQUE(_) )( Unknown );
+    Unknown ( * nsstsv_UNIQUE(_) )( Unknown );
+    Unknown * Unknown::* nsstsv_UNIQUE(_);
+    Unknown ( Unknown::* nsstsv_UNIQUE(_) )( Unknown );
 
-    struct_t< Unknown ( * )( Unknown)         > nssv_UNIQUE(_);
-    struct_t< Unknown * Unknown::*            > nssv_UNIQUE(_);
-    struct_t< Unknown ( Unknown::* )(Unknown) > nssv_UNIQUE(_);
+    struct_t< Unknown ( * )( Unknown)         > nsstsv_UNIQUE(_);
+    struct_t< Unknown * Unknown::*            > nsstsv_UNIQUE(_);
+    struct_t< Unknown ( Unknown::* )(Unknown) > nsstsv_UNIQUE(_);
 };
 
-#undef nssv_UNIQUE
-#undef nssv_UNIQUE2
-#undef nssv_UNIQUE3
+#undef nsstsv_UNIQUE
+#undef nsstsv_UNIQUE2
+#undef nsstsv_UNIQUE3
 
-#undef nssv_ALIGN_TYPE
+#undef nsstsv_ALIGN_TYPE
 
-#elif defined( nssv_CONFIG_ALIGN_AS ) // nssv_CONFIG_MAX_ALIGN_HACK
+#elif defined( nsstsv_CONFIG_ALIGN_AS ) // nsstsv_CONFIG_MAX_ALIGN_HACK
 
 // Use user-specified type for alignment:
 
-#define nssv_ALIGN_AS( unused ) \
-    nssv_CONFIG_ALIGN_AS
+#define nsstsv_ALIGN_AS( unused ) \
+    nsstsv_CONFIG_ALIGN_AS
 
-#else // nssv_CONFIG_MAX_ALIGN_HACK
+#else // nsstsv_CONFIG_MAX_ALIGN_HACK
 
 // Determine POD type to use for alignment:
 
-#define nssv_ALIGN_AS( to_align ) \
+#define nsstsv_ALIGN_AS( to_align ) \
     typename type_of_size< alignment_types, alignment_of< to_align >::value >::type
 
-#if nssv_COMPILER_IS_VC6
+#if nsstsv_COMPILER_IS_VC6
 
 template< bool condition, typename Then, typename Else >
 struct select
@@ -283,13 +283,13 @@ struct select
   typedef typename selector< condition >::type type;
 };
 
-#else // nssv_COMPILER_IS_VC6
+#else // nsstsv_COMPILER_IS_VC6
 
 template < bool condition, typename Then, typename Else > struct select;
 template < typename Then, typename Else > struct select< true , Then, Else > { typedef Then type; };
 template < typename Then, typename Else > struct select< false, Then, Else > { typedef Else type; };
 
-#endif // nssv_COMPILER_IS_VC6
+#endif // nsstsv_COMPILER_IS_VC6
 
 template< typename T >
 struct alignment_of;
@@ -333,15 +333,15 @@ struct type_of_size
             typename type_of_size<typename List::tail, N >::type >::type type;
 };
 
-#if ! nssv_COMPILER_IS_VC6
+#if ! nsstsv_COMPILER_IS_VC6
 
 template< size_t N >
 struct type_of_size< nulltype, N >
 {
-    typedef nssv_CONFIG_ALIGN_AS_FALLBACK type;
+    typedef nsstsv_CONFIG_ALIGN_AS_FALLBACK type;
 };
 
-#else // nssv_COMPILER_IS_VC6
+#else // nsstsv_COMPILER_IS_VC6
 
 // VC6: no partial specialization
 
@@ -349,7 +349,7 @@ struct type_of_size< nulltype, N >
     template<> \
     struct type_of_size< nulltype, n > \
     { \
-        typedef nssv_CONFIG_ALIGN_AS_FALLBACK type; \
+        typedef nsstsv_CONFIG_ALIGN_AS_FALLBACK type; \
     }
 
 MK_TYPE_OF_SIZE( 1  );
@@ -365,36 +365,36 @@ MK_TYPE_OF_SIZE( 32 );
 
 #undef MK_TYPE_OF_SIZE
 
-#endif // nssv_COMPILER_IS_VC6
+#endif // nsstsv_COMPILER_IS_VC6
 
 template< typename T>
 struct struct_t { T _; };
 
-#define nssv_ALIGN_TYPE( type ) \
+#define nsstsv_ALIGN_TYPE( type ) \
     typelist< type , typelist< struct_t< type >
 
 struct Unknown;
 
 typedef
-    nssv_ALIGN_TYPE( char ),
-    nssv_ALIGN_TYPE( short ),
-    nssv_ALIGN_TYPE( int ),
-    nssv_ALIGN_TYPE( long ),
-    nssv_ALIGN_TYPE( float ),
-    nssv_ALIGN_TYPE( double ),
-    nssv_ALIGN_TYPE( long double ),
+    nsstsv_ALIGN_TYPE( char ),
+    nsstsv_ALIGN_TYPE( short ),
+    nsstsv_ALIGN_TYPE( int ),
+    nsstsv_ALIGN_TYPE( long ),
+    nsstsv_ALIGN_TYPE( float ),
+    nsstsv_ALIGN_TYPE( double ),
+    nsstsv_ALIGN_TYPE( long double ),
 
-    nssv_ALIGN_TYPE( char *),
-    nssv_ALIGN_TYPE( short * ),
-    nssv_ALIGN_TYPE( int * ),
-    nssv_ALIGN_TYPE( long * ),
-    nssv_ALIGN_TYPE( float * ),
-    nssv_ALIGN_TYPE( double * ),
-    nssv_ALIGN_TYPE( long double * ),
+    nsstsv_ALIGN_TYPE( char *),
+    nsstsv_ALIGN_TYPE( short * ),
+    nsstsv_ALIGN_TYPE( int * ),
+    nsstsv_ALIGN_TYPE( long * ),
+    nsstsv_ALIGN_TYPE( float * ),
+    nsstsv_ALIGN_TYPE( double * ),
+    nsstsv_ALIGN_TYPE( long double * ),
 
-    nssv_ALIGN_TYPE( Unknown ( * )( Unknown ) ),
-    nssv_ALIGN_TYPE( Unknown * Unknown::*     ),
-    nssv_ALIGN_TYPE( Unknown ( Unknown::* )( Unknown ) ),
+    nsstsv_ALIGN_TYPE( Unknown ( * )( Unknown ) ),
+    nsstsv_ALIGN_TYPE( Unknown * Unknown::*     ),
+    nsstsv_ALIGN_TYPE( Unknown ( Unknown::* )( Unknown ) ),
 
     nulltype
     > > > > > > >    > > > > > > >
@@ -402,9 +402,9 @@ typedef
     > > > > > >
     alignment_types;
 
-#undef nssv_ALIGN_TYPE
+#undef nsstsv_ALIGN_TYPE
 
-#endif // nssv_CONFIG_MAX_ALIGN_HACK
+#endif // nsstsv_CONFIG_MAX_ALIGN_HACK
 
 /// C++98 union to hold value.
 
@@ -430,7 +430,7 @@ private:
         ::new( value_ptr() ) value_type( v );
     }
 
-#if nssv_CPP11_OR_GREATER
+#if nsstsv_CPP11_OR_GREATER
 
     void construct_value( value_type && v )
     {
@@ -445,7 +445,7 @@ private:
         value_ptr()->~V();
     }
 
-#if nssv_CPP11_OR_GREATER
+#if nsstsv_CPP11_OR_GREATER
 
     constexpr value_type const & value() const &
     {
@@ -484,12 +484,12 @@ private:
         return as( (value_type*)0 );
     }
 
-#if nssv_CPP11_OR_GREATER
+#if nsstsv_CPP11_OR_GREATER
 
     using aligned_storage_t = typename std::aligned_storage< sizeof(value_type), alignof(value_type) >::type;
     aligned_storage_t buffer;
 
-#elif nssv_CONFIG_MAX_ALIGN_HACK
+#elif nsstsv_CONFIG_MAX_ALIGN_HACK
 
     typedef struct { unsigned char data[ sizeof(value_type) ]; } aligned_storage_t;
 
@@ -497,14 +497,14 @@ private:
     aligned_storage_t buffer;
 
 #else
-    typedef nssv_ALIGN_AS(value_type) align_as_type;
+    typedef nsstsv_ALIGN_AS(value_type) align_as_type;
 
     typedef struct { align_as_type data[ 1 + ( sizeof(value_type) - 1 ) / sizeof(align_as_type) ]; } aligned_storage_t;
     aligned_storage_t buffer;
 
-#   undef nssv_ALIGN_AS
+#   undef nsstsv_ALIGN_AS
 
-#endif // nssv_CONFIG_MAX_ALIGN_HACK
+#endif // nsstsv_CONFIG_MAX_ALIGN_HACK
 
     // Note: VC6 cannot handle as<T>():
 
@@ -526,7 +526,7 @@ public:
 
     // Construction of status_value must include a status.
 
-#if nssv_CPP11_OR_GREATER
+#if nsstsv_CPP11_OR_GREATER
     status_value() = delete;
 #else
 private:
@@ -541,7 +541,7 @@ public:
     , m_has_value( false )
     {}
 
-#if nssv_CPP11_OR_GREATER
+#if nsstsv_CPP11_OR_GREATER
     status_value( status_type const & s, value_type && v )
     : m_status( s )
     , m_has_value( true )
@@ -569,7 +569,7 @@ public:
     // A copy operation would make the type unusable for non-copyable
     // contained objects, so we do not provide a copy operation.
 
-#if nssv_CPP11_OR_GREATER
+#if nsstsv_CPP11_OR_GREATER
 
     status_value( status_value && other )
     : m_status   ( std::move( other.m_status ) )
@@ -624,7 +624,7 @@ public:
         if ( m_has_value )
             return contained.value();
 
-#if nssv_CONFIG_NO_EXCEPTIONS
+#if nsstsv_CONFIG_NO_EXCEPTIONS
         std::terminate();
 #else
         throw status_type( m_status );
@@ -636,7 +636,7 @@ public:
         if ( m_has_value )
             return contained.value();
 
-#if nssv_CONFIG_NO_EXCEPTIONS
+#if nsstsv_CONFIG_NO_EXCEPTIONS
         std::terminate();
 #else
         throw status_type( m_status );

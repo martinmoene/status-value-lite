@@ -92,15 +92,15 @@ Synopsis
 ### Configuration macros
 
 #### Standard selection macro
-\-D<b>nssv\_CPLUSPLUS</b>=199711L  
+\-D<b>nsstsv\_CPLUSPLUS</b>=199711L  
 Define this macro to override the auto-detection of the supported C++ standard, if your compiler does not set the `__cpluplus` macro correctly.
 
 #### Disable exceptions
-\-D<b>nssv\_CONFIG\_NO\_EXCEPTIONS</b>=0  
+\-D<b>nsstsv\_CONFIG\_NO\_EXCEPTIONS</b>=0  
 Define this to 1 if you want to compile without exceptions. If not defined, the header tries and detect if exceptions have been disabled (e.g. via -fno-exceptions). Disabling exceptions will force contract violation to call `std::terminate()`. Default is 0.
 
 #### Enable compilation errors
-\-D<b>nssv\_CONFIG\_CONFIRMS\_COMPILATION\_ERRORS</b>=0  
+\-D<b>nsstsv\_CONFIG\_CONFIRMS\_COMPILATION\_ERRORS</b>=0  
 Define this macro to 1 to experience the by-design compile-time errors of the library in the test suite. Default is 0.
 
 
