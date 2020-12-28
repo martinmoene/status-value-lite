@@ -31,7 +31,7 @@
 
 #ifndef nsstsv_CONFIG_NO_EXCEPTIONS
 # if _MSC_VER
-# include <cstddef>     // for _HAS_EXCEPTIONS
+#  include <cstddef>    // for _HAS_EXCEPTIONS
 # endif
 # if defined(__cpp_exceptions) || defined(__EXCEPTIONS) || (_HAS_EXCEPTIONS)
 #  define nsstsv_CONFIG_NO_EXCEPTIONS  0
