@@ -126,6 +126,7 @@ endfunction()
 
 function( make_target target sources std )
     add_executable            ( ${target} ${sources} )
+    target_include_directories( ${target} SYSTEM  PRIVATE lest )
     target_link_libraries     ( ${target} PRIVATE ${PACKAGE} )
     target_compile_options    ( ${target} PRIVATE ${OPTIONS} )
     target_compile_definitions( ${target} PRIVATE ${DEFINITIONS} )
