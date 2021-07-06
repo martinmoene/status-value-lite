@@ -11,7 +11,22 @@
 
 #include "nonstd/status_value.hpp"
 
+#ifdef __clang__
+# pragma clang diagnostic ignored "-Wstring-conversion"
+# pragma clang diagnostic ignored "-Wunused-parameter"
+# pragma clang diagnostic ignored "-Wunused-template"
+# pragma clang diagnostic ignored "-Wunused-function"
+# pragma clang diagnostic ignored "-Wunused-member-function"
+#elif defined __GNUC__
+# pragma GCC   diagnostic ignored "-Wunused-parameter"
+# pragma GCC   diagnostic ignored "-Wunused-function"
+#endif
+
 #include "lest.hpp"
+
+#ifndef nsstsv_CONFIG_CONFIRMS_COMPILATION_ERRORS
+#define nsstsv_CONFIG_CONFIRMS_COMPILATION_ERRORS  0
+#endif
 
 #define CASE( name ) lest_CASE( specification, name )
 
@@ -27,7 +42,7 @@ struct not_default_constructible
 struct move_constructible
 {
     int x;
-    move_constructible( int x ) : x(x) {}
+    move_constructible( int x_ ) : x(x_) {}
     move_constructible( move_constructible && other ) : x( std::move( other.x ) ) {}
     move_constructible( move_constructible const & other ) = delete;
 };
@@ -35,7 +50,7 @@ struct move_constructible
 struct copy_constructible
 {
     int x;
-    copy_constructible( int x ) : x(x) {}
+    copy_constructible( int x_ ) : x(x_) {}
     copy_constructible( copy_constructible && other ) = delete;
     copy_constructible( copy_constructible const & other )  : x( other.x ) {}
 };
@@ -238,7 +253,7 @@ CASE( "status_value<>: Throws when observing non-engaged (operator*())" )
 CASE( "status_value<>: Throws when observing non-engaged (operator->())" )
 {
     SETUP("") {
-        struct V { int i = 42; } v;
+        struct V { int i = 42; };
         status_value<int, V>        sv( 7 );
         status_value<int, V> const csv( 7 );
 
