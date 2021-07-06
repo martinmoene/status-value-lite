@@ -184,7 +184,7 @@ public:
   {}
 
   // destructor
-  ~bad_status_value_access() {}
+  // ~bad_status_value_access() nsstsv_override {}
 
   // status observers
   S const & status() const nsstsv_noexcept
