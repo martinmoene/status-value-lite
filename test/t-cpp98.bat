@@ -4,11 +4,11 @@
 ::
 
 set           unit=nssv
-set      unit_file=status-value
-set unit_incl_file=status_value
+set      unit_file=status-value_cpp98
+set unit_incl_file=status_value_cpp98
 
 if  "%1"=="c++98" (
-::  set      unit_file=status-value_cpp98
+    set      unit_file=status-value_cpp98
     set unit_incl_file=status_value_cpp98
 )
 

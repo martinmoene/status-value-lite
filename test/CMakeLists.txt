@@ -1,4 +1,4 @@
-# Copyright 2016-2018 by Martin Moene
+# Copyright 2016-2022 by Martin Moene
 #
 # Distributed under the Boost Software License, Version 1.0.
 # (See accompanying file LICENSE.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -12,11 +12,14 @@ project( test LANGUAGES CXX )
 # Test sources:
 
 set( unit_name "status-value" )
+set( file_name "status_value" )
 set( PACKAGE   ${unit_name}-lite )
 set( PROGRAM   ${unit_name}-lite )
 set( PROGRAM98 ${unit_name}-lite_cpp98 )
 set( SOURCES   ${unit_name}.t.cpp )
 set( SOURCES98 ${unit_name}_cpp98.t.cpp )
+set( HEADER    nonstd/${file_name}.hpp )
+set( HEADER98  nonstd/${file_name}_cpp98.hpp )
 
 message( STATUS "Subproject '${PROJECT_NAME}', programs '${PROGRAM}-*', '${PROGRAM98}-*'")
 
@@ -124,12 +127,13 @@ endfunction()
 
 # make target, compile for given standard if specified:
 
-function( make_target target sources std )
+function( make_target target sources header std )
+
     add_executable            ( ${target} ${sources} )
     target_include_directories( ${target} SYSTEM  PRIVATE lest )
     target_link_libraries     ( ${target} PRIVATE ${PACKAGE} )
     target_compile_options    ( ${target} PRIVATE ${OPTIONS} )
-    target_compile_definitions( ${target} PRIVATE ${DEFINITIONS} )
+    target_compile_definitions( ${target} PRIVATE ${DEFINITIONS} -Dnsstv_STATUS_VALUE_HEADER=\"${header}\" )
 
     if( std )
         if( MSVC )
@@ -153,38 +157,38 @@ if( NOT HAS_STD_FLAGS )
 #    make_target( ${PROGRAM}.t "${SOURCES}" "" )
 else()
     if( HAS_CPP11_FLAG )
-        make_target( ${PROGRAM}-cpp11.t "${SOURCES}" 11 )
+        make_target( ${PROGRAM}-cpp11.t "${SOURCES}" "${HEADER}" 11 )
     endif()
 
     if( HAS_CPP14_FLAG )
-        make_target( ${PROGRAM}-cpp14.t "${SOURCES}" 14 )
+        make_target( ${PROGRAM}-cpp14.t "${SOURCES}" "${HEADER}" 14 )
     endif()
 
     if( HAS_CPP17_FLAG )
-        make_target( ${PROGRAM}-cpp17.t "${SOURCES}" 17 )
+        make_target( ${PROGRAM}-cpp17.t "${SOURCES}" "${HEADER}" 17 )
         enable_msvs_guideline_checker( ${PROGRAM}-cpp17.t )
     endif()
 
     if( HAS_CPPLATEST_FLAG )
-        make_target( ${PROGRAM}-cpplatest.t "${SOURCES}" latest )
+        make_target( ${PROGRAM}-cpplatest.t "${SOURCES}" "${HEADER}" latest )
     endif()
 endif()
 
 # C++98 version:
 
 if( NOT HAS_STD_FLAGS )
-    make_target( ${PROGRAM98}.t "${SOURCES98}" "" )
+    make_target( ${PROGRAM98}.t "${SOURCES98}" "${HEADER98}" "" )
 else()
     if( HAS_CPP98_FLAG )
-        make_target( ${PROGRAM98}-cpp98.t "${SOURCES98}" 98 )
+        make_target( ${PROGRAM98}-cpp98.t "${SOURCES98}" "${HEADER98}" 98 )
     endif()
 
     if( HAS_CPP11_FLAG )
-        make_target( ${PROGRAM98}-cpp11.t "${SOURCES98}" 11 )
+        make_target( ${PROGRAM98}-cpp11.t "${SOURCES98}" "${HEADER98}" 11 )
     endif()
 
     if( HAS_CPP14_FLAG )
-        make_target( ${PROGRAM98}-cpp14.t "${SOURCES98}" 14 )
+        make_target( ${PROGRAM98}-cpp14.t "${SOURCES98}" "${HEADER98}" 14 )
     endif()
 
     if( HAS_CPP17_FLAG )
@@ -192,12 +196,12 @@ else()
         if( CMAKE_CXX_COMPILER_ID MATCHES "AppleClang" )
             set( std17 1z )
         endif()
-        make_target( ${PROGRAM98}-cpp17.t "${SOURCES98}" ${std17} )
+        make_target( ${PROGRAM98}-cpp17.t "${SOURCES98}" "${HEADER98}" ${std17} )
         enable_msvs_guideline_checker( ${PROGRAM98}-cpp17.t )
     endif()
 
     if( HAS_CPPLATEST_FLAG )
-        make_target( ${PROGRAM98}-cpplatest.t "${SOURCES98}" latest )
+        make_target( ${PROGRAM98}-cpplatest.t "${SOURCES98}" "${HEADER98}" latest )
     endif()
 endif()
 

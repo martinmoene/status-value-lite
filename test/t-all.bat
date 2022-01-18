@@ -4,10 +4,12 @@
 ::
 
 set basename=status-value
+set inclname=status_value
 
 set arg1=%1
 if  "%arg1%"=="c++98" (
-   set basename=status-value_cpp98
+    set basename=status-value_cpp98
+    set inclname=status_value_cpp98
 )
 
 set log=%0.log
@@ -44,6 +46,7 @@ set cppStandards=^
 )
 
 set msvc_defines=^
+    -Dnsstv_STATUS_VALUE_HEADER=\"nonstd/%inclname%.hpp\" ^
     -D_CRT_SECURE_NO_WARNINGS ^
     -Dlest_FEATURE_AUTO_REGISTER=1
 
@@ -90,7 +93,7 @@ goto :EOF
 :Compile  contractViolationResponse spanFeature [CppStd]
 ::call t.bat %*
 set args=%*
-set compile=cl -EHsc -I../include -I"%CppCoreCheckInclude%" %args% %msvc_defines% %spanSources%
+set compile=cl -EHsc -I../include -Ilest -I"%CppCoreCheckInclude%" %args% %msvc_defines% %spanSources%
 echo %compile% && %compile%
 goto :EOF
 

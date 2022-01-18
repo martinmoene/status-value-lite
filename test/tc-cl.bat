@@ -3,8 +3,14 @@
 :: tc-cl.bat - compile & run tests (clang-cl).
 ::
 
-set      unit=status_value
-set unit_file=status-value
+set           unit=nssv
+set      unit_file=status-value
+set unit_incl_file=status_value
+
+if  "%1"=="c++98" (
+    set      unit_file=status-value_cpp98
+    set unit_incl_file=status_value_cpp98
+)
 
 :: if no std is given, use c++14
 
@@ -27,9 +33,11 @@ echo %clang% %version%: %std% %unit_select% %args%
 
 set unit_config=^
     -Dlest_FEATURE_AUTO_REGISTER=1 ^
-    -D%unit%_%UCAP%_HEADER=\"nonstd/%unit%.hpp\" ^
+    -Dnsstv_STATUS_VALUE_HEADER=\"nonstd/%unit_incl_file%.hpp\" ^
     -D%unit%_TEST_NODISCARD=0 ^
     -D%unit%_CONFIG_SELECT_%UCAP%=%unit_select%
+
+::     -D%unit%_%UCAP%_HEADER=\"nonstd/%unit%.hpp\" ^
 
 rem -flto / -fwhole-program
 set  optflags=-O2
