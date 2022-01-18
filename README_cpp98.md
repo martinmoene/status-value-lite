@@ -108,6 +108,8 @@ Synopsis
 | &nbsp;       | value_type & **value**()                                         | the value (non-const ref);<br>see [note 1](#note1) |
 | &nbsp;       | value_type const & **operator \***() const                       | the value (const ref);<br>see [note 1](#note1) |
 | &nbsp;       | value_type & **operator \***()                                   | the value (non-const ref);<br>see [note 1](#note1) |
+| &nbsp;       | value_type const & **operator ->**() const                       | the element value (const ref);<br>see [note 1](#note1) |
+| &nbsp;       | value_type & **operator ->**()                                   | the element value (non-const ref);<br>see [note 1](#note1) |
 
 <a id="note1"></a>Note 1: checked access: if no content, throws status value.
 
