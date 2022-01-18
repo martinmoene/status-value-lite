@@ -5,27 +5,18 @@
 status_value is a single-file header-only library for objects that represent a status and an optional value. This variant is intended for use with C++98 and later. The library is based on the proposal for status_value [[1](#ref1)].
 
 **Contents**  
-- [status_value cpp98: A class for status and optional value for C++98 and later](#status_value-cpp98-a-class-for-status-and-optional-value-for-c98-and-later)
-  - [Example usage](#example-usage)
-    - [Compile and run](#compile-and-run)
-  - [In a nutshell](#in-a-nutshell)
-  - [License](#license)
-  - [Dependencies](#dependencies)
-  - [Installation](#installation)
-  - [Synopsis](#synopsis)
-    - [Interface of status_value](#interface-of-status_value)
-    - [Configuration macros](#configuration-macros)
-      - [Disable exceptions](#disable-exceptions)
-      - [Enable compilation errors](#enable-compilation-errors)
-    - [Macros to control alignment](#macros-to-control-alignment)
-  - [Reported to work with](#reported-to-work-with)
-  - [Implementation notes](#implementation-notes)
-    - [Object allocation and alignment](#object-allocation-and-alignment)
-  - [Notes and references](#notes-and-references)
-  - [Appendix](#appendix)
-    - [A.1 status_value test specification](#a1-status_value-test-specification)
-
-
+- [Example usage](#example-usage)
+- [In a nutshell](#in-a-nutshell)
+- [License](#license)
+- [Dependencies](#dependencies)
+- [Installation](#installation)
+- [Synopsis](#synopsis)
+- [Comparison with like types](#comparison)
+- [Reported to work with](#reported-to-work-with)
+- [Implementation notes](#implementation-notes)
+- [Notes and references](#notes-and-references)
+- [Appendix](#appendix)
+ 
 Example usage
 -------------
 ```Cpp
