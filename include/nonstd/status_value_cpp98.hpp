@@ -1,4 +1,4 @@
-// Copyright 2016-2019 by Martin Moene
+// Copyright 2016-2022 by Martin Moene
 //
 // This version targets C++98 and later.
 //
@@ -12,8 +12,6 @@
 #ifndef NONSTD_STATUS_VALUE_HPP
 #define NONSTD_STATUS_VALUE_HPP
 
-#include <cassert>
-#include <stdexcept>
 #include <utility>
 
 #define status_value_MAJOR  1
@@ -102,12 +100,17 @@
 
 #define nsstsv_COMPILER_IS_VC6  ( nsstsv_COMPILER_MSVC_VERSION == 60 )
 
+#define nsstsv_CPP11_000  (nsstsv_CPP11_OR_GREATER)
 #define nsstsv_CPP14_000  (nsstsv_CPP14_OR_GREATER)
+#define nsstsv_CPP17_000  (nsstsv_CPP17_OR_GREATER)
 #define nsstsv_CPP11_140  (nsstsv_CPP11_OR_GREATER || nsstsv_COMPILER_MSVC_VER >= 1900)
 
 // Presence of C++11 language features:
 
 #define nsstsv_HAVE_CONSTEXPR_11   nsstsv_CPP11_140
+#define nsstsv_HAVE_NOEXCEPT       nsstsv_CPP11_140
+#define nsstsv_HAVE_NORETURN       nsstsv_CPP17_000
+#define nsstsv_HAVE_NULLPTR        nsstsv_CPP11_000
 #define nsstsv_HAVE_REF_QUALIFIER  nsstsv_CPP11_140
 
 // Presence of C++14 language features:
@@ -128,12 +131,36 @@
 # define nsstsv_constexpr14 /*nothing*/
 #endif
 
+#if nsstsv_HAVE_NOEXCEPT
+# define nsstsv_noexcept noexcept
+#else
+# define nsstsv_noexcept /*noexcept*/
+#endif
+
+#if nsstsv_HAVE_NORETURN
+# define nsstsv_noreturn [[noreturn]]
+#else
+# define nsstsv_noreturn /*[[noreturn]]*/
+#endif
+
+#if nsstsv_HAVE_NULLPTR
+# define nsstsv_nullptr nullptr
+#else
+# define nsstsv_nullptr NULL
+#endif
+
 #if nsstsv_HAVE_REF_QUALIFIER
 # define nsstsv_ref_qual  &
 # define nsstsv_refref_qual  &&
 #else
 # define nsstsv_ref_qual  /*&*/
 # define nsstsv_refref_qual  /*&&*/
+#endif
+
+// Additional includes:
+
+#if ! nsstsv_CONFIG_NO_EXCEPTIONS
+# include <stdexcept>
 #endif
 
 /* Object allocation and alignment
@@ -420,7 +447,7 @@ private:
     typedef V value_type;
 
     // no-op construction
-    storage_t() {}
+    storage_t() nsstsv_noexcept {}
     ~storage_t() {}
 
     storage_t( value_type const & v )
@@ -441,7 +468,7 @@ private:
     }
 #endif
 
-    void destruct_value()
+    void destruct_value() nsstsv_noexcept
     {
         // Note: VC6 requires the use of the
         // template parameter T (cannot use value_type).
@@ -450,12 +477,12 @@ private:
 
 #if nsstsv_CPP11_OR_GREATER
 
-    constexpr value_type const & value() const &
+    constexpr value_type const & value() const & nsstsv_noexcept
     {
         return * value_ptr();
     }
 
-    value_type & value() &
+    value_type & value() & nsstsv_noexcept
     {
         return * value_ptr();
     }
@@ -477,14 +504,14 @@ private:
     }
 #endif
 
-    value_type * value_ptr() const
+    nsstsv_constexpr value_type * value_ptr() const nsstsv_noexcept
     {
-        return as( (value_type*)0 );
+        return as( (value_type*) nsstsv_nullptr );
     }
 
-    value_type * value_ptr()
+    value_type * value_ptr() nsstsv_noexcept
     {
-        return as( (value_type*)0 );
+        return as( (value_type*) nsstsv_nullptr );
     }
 
 #if nsstsv_CPP11_OR_GREATER
@@ -520,12 +547,97 @@ private:
 
 } // namespace expected_detail
 
+#if nsstsv_CONFIG_NO_EXCEPTIONS
+
+// Note: std::terminate() requires header <exception>.
+
+#if nsstsv_CPP11_OR_GREATER
+
+template< typename S >
+nsstsv_noreturn inline void report_bad_status_value_access( S && /*status*/ ) nsstsv_noexcept
+{
+    std::abort();
+}
+
+#else // nsstsv_CPP11_OR_GREATER
+
+template< typename S >
+nsstsv_noreturn inline void report_bad_status_value_access( S & /*status*/ ) nsstsv_noexcept
+{
+    std::abort();
+}
+#endif // nsstsv_CPP11_OR_GREATER
+#else // nsstsv_CONFIG_NO_EXCEPTIONS
+
+// Exception type to throw on unengaged access:
+
+template< typename S >
+class bad_status_value_access : public std::logic_error
+{
+  // constructors
+#if ! nsstsv_CPP11_OR_GREATER
+
+private:
+  bad_status_value_access();
+
+public:
+  bad_status_value_access( S const & s )
+  : std::logic_error( "status_value: bad status_value access" )
+  , m_status( s )
+  {}
+
+#else // nsstsv_CPP11_OR_GREATER
+
+public:
+  bad_status_value_access() = delete;
+
+  bad_status_value_access( S s )
+  : std::logic_error( "status_value: bad status_value access" )
+  , m_status( std::move( s ) )
+  {}
+
+#endif // nsstsv_CPP11_OR_GREATER
+
+  // destructor
+  // ~bad_status_value_access() nsstsv_override {}
+
+  // status observers
+  S const & status() const nsstsv_noexcept
+  {
+      return m_status;
+  }
+
+private:
+    S m_status;
+};
+
+#if nsstsv_CPP11_OR_GREATER
+
+template< typename S >
+nsstsv_noreturn inline void report_bad_status_value_access( S && status )
+{
+    throw bad_status_value_access<typename std::remove_reference<S>::type>( std::forward<S>( status ) );
+}
+
+#else // nsstsv_CPP11_OR_GREATER
+
+template< typename S >
+nsstsv_noreturn inline void report_bad_status_value_access( S & status )
+{
+    throw bad_status_value_access<S>( status );
+}
+
+#endif // nsstsv_CPP11_OR_GREATER
+#endif // nsstsv_CONFIG_NO_EXCEPTIONS
+
 template< typename S, typename V >
 class status_value
 {
 public:
     typedef S status_type;
     typedef V value_type;
+
+    // ?.?.3.1 constructors
 
     // Construction of status_value must include a status.
 
@@ -560,14 +672,6 @@ public:
         contained.construct_value( v );
     }
 
-    ~status_value()
-    {
-        if ( m_has_value )
-        {
-            contained.destruct_value();
-        }
-    }
-
     // A status_value may be moved.
     // A copy operation would make the type unusable for non-copyable
     // contained objects, so we do not provide a copy operation.
@@ -585,7 +689,8 @@ public:
             other.m_has_value = false;
         }
     }
-#else
+
+#else // nsstsv_CPP11_OR_GREATER
 
     status_value( status_value const & other )
     : m_status   ( other.m_status )
@@ -596,7 +701,29 @@ public:
             contained.construct_value( other.contained.value() );
         }
     }
+#endif // nsstsv_CPP11_OR_GREATER
+
+    // ?.?.3.2 destructor
+
+    ~status_value()
+    {
+        if ( m_has_value )
+        {
+            contained.destruct_value();
+        }
+    }
+
+    // assignment
+
+#if nsstsv_CPP11_OR_GREATER
+    status_value & operator=( status_value const & ) = delete;
+#else
+private:
+    status_value & operator=( status_value const & );
+public:
 #endif
+
+    // ?.?.3.3 status observers
 
     // They may be queried for status. The design assumes that inlining
     // will remove the cost of returning a reference for cheap copyable types.
@@ -605,6 +732,8 @@ public:
     {
         return m_status;
     }
+
+    // ?.?.3.4 state observers
 
     // They may be queried for whether or not they have a value.
 
@@ -618,43 +747,87 @@ public:
         return has_value();
     }
 
+    // ?.?.3.5 value observers
+
     // They may provide access to their value.
     // If they have no value, an exception of type Status,
     // the status value passed to the constructor, is thrown.
 
-    value_type const & value() const
+    value_type const & value() const nsstsv_ref_qual
     {
-        if ( m_has_value )
-            return contained.value();
+        if ( ! has_value() )
+            report_bad_status_value_access( m_status );
 
-#if nsstsv_CONFIG_NO_EXCEPTIONS
-        std::terminate();
-#else
-        throw status_type( m_status );
-#endif
+        return contained.value();
     }
 
-    value_type & value()
+    value_type & value() nsstsv_ref_qual
     {
-        if ( m_has_value )
-            return contained.value();
+        if ( ! has_value() )
+            report_bad_status_value_access( m_status );
 
-#if nsstsv_CONFIG_NO_EXCEPTIONS
-        std::terminate();
-#else
-        throw status_type( m_status );
-#endif
+        return contained.value();
     }
 
-    value_type const & operator *() const
+#if nsstsv_CPP11_OR_GREATER
+
+    value_type && value() &&
+    {
+        if ( ! has_value() )
+            report_bad_status_value_access( std::move( m_status ) );
+
+        return std::move( contained ).value();
+    }
+
+    value_type const && value() const &&
+    {
+        if ( ! has_value() )
+            report_bad_status_value_access( std::move( m_status ) );
+
+        return std::move( contained ).value();
+    }
+
+#endif
+
+    value_type const * operator->() const
+    {
+        if ( ! has_value() )
+            report_bad_status_value_access( m_status );
+
+        return contained.value_ptr();
+    }
+
+    value_type * operator->()
+    {
+        if ( ! has_value() )
+            report_bad_status_value_access( m_status );
+
+        return contained.value_ptr();
+    }
+
+    value_type const & operator *() const nsstsv_ref_qual
     {
         return value();
     }
 
-    value_type & operator *()
+    value_type & operator *() nsstsv_ref_qual
     {
         return value();
     }
+
+#if nsstsv_CPP11_OR_GREATER
+
+    value_type const && operator*() const &&
+    {
+        return std::move( value() );
+    }
+
+    value_type && operator*() &&
+    {
+        return std::move( value() );
+    }
+
+#endif
 
     // This design enables moving out of the class by
     // calling std::move on the result of the non-const functions.
