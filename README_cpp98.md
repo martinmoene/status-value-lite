@@ -5,17 +5,25 @@
 status_value is a single-file header-only library for objects that represent a status and an optional value. This variant is intended for use with C++98 and later. The library is based on the proposal for status_value [[1](#ref1)].
 
 **Contents**  
-- [Example usage](#example-usage)
-- [In a nutshell](#in-a-nutshell)
-- [License](#license)
-- [Dependencies](#dependencies)
-- [Installation](#installation)
-- [Synopsis](#synopsis)
-- [Comparison with like types](#comparison)
-- [Reported to work with](#reported-to-work-with)
-- [Implementation notes](#implementation-notes)
-- [Notes and references](#notes-and-references)
-- [Appendix](#appendix)
+- [status_value cpp98: A class for status and optional value for C++98 and later](#status_value-cpp98-a-class-for-status-and-optional-value-for-c98-and-later)
+  - [Example usage](#example-usage)
+    - [Compile and run](#compile-and-run)
+  - [In a nutshell](#in-a-nutshell)
+  - [License](#license)
+  - [Dependencies](#dependencies)
+  - [Installation](#installation)
+  - [Synopsis](#synopsis)
+    - [Interface of status_value](#interface-of-status_value)
+    - [Configuration macros](#configuration-macros)
+      - [Disable exceptions](#disable-exceptions)
+      - [Enable compilation errors](#enable-compilation-errors)
+    - [Macros to control alignment](#macros-to-control-alignment)
+  - [Reported to work with](#reported-to-work-with)
+  - [Implementation notes](#implementation-notes)
+    - [Object allocation and alignment](#object-allocation-and-alignment)
+  - [Notes and references](#notes-and-references)
+  - [Appendix](#appendix)
+    - [A.1 status_value test specification](#a1-status_value-test-specification)
 
 
 Example usage
@@ -116,7 +124,7 @@ Synopsis
 
 #### Disable exceptions
 \-D<b>nssv\_CONFIG\_NO\_EXCEPTIONS</b>=0  
-Define this to 1 if you want to compile without exceptions. If not defined, the header tries and detect if exceptions have been disabled (e.g. via -fno-exceptions). Disabling exceptions will force contract violation to call `std::terminate()`. Default is 0.
+Define this to 1 if you want to compile without exceptions. If not defined, the header tries and detect if exceptions have been disabled (e.g. via -fno-exceptions). Disabling exceptions will force contract violation to call `std::abort()`. Default is 0.
 
 #### Enable compilation errors
 \-D<b>nssv\_CONFIG\_CONFIRMS\_COMPILATION\_ERRORS</b>=0  
@@ -209,17 +217,28 @@ Appendix
 --------
 ### A.1 status_value test specification
 
+<details>
+<summary>click to expand</summary>
+<p>
+
 ```
 status_value<>: Disallows default construction
 status_value<>: Allows construction from only status
 status_value<>: Allows construction from status and non-default-constructible value
 status_value<>: Allows construction from copied status and moved value (C++11)
 status_value<>: Allows construction from copied status and copied value
-status_value<>: Allows copy-construction from other status_value of the same type (pre C++11)
+status_value<>: Disallows copy-construction from other status_value of the same type (C++11)
 status_value<>: Allows move-construction from other status_value of the same type (C++11)
 status_value<>: Allows to observe its status
 status_value<>: Allows to observe the presence of a value (has_value())
 status_value<>: Allows to observe the presence of a value (operator bool)
 status_value<>: Allows to observe its value
-status_value<>: Throws status when observing a non-present value```
+status_value<>: Allows to observe its value (operator*)
+status_value<>: Allows to observe its value (operator->)
+status_value<>: Throws when observing non-engaged (value())
+status_value<>: Throws when observing non-engaged (operator*())
+status_value<>: Throws when observing non-engaged (operator->())
+```
 
+</p>
+</details>

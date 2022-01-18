@@ -5,17 +5,26 @@
 status_value is a single-file header-only library for objects that represent a status and an optional value. It is intended for use with C++11 and later. There is a [separate variant](README_cpp98.md) for use with C++98 and later. The library is based on the proposal for status_value [[1](#ref1)].
 
 **Contents**  
-- [Example usage](#example-usage)
-- [In a nutshell](#in-a-nutshell)
-- [License](#license)
-- [Dependencies](#dependencies)
-- [Installation](#installation)
-- [Synopsis](#synopsis)
-- [Comparison with like types](#comparison)
-- [Reported to work with](#reported-to-work-with)
-- [Implementation notes](#implementation-notes)
-- [Notes and references](#notes-and-references)
-- [Appendix](#appendix)
+- [status_value: A class for status and optional value for C++11 and later](#status_value-a-class-for-status-and-optional-value-for-c11-and-later)
+  - [Example usage](#example-usage)
+    - [Compile and run](#compile-and-run)
+  - [In a nutshell](#in-a-nutshell)
+  - [License](#license)
+  - [Dependencies](#dependencies)
+  - [Installation](#installation)
+  - [Synopsis](#synopsis)
+    - [Configuration macros](#configuration-macros)
+      - [Standard selection macro](#standard-selection-macro)
+      - [Disable exceptions](#disable-exceptions)
+      - [Enable compilation errors](#enable-compilation-errors)
+    - [Interface of status_value](#interface-of-status_value)
+  - [Comparison with like types](#comparison-with-like-types)
+  - [Reported to work with](#reported-to-work-with)
+  - [Implementation notes](#implementation-notes)
+  - [Notes and references](#notes-and-references)
+  - [Appendix](#appendix)
+    - [A.1 Compile-time information](#a1-compile-time-information)
+    - [A.2 Status_value test specification](#a2-status_value-test-specification)
 
 
 Example usage
@@ -97,7 +106,7 @@ Define this macro to override the auto-detection of the supported C++ standard, 
 
 #### Disable exceptions
 \-D<b>nsstsv\_CONFIG\_NO\_EXCEPTIONS</b>=0  
-Define this to 1 if you want to compile without exceptions. If not defined, the header tries and detect if exceptions have been disabled (e.g. via -fno-exceptions). Disabling exceptions will force contract violation to call `std::terminate()`. Default is 0.
+Define this to 1 if you want to compile without exceptions. If not defined, the header tries and detect if exceptions have been disabled (e.g. via -fno-exceptions). Disabling exceptions will force contract violation to call `std::abort()`. Default is 0.
 
 #### Enable compilation errors
 \-D<b>nsstsv\_CONFIG\_CONFIRMS\_COMPILATION\_ERRORS</b>=0  
@@ -188,6 +197,10 @@ The version of *status-value lite* is available via tag `[.version]`. The follow
 
 ### A.2 Status_value test specification
 
+<details>
+<summary>click to expand</summary>
+<p>
+
 ```
 status_value<>: Disallows default construction
 status_value<>: Allows construction from only status
@@ -206,3 +219,6 @@ status_value<>: Throws when observing non-engaged (value())
 status_value<>: Throws when observing non-engaged (operator*())
 status_value<>: Throws when observing non-engaged (operator->())
 ```
+
+</p>
+</details>
