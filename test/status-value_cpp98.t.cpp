@@ -1,4 +1,4 @@
-// Copyright 2016-2018 by Martin Moene
+// Copyright 2016-2022 by Martin Moene
 //
 // This version targets C++98 and later.
 //
@@ -9,7 +9,7 @@
 //   A Class for Status and Optional Value, P0262r0
 //   by Lawrence Crowl and Chris Mysen
 
-#include "nonstd/status_value_cpp98.hpp"
+#include nsstv_STATUS_VALUE_HEADER
 
 #include "lest_cpp03.hpp"
 
@@ -18,6 +18,15 @@
 static lest::tests specification;
 
 using namespace nonstd;
+
+#ifndef nsstsv_CONFIG_CONFIRMS_COMPILATION_ERRORS
+#define nsstsv_CONFIG_CONFIRMS_COMPILATION_ERRORS  0
+#endif
+
+template< typename T >
+void use( T const & ) {}
+
+struct V { int i; V():i(42){} };
 
 class not_default_constructible
 {
@@ -29,7 +38,7 @@ class not_default_constructible
 struct move_constructible
 {
     int x;
-    move_constructible( int x ) : x(x) {}
+    move_constructible( int x_ ) : x(x_) {}
     move_constructible( move_constructible && other ) : x( std::move( other.x ) ) {}
     move_constructible( move_constructible const & other ) = delete;
 };
@@ -38,7 +47,7 @@ struct move_constructible
 struct copy_constructible
 {
     int x;
-    copy_constructible( int x ) : x(x) {}
+    copy_constructible( int x_ ) : x(x_) {}
     copy_constructible( copy_constructible const & other ) : x( other.x ) {}
 };
 
@@ -50,6 +59,7 @@ CASE( "status_value<>: Disallows default construction" )
 #if nsstsv_CONFIG_CONFIRMS_COMPILATION_ERRORS
     status_value<int, int> sv;
 #endif
+    EXPECT( "Avoid warning" );
 }
 
 CASE( "status_value<>: Allows construction from only status" )
@@ -102,12 +112,17 @@ CASE( "status_value<>: Disallows copy-construction from other status_value of th
     status_value<int, copy_constructible> sv1( 7, copy_constructible( 42 ) );
     status_value<int, copy_constructible> sv2( sv1 );
 # endif
+    EXPECT( "Avoid warning" );
 }
+
 #else
+
 CASE( "status_value<>: Allows copy-construction from other status_value of the same type (pre C++11)" )
 {
     status_value<int, copy_constructible> sv1( 7, copy_constructible( 42 ) );
     status_value<int, copy_constructible> sv2( sv1 );
+
+    EXPECT( "Avoid warning" );
 }
 
 #endif
@@ -167,23 +182,179 @@ CASE( "status_value<>: Allows to observe its value" )
     EXPECT( sv.value() == 42 );
 }
 
-CASE( "status_value<>: Throws status when observing a non-present value" )
+CASE( "status_value<>: Allows to observe its value (operator*)" )
 {
-    status_value<int, int> sv( 7 );
+    status_value<int, int>        sv( 7, 42 );
+    status_value<int, int> const csv( 7, 42 );
 
-    EXPECT_THROWS(      sv.value() );
-    EXPECT_THROWS_AS(   sv.value(), int );
+    EXPECT(  *sv == 42 );
+    EXPECT( *csv == 42 );
 
-//  EXPECT_THROWS_WITH( sv.value(), 7 );
+#if nsstsv_CPP11_OR_GREATER
+    EXPECT( *std::move(  sv ) == 42 );
+    EXPECT( *std::move( csv ) == 42 );
+#endif
+}
 
-    try
+CASE( "status_value<>: Allows to observe its value (operator->)" )
+{
+    // struct V { int i = 42; } v;
+    V v;
+    status_value<int, V>        sv( 7, v );
+    status_value<int, V> const csv( 7, v );
+
+    EXPECT(  sv->i == 42 );
+    EXPECT( csv->i == 42 );
+
+#if nsstsv_CPP11_OR_GREATER
+    EXPECT( std::move(  sv )->i == 42 );
+    EXPECT( std::move( csv )->i == 42 );
+#endif
+}
+
+CASE( "status_value<>: Throws when observing non-engaged (value())" )
+{
+#if ! nsstsv_CONFIG_NO_EXCEPTIONS
+    SETUP("") {
+        status_value<int, int>        sv( 7 );
+        status_value<int, int> const csv( 7 );
+
+    SECTION("for l-value reference")
     {
-        sv.value();
+        EXPECT_THROWS(     sv.value() );
+        EXPECT_THROWS(    csv.value() );
+
+        EXPECT_THROWS_AS(  sv.value(), std::logic_error );
+        EXPECT_THROWS_AS( csv.value(), std::logic_error );
+
+        EXPECT_THROWS_AS(  sv.value(), bad_status_value_access<int> );
+        EXPECT_THROWS_AS( csv.value(), bad_status_value_access<const int> );
     }
-    catch ( int const & e )
+
+#if nsstsv_CPP11_OR_GREATER
+
+    SECTION("for r-value reference (throws)")
     {
-        EXPECT( e == 7 );
+        EXPECT_THROWS( std::move(  sv ).value() );
+        EXPECT_THROWS( std::move( csv ).value() );
     }
+    SECTION("for r-value reference (throws-as)")
+    {
+        EXPECT_THROWS_AS( std::move(  sv ).value(), bad_status_value_access<int> );
+        EXPECT_THROWS_AS( std::move( csv ).value(), bad_status_value_access<const int> );
+    }
+
+#endif // nsstsv_CPP11_OR_GREATER
+
+    SECTION("throw with expected status value")
+    {
+        try { sv.value();  } catch ( bad_status_value_access<      int> const & e ) { EXPECT( e.status() == 7 ); }
+        try { csv.value(); } catch ( bad_status_value_access<const int> const & e ) { EXPECT( e.status() == 7 ); }
+    }}
+#else
+    EXPECT( !!"status_value: exceptions not available (nsstsv_CONFIG_NO_EXCEPTIONS)" );
+#endif
+}
+
+CASE( "status_value<>: Throws when observing non-engaged (operator*())" )
+{
+#if ! nsstsv_CONFIG_NO_EXCEPTIONS
+    SETUP("") {
+        status_value<int, int>        sv( 7 );
+        status_value<int, int> const csv( 7 );
+
+    SECTION("for l-value reference")
+    {
+        EXPECT_THROWS(     *sv );
+        EXPECT_THROWS(    *csv );
+
+        EXPECT_THROWS_AS(  *sv, std::logic_error );
+        EXPECT_THROWS_AS( *csv, std::logic_error );
+
+        EXPECT_THROWS_AS(  *sv, bad_status_value_access<int> );
+        EXPECT_THROWS_AS( *csv, bad_status_value_access<const int> );
+    }
+
+#if nsstsv_CPP11_OR_GREATER
+
+    SECTION("for r-value reference (throws)")
+    {
+        EXPECT_THROWS( *std::move(  sv ) );
+        EXPECT_THROWS( *std::move( csv ) );
+    }
+    SECTION("for r-value reference (throws-as)")
+    {
+        EXPECT_THROWS_AS( *std::move(  sv ), bad_status_value_access<int> );
+        EXPECT_THROWS_AS( *std::move( csv ), bad_status_value_access<const int> );
+    }
+
+#endif // nsstsv_CPP11_OR_GREATER
+
+    SECTION("throw with expected status value")
+    {
+        try { *sv;  } catch ( bad_status_value_access<      int> const & e ) { EXPECT( e.status() == 7 ); }
+        try { *csv; } catch ( bad_status_value_access<const int> const & e ) { EXPECT( e.status() == 7 ); }
+    }}
+#else
+    EXPECT( !!"status_value: exceptions not available (nsstsv_CONFIG_NO_EXCEPTIONS)" );
+#endif
+}
+
+CASE( "status_value<>: Throws when observing non-engaged (operator->())" )
+{
+#if ! nsstsv_CONFIG_NO_EXCEPTIONS
+    SETUP("") {
+        // struct V { int i = 42; } v;
+        status_value<int, V>        sv( 7 );
+        status_value<int, V> const csv( 7 );
+
+    SECTION("for l-value reference")
+    {
+        EXPECT_THROWS(     sv->i );
+        EXPECT_THROWS(    csv->i );
+
+        EXPECT_THROWS_AS(  sv->i, std::logic_error );
+        EXPECT_THROWS_AS( csv->i, std::logic_error );
+
+        EXPECT_THROWS_AS(  sv->i, bad_status_value_access<int> );
+        EXPECT_THROWS_AS( csv->i, bad_status_value_access<const int> );
+
+//      EXPECT_THROWS_WITH(     sv->i, 7 );
+//      EXPECT_THROWS_WITH(    csv->i, 7 );
+
+    }
+
+#if nsstsv_CPP11_OR_GREATER
+
+    SECTION("for r-value reference (throws)")
+    {
+        EXPECT_THROWS( std::move(  sv )->i );
+        EXPECT_THROWS( std::move( csv )->i );
+
+//      EXPECT_THROWS_WITH( std::move(  sv )->i, 7 );
+//      EXPECT_THROWS_WITH( std::move( csv )->i, 7 );
+
+    }
+    SECTION("for r-value reference (throws-as)")
+    {
+        EXPECT_THROWS_AS( std::move(  sv )->i, bad_status_value_access<int> );
+        EXPECT_THROWS_AS( std::move( csv )->i, bad_status_value_access<const int> );
+
+    //  EXPECT_THROWS_WITH( std::move(  sv )->i, 7 );
+    //  EXPECT_THROWS_WITH( std::move( csv )->i, 7 );
+
+    }
+
+#endif // nsstsv_CPP11_OR_GREATER
+
+    SECTION("throw with expected status value")
+    {
+        try { use( sv->i  ); } catch ( bad_status_value_access<      int> const & e ) { EXPECT( e.status() == 7 ); }
+        try { use( csv->i ); } catch ( bad_status_value_access<const int> const & e ) { EXPECT( e.status() == 7 ); }
+    }}
+#else
+    EXPECT( !!"status_value: exceptions not available (nsstsv_CONFIG_NO_EXCEPTIONS)" );
+#endif
 }
 
 // -----------------------------------------------------------------------
@@ -216,6 +387,8 @@ CASE("Show alignment of various types" "[.]" )
         nsstsv_OUTPUT_ALIGNMENT_OF( long double )
         nsstsv_OUTPUT_ALIGNMENT_OF( S )
          "";
+
+    EXPECT( "Avoid warning" );
 }
 #undef nsstsv_OUTPUT_ALIGNMENT_OF
 #endif
@@ -238,6 +411,8 @@ CASE("Show sizeof various status_value types" "[.]" )
          nsstsv_OUTPUT_SIZEOF( long double )
          nsstsv_OUTPUT_SIZEOF( S )
          "";
+
+    EXPECT( "Avoid warning" );
 }
 #undef nsstsv_OUTPUT_SIZEOF
 
