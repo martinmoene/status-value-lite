@@ -1,4 +1,4 @@
-// Copyright 2016-2018 by Martin Moene
+// Copyright 2016-2022 by Martin Moene
 //
 // This version targets C++11 and later.
 //
@@ -9,7 +9,7 @@
 //   A Class for Status and Optional Value, P0262r0
 //   by Lawrence Crowl and Chris Mysen
 
-#include "nonstd/status_value.hpp"
+#include nsstv_STATUS_VALUE_HEADER
 
 #ifdef __clang__
 # pragma clang diagnostic ignored "-Wstring-conversion"
@@ -33,6 +33,9 @@
 static lest::tests specification;
 
 using namespace nonstd;
+
+template< typename T >
+void use( T const & ) {}
 
 struct not_default_constructible
 {
@@ -194,6 +197,7 @@ CASE( "status_value<>: Allows to observe its value (operator->)" )
 
 CASE( "status_value<>: Throws when observing non-engaged (value())" )
 {
+#if ! nsstsv_CONFIG_NO_EXCEPTIONS
     SETUP("") {
         status_value<int, int>        sv( 7 );
         status_value<int, int> const csv( 7 );
@@ -218,11 +222,20 @@ CASE( "status_value<>: Throws when observing non-engaged (value())" )
     {
         EXPECT_THROWS_AS( std::move(  sv ).value(), bad_status_value_access<int> );
         EXPECT_THROWS_AS( std::move( csv ).value(), bad_status_value_access<const int> );
+    }
+    SECTION("throw with expected status value")
+    {
+        try { sv.value();  } catch ( bad_status_value_access<      int> const & e ) { EXPECT( e.status() == 7 ); }
+        try { csv.value(); } catch ( bad_status_value_access<const int> const & e ) { EXPECT( e.status() == 7 ); }
     }}
+#else
+    EXPECT( !!"status_value: exceptions not available (nsstsv_CONFIG_NO_EXCEPTIONS)" );
+#endif
 }
 
 CASE( "status_value<>: Throws when observing non-engaged (operator*())" )
 {
+#if ! nsstsv_CONFIG_NO_EXCEPTIONS
     SETUP("") {
         status_value<int, int>        sv( 7 );
         status_value<int, int> const csv( 7 );
@@ -247,11 +260,20 @@ CASE( "status_value<>: Throws when observing non-engaged (operator*())" )
     {
         EXPECT_THROWS_AS( *std::move(  sv ), bad_status_value_access<int> );
         EXPECT_THROWS_AS( *std::move( csv ), bad_status_value_access<const int> );
+    }
+    SECTION("throw with expected status value")
+    {
+        try { *sv;  } catch ( bad_status_value_access<      int> const & e ) { EXPECT( e.status() == 7 ); }
+        try { *csv; } catch ( bad_status_value_access<const int> const & e ) { EXPECT( e.status() == 7 ); }
     }}
+#else
+    EXPECT( !!"status_value: exceptions not available (nsstsv_CONFIG_NO_EXCEPTIONS)" );
+#endif
 }
 
 CASE( "status_value<>: Throws when observing non-engaged (operator->())" )
 {
+#if ! nsstsv_CONFIG_NO_EXCEPTIONS
     SETUP("") {
         struct V { int i = 42; };
         status_value<int, V>        sv( 7 );
@@ -292,15 +314,12 @@ CASE( "status_value<>: Throws when observing non-engaged (operator->())" )
     }
     SECTION("throw with expected status value")
     {
-        try
-        {
-            sv.value();
-        }
-        catch ( bad_status_value_access<int> const & e )
-        {
-            EXPECT( e.status() == 7 );
-        }
+        try { use( sv->i  ); } catch ( bad_status_value_access<      int> const & e ) { EXPECT( e.status() == 7 ); }
+        try { use( csv->i ); } catch ( bad_status_value_access<const int> const & e ) { EXPECT( e.status() == 7 ); }
     }}
+#else
+    EXPECT( !!"status_value: exceptions not available (nsstsv_CONFIG_NO_EXCEPTIONS)" );
+#endif
 }
 
 // -----------------------------------------------------------------------
