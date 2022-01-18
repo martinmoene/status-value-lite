@@ -1,4 +1,4 @@
-// Copyright 2016-2019 by Martin Moene
+// Copyright 2016-2022 by Martin Moene
 //
 // This version targets C++11 and later.
 //
@@ -23,6 +23,19 @@
 #define nsstsv_STRINGIFY(  x )  nsstsv_STRINGIFY_( x )
 #define nsstsv_STRINGIFY_( x )  #x
 
+// Control presence of exception handling (try and auto discover):
+
+#ifndef nsstsv_CONFIG_NO_EXCEPTIONS
+# if defined(_MSC_VER)
+#  include <cstddef>    // for _HAS_EXCEPTIONS
+# endif
+# if defined(__cpp_exceptions) || defined(__EXCEPTIONS) || (_HAS_EXCEPTIONS)
+#  define nsstsv_CONFIG_NO_EXCEPTIONS  0
+# else
+#  define nsstsv_CONFIG_NO_EXCEPTIONS  1
+# endif
+#endif
+
 // C++ language version detection (C++20 is speculative):
 // Note: VC14.0/1900 (VS2015) lacks too much from C++14.
 
@@ -43,19 +56,6 @@
 #define nsstsv_CPP11_140  (nsstsv_CPP11_OR_GREATER || _MSC_VER >= 1900)
 #define nsstsv_CPP14_000  (nsstsv_CPP14_OR_GREATER)
 #define nsstsv_CPP17_000  (nsstsv_CPP17_OR_GREATER)
-
-// Control presence of exception handling (try and auto discover):
-
-#ifndef nsstsv_CONFIG_NO_EXCEPTIONS
-# if defined(_MSC_VER)
-#  include <cstddef>    // for _HAS_EXCEPTIONS
-# endif
-# if defined(__cpp_exceptions) || defined(__EXCEPTIONS) || (_HAS_EXCEPTIONS)
-#  define nsstsv_CONFIG_NO_EXCEPTIONS  0
-# else
-#  define nsstsv_CONFIG_NO_EXCEPTIONS  1
-# endif
-#endif
 
 // Presence of C++ language features:
 
@@ -161,13 +161,15 @@ private:
 
 #if nsstsv_CONFIG_NO_EXCEPTIONS
 
+// Note: std::terminate() requires header <exception>.
+
 template< typename S >
-nsstsv_noreturn inline void report_bad_status_value_access( S & /*status*/ ) nsstsv_noexcept
+nsstsv_noreturn inline void report_bad_status_value_access( S && /*status*/ ) nsstsv_noexcept
 {
-    std::terminate();
+    std::abort();
 }
 
-#else
+#else // nsstsv_CONFIG_NO_EXCEPTIONS
 
 // Exception type to throw on unengaged access:
 
@@ -197,12 +199,12 @@ private:
 };
 
 template< typename S >
-inline void report_bad_status_value_access( S && status )
+nsstsv_noreturn inline void report_bad_status_value_access( S && status )
 {
     throw bad_status_value_access<typename std::remove_reference<S>::type>( std::forward<S>( status ) );
 }
 
-#endif
+#endif // nsstsv_CONFIG_NO_EXCEPTIONS
 
 // Status and optional value:
 //
@@ -225,7 +227,7 @@ public:
     , m_has_value( false )
     {}
 
-    status_value(  status_type s, value_type const & v )
+    status_value( status_type s, value_type const & v )
     : m_status( std::move( s ) )
     , m_has_value( true )
     {
