@@ -105,25 +105,29 @@ Define this macro to 1 to experience the by-design compile-time errors of the li
 
 ### Interface of status_value
 
-| Kind         | Method                                                           | Result |
-|--------------|------------------------------------------------------------------|--------|
-| Construction | **status_value**() = delete                                      | disallow default construction |
-| &nbsp;       | **status_value**( status_value && other )                        | move-construct from other |
-| &nbsp;       | **status_value**( status_type const & s )                        | copy-construct from status |
-| &nbsp;       | **status_value**( status_type const & s, value_type && v )       | copy-construct from status,<br>move construct from value |
-| &nbsp;       | **status_value**(  status_type const & s, value_type const & v ) | copy-construct from status and value |
-| Destruction  | **~status_value**()                                              | status, value destroyed if present|
-| Observers    | operator **bool**() const                                        | true if contains value |
-| &nbsp;       | bool **has_value**() const                                       | true if contains value |
-| &nbsp;       | status_type const & **status**() const                           | the status |
-| &nbsp;       | value_type const & **value**() const                             | the value (const ref);<br>see [note 1](#note1) |
-| &nbsp;       | value_type & **value**()                                         | the value (non-const ref);<br>see [note 1](#note1) |
-| &nbsp;       | value_type const & **operator \***() const                       | the value (const ref);<br>see [note 1](#note1) |
-| &nbsp;       | value_type & **operator \***()                                   | the value (non-const ref);<br>see [note 1](#note1) |
-| &nbsp;       | value_type const & **operator ->**() const                       | the element value (const ref);<br>see [note 1](#note1) |
-| &nbsp;       | value_type & **operator ->**()                                   | the element value (non-const ref);<br>see [note 1](#note1) |
+| Kind           | Method                                                           | Result |
+|----------------|------------------------------------------------------------------|--------|
+| Type<br>&nbsp; | template&lt;typename S><br>class **bad_status_value_access**;    | &nbsp; |
+| Construction   | **bad_status_value_access**( S s )                               | move-construct from status |
+| &nbsp;         | &nbsp;                                                           | &nbsp; |
+| Type<br>&nbsp; | template&lt;typename S, typename V><br>class **status_value**;   | &nbsp; |
+| Construction   | **status_value**() = delete                                      | disallow default construction |
+| &nbsp;         | **status_value**( status_value && other )                        | move-construct from other |
+| &nbsp;         | **status_value**( status_type const & s )                        | copy-construct from status |
+| &nbsp;         | **status_value**( status_type const & s, value_type && v )       | copy-construct from status,<br>move construct from value |
+| &nbsp;         | **status_value**(  status_type const & s, value_type const & v ) | copy-construct from status and value |
+| Destruction    | **~status_value**()                                              | status, value destroyed if present|
+| Observers      | operator **bool**() const                                        | true if contains value |
+| &nbsp;         | bool **has_value**() const                                       | true if contains value |
+| &nbsp;         | status_type const & **status**() const                           | the status |
+| &nbsp;         | value_type const & **value**() const                             | the value (const ref);<br>see [note 1](#note1) |
+| &nbsp;         | value_type & **value**()                                         | the value (non-const ref);<br>see [note 1](#note1) |
+| &nbsp;         | value_type const & **operator \***() const                       | the value (const ref);<br>see [note 1](#note1) |
+| &nbsp;         | value_type & **operator \***()                                   | the value (non-const ref);<br>see [note 1](#note1) |
+| &nbsp;         | value_type const & **operator ->**() const                       | the element value (const ref);<br>see [note 1](#note1) |
+| &nbsp;         | value_type & **operator ->**()                                   | the element value (non-const ref);<br>see [note 1](#note1) |
 
-<a id="note1"></a>Note 1: checked access: if no content, throws status value.
+<a id="note1"></a>Note 1: checked access: if no content, throws `bad_status_value_access` containing status value.
 
 
 <a id="comparison"></a>
