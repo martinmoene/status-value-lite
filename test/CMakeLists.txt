@@ -20,6 +20,7 @@ set( SOURCES   ${unit_name}.t.cpp )
 set( SOURCES98 ${unit_name}_cpp98.t.cpp )
 set( HEADER    nonstd/${file_name}.hpp )
 set( HEADER98  nonstd/${file_name}_cpp98.hpp )
+set( TWEAKD    "." )
 
 message( STATUS "Subproject '${PROJECT_NAME}', programs '${PROGRAM}-*', '${PROGRAM98}-*'")
 
@@ -131,6 +132,7 @@ function( make_target target sources header std )
 
     add_executable            ( ${target} ${sources} )
     target_include_directories( ${target} SYSTEM  PRIVATE lest )
+    target_include_directories( ${target} PRIVATE ${TWEAKD} )
     target_link_libraries     ( ${target} PRIVATE ${PACKAGE} )
     target_compile_options    ( ${target} PRIVATE ${OPTIONS} )
     target_compile_definitions( ${target} PRIVATE ${DEFINITIONS} -Dnsstv_STATUS_VALUE_HEADER=\"${header}\" )

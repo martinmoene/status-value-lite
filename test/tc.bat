@@ -39,7 +39,7 @@ set warnflags=-Wall -Wextra -Wpedantic -Weverything -Wno-c++98-compat -Wno-c++98
 
 ::"%clang%" -m32 -std=%std% %optflags% %warnflags% %unit_select% %unit_config% -fms-compatibility-version=19.00 -isystem "%VCInstallDir%include" -isystem "%WindowsSdkDir_71A%include" -isystem lest -I../include -o %unit_file%-main.t.exe %unit_file%-main.t.cpp %unit_file%.t.cpp && %unit_file%-main.t.exe
 
-"%clang%" -m32 -std=%std% %optflags% %warnflags% %unit_select% %unit_config% -fms-compatibility-version=19.00 -isystem "%VCInstallDir%include" -isystem "%WindowsSdkDir_71A%include" -isystem lest -I../include -o %unit_file%.t.exe %unit_file%.t.cpp && %unit_file%.t.exe
+"%clang%" -m32 -std=%std% %optflags% %warnflags% %unit_select% %unit_config% -fms-compatibility-version=19.00 -isystem "%VCInstallDir%include" -isystem "%WindowsSdkDir_71A%include" -isystem lest -I../include -I. -o %unit_file%.t.exe %unit_file%.t.cpp && %unit_file%.t.exe
 endlocal & goto :EOF
 
 :: subroutines:
