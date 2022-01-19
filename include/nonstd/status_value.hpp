@@ -23,6 +23,18 @@
 #define nsstsv_STRINGIFY(  x )  nsstsv_STRINGIFY_( x )
 #define nsstsv_STRINGIFY_( x )  #x
 
+// tweak header support:
+
+#ifdef __has_include
+# if __has_include(<nonstd/status_value.tweak.hpp>)
+#  include <nonstd/status_value.tweak.hpp>
+# endif
+#define nsstsv_HAVE_TWEAK_HEADER  1
+#else
+#define nsstsv_HAVE_TWEAK_HEADER  0
+//# pragma message("status_value.hpp: Note: Tweak header not supported.")
+#endif
+
 // Control presence of exception handling (try and auto discover):
 
 #ifndef nsstsv_CONFIG_NO_EXCEPTIONS

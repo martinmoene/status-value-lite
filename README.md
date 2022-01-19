@@ -90,6 +90,10 @@ Synopsis
 
 ### Configuration macros
 
+#### Tweak header
+
+If the compiler supports [`__has_include()`](https://en.cppreference.com/w/cpp/preprocessor/include), *status_value lite* supports the [tweak header](https://vector-of-bool.github.io/2020/10/04/lib-configuration.html) mechanism. Provide your *tweak header* as `nonstd/status_value.tweak.hpp` in a folder in the include-search-path. In the tweak header, provide definitions as documented below, like `#define nsstsv_CPLUSPLUS 201103L`.
+
 #### Standard selection macro
 \-D<b>nsstsv\_CPLUSPLUS</b>=199711L  
 Define this macro to override the auto-detection of the supported C++ standard, if your compiler does not set the `__cpluplus` macro correctly.
@@ -214,6 +218,7 @@ status_value<>: Allows to observe its value (operator->)
 status_value<>: Throws when observing non-engaged (value())
 status_value<>: Throws when observing non-engaged (operator*())
 status_value<>: Throws when observing non-engaged (operator->())
+tweak header: reads tweak header if supported [tweak]
 ```
 
 </p>

@@ -322,6 +322,15 @@ CASE( "status_value<>: Throws when observing non-engaged (operator->())" )
 #endif
 }
 
+CASE( "tweak header: reads tweak header if supported " "[tweak]" )
+{
+#if nsstsv_HAVE_TWEAK_HEADER
+    EXPECT( NSSTSV_TWEAK_VALUE == 42 );
+#else
+    EXPECT( !!"Tweak header is not available (nsstsv_HAVE_TWEAK_HEADER: 0)." );
+#endif
+}
+
 // -----------------------------------------------------------------------
 // test driver:
 
