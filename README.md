@@ -5,6 +5,7 @@
 status_value is a single-file header-only library for objects that represent a status and an optional value. It is intended for use with C++11 and later. There is a [separate variant](README_cpp98.md) for use with C++98 and later. The library is based on the proposal for status_value [[1](#ref1)].
 
 **Contents**  
+
 - [Example usage](#example-usage)
 - [In a nutshell](#in-a-nutshell)
 - [License](#license)
@@ -17,8 +18,8 @@ status_value is a single-file header-only library for objects that represent a s
 - [Notes and references](#notes-and-references)
 - [Appendix](#appendix)
 
-Example usage
--------------
+## Example usage
+
 ```Cpp
 #include "nonstd/status_value.hpp"
 
@@ -48,14 +49,16 @@ int main( int argc, char * argv[] )
     else       std::cout << "Error: " << svi.status();
 }
 ```
+
 ### Compile and run
+
 ```
 prompt> g++ -std=c++14 -Wall -I../include -o 01-basic.exe 01-basic.cpp && 01-basic.exe 123 && 01-basic.exe abc
 Excellent: '123' is 123, Error: 'abc' isn't a number
 ```
 
-In a nutshell
--------------
+## In a nutshell
+
 **status_value** is a single-file header-only library to represent objects that contain a status and an optional value. The library is an implementation of the  proposal for [std:&#58;status_value](http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2014/n4233.html) [[1](#ref1),[2](#ref2)] for use with C++11 and later.
 
 **Features and properties of status_value** are ease of installation (single header), construction of a status, or a status and a value from a value that is convertible to the underlying type, move-construction from another status_value of the same type, testing for the presence of a value, operators and method value() for *checked* access to the value and access to the status.  
@@ -64,27 +67,23 @@ In a nutshell
 
 For more examples, see [[1](#ref1)].
 
+## License
 
-License
--------
 *status_value* is distributed under the [Boost Software License](https://github.com/martinmoene/span-lite/blob/master/LICENSE.txt).
 
+## Dependencies
 
-Dependencies
-------------
 *status_value* has no other dependencies than the [C++ standard library](http://en.cppreference.com/w/cpp/header).
 
+## Installation
 
-Installation
-------------
 
 *status_value* is a single-file header-only library. Put `status_value.hpp` directly into the project source tree or somewhere reachable from your project.
 
-
-Synopsis
---------
+## Synopsis
 
 **Contents**  
+
 - [Configuration macros](#configuration-macros)
 - [Interface of status_value](#interface-of-status_value)  
 
@@ -105,7 +104,6 @@ Define this to 1 if you want to compile without exceptions. If not defined, the 
 #### Enable compilation errors
 \-D<b>nsstsv\_CONFIG\_CONFIRMS\_COMPILATION\_ERRORS</b>=0  
 Define this macro to 1 to experience the by-design compile-time errors of the library in the test suite. Default is 0.
-
 
 ### Interface of status_value
 
@@ -132,7 +130,6 @@ Define this macro to 1 to experience the by-design compile-time errors of the li
 | &nbsp;         | value_type & **operator ->**()                                   | the element value (non-const ref);<br>see [note 1](#note1) |
 
 <a id="note1"></a>Note 1: checked access: if no content, throws `bad_status_value_access` containing status value.
-
 
 <a id="comparison"></a>
 Comparison with like types
@@ -164,21 +161,18 @@ Comparison with like types
 <a id="note3"></a>Note 3: [expected lite](https://github.com/martinmoene/expected-lite) - Expected objects for C++11 and later.  
 <a id="note4"></a>Note 4: This project provides a [variant of status_value](README_cpp98.md) for use with C++98 and later.
 
+## Reported to work with
 
-Reported to work with
----------------------
 *status_value* is reported to work with the following compilers: 
+
 - Visual VC14 (VS2015)
 - GNUC 5.2.0 with -std=c++11, -std=c++14, -std=c++1y 
 - clang 3.6, 3.7 with -std=c++11, -std=c++14 (on Travis)
 
+## Implementation notes
 
-Implementation notes
---------------------
+## Notes and references
 
-
-Notes and references
---------------------
 <a id="ref1"></a>[1] Lawrence Crowl and Chris Mysen. [p0262 - A Class for Status and Optional Value (latest)](http://wg21.link/p0262), 14 February 2016. [N4233](http://wg21.link/n4233), 10 October 2014.
 
 <a id="ref2"></a>[2] Lawrence Crowl. [p0157 - Handling Disappointment in C++ (latest)](http://wg21.link/p0157), 7 July 2015.
@@ -187,9 +181,7 @@ Notes and references
 
 <a id="ref4"></a>[4] Fernando Cacciola and Andrzej Krzemieński. [N3793 - A proposal to add a utility class to represent optional objects (Revision 5)](http://wg21.link/n3793). 03 October 2013. [N3672 r4](http://wg21.link/n3672), [N3527 r3](http://wg21.link/n3527), [N3406 r2](http://wg21.link/n3406), [N1878 r1](http://wg21.link/n1878), [N3966 - Fixes for optional objects](http://wg21.link/n3966).
 
-
-Appendix
---------
+## Appendix
 
 ### A.1 Compile-time information
 
