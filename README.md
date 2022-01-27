@@ -2,7 +2,9 @@
 
 [![Language](https://img.shields.io/badge/C%2B%2B-11-blue.svg)](https://en.wikipedia.org/wiki/C%2B%2B#Standardization) [![Language](https://img.shields.io/badge/C%2B%2B-98-orange.svg)](https://en.wikipedia.org/wiki/C%2B%2B#Standardization) [![License](https://img.shields.io/badge/license-BSL-blue.svg)](https://opensource.org/licenses/BSL-1.0) [![Build Status](https://github.com/martinmoene/status-value-lite/actions/workflows/ci.yml/badge.svg)](https://github.com/martinmoene/status-value-lite/actions/workflows/ci.yml) [![Build Status](https://travis-ci.org/martinmoene/status-value-lite.svg?branch=master)](https://travis-ci.org/martinmoene/status-value-lite) [![Build status](https://ci.appveyor.com/api/projects/status/i51ywyur2brx7r5q?svg=true)](https://ci.appveyor.com/project/martinmoene/status-value-lite) [![Version](https://badge.fury.io/gh/martinmoene%2Fstatus-value-lite.svg)](https://github.com/martinmoene/status-value-lite/releases) [![download](https://img.shields.io/badge/latest-download-blue.svg)](https://raw.githubusercontent.com/martinmoene/status-value-lite/master/include/nonstd/status_value.hpp) [![Conan](https://img.shields.io/badge/on-conan-blue.svg)](https://conan.io/center/status-value-lite) [![Try it on wandbox](https://img.shields.io/badge/on-wandbox-blue.svg)](https://wandbox.org/permlink/eRfjw7PDzh3ZOipS) [![Try it on godbolt online](https://img.shields.io/badge/on-godbolt-blue.svg)](https://godbolt.org/z/363wp-)
 
-status_value is a single-file header-only library for objects that represent a status and an optional value. It is intended for use with C++11 and later. There is a [separate variant](README_cpp98.md) for use with C++98 and later. The library is based on the proposal for status_value [[1](#ref1)].
+status_value is a single-file header-only library for objects that represent a status and an optional value. It is intended for use with C++11 and later. There is a [separate variant](README_cpp98.md) for use with C++98 and later.
+
+The library is based on the proposal for status_value [[1](#ref1)]. Please read [On proposed `status_value`](https://oliora.github.io/2022/01/20/On-proposed-status_value.html) by Andrey Upadyshev [[5](#ref5)] and consider if you truly want to use this library.
 
 **Contents**  
 
@@ -180,6 +182,8 @@ Comparison with like types
 <a id="ref3"></a>[3] Vicente J. Botet Escriba. [p0323 - A proposal to add a utility class to represent expected object (latest)](http://wg21.link/p0323) (PDF). ([r6](http://wg21.link/p0323r6), [r5](http://wg21.link/p0323r5), [r4](http://wg21.link/p0323r4), [r3](http://wg21.link/p0323r3), [r2](http://wg21.link/p0323r2), [r1](http://wg21.link/n4109), [r0](http://wg21.link/n4015), [draft](https://github.com/viboes/std-make/blob/master/doc/proposal/expected/DXXXXR0_expected.pdf)).
 
 <a id="ref4"></a>[4] Fernando Cacciola and Andrzej Krzemieński. [N3793 - A proposal to add a utility class to represent optional objects (Revision 5)](http://wg21.link/n3793). 03 October 2013. [N3672 r4](http://wg21.link/n3672), [N3527 r3](http://wg21.link/n3527), [N3406 r2](http://wg21.link/n3406), [N1878 r1](http://wg21.link/n1878), [N3966 - Fixes for optional objects](http://wg21.link/n3966).
+
+<a id="ref5"></a>[5] Andrey Upadyshev. [On proposed `status_value`](https://oliora.github.io/2022/01/20/On-proposed-status_value.html). 20 January 2022.
 
 ## Appendix
 
