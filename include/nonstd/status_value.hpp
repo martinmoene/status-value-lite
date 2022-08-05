@@ -48,7 +48,7 @@
 # endif
 #endif
 
-// C++ language version detection (C++20 is speculative):
+// C++ language version detection (C++23 is speculative):
 // Note: VC14.0/1900 (VS2015) lacks too much from C++14.
 
 #ifndef   nsstsv_CPLUSPLUS
@@ -63,7 +63,8 @@
 #define nsstsv_CPP11_OR_GREATER  ( nsstsv_CPLUSPLUS >= 201103L )
 #define nsstsv_CPP14_OR_GREATER  ( nsstsv_CPLUSPLUS >= 201402L )
 #define nsstsv_CPP17_OR_GREATER  ( nsstsv_CPLUSPLUS >= 201703L )
-#define nsstsv_CPP20_OR_GREATER  ( nsstsv_CPLUSPLUS >= 202000L )
+#define nsstsv_CPP20_OR_GREATER  ( nsstsv_CPLUSPLUS >= 202002L )
+#define nsstsv_CPP23_OR_GREATER  ( nsstsv_CPLUSPLUS >= 202300L )
 
 #define nsstsv_CPP11_140  (nsstsv_CPP11_OR_GREATER || _MSC_VER >= 1900)
 #define nsstsv_CPP14_000  (nsstsv_CPP14_OR_GREATER)

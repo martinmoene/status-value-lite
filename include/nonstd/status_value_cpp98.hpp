@@ -62,7 +62,7 @@
 # define nsstsv_CONFIG_ALIGN_AS_FALLBACK  double
 #endif
 
-// C++ language version detection (C++20 is speculative):
+// C++ language version detection (C++23 is speculative):
 // Note: VC14.0/1900 (VS2015) lacks too much from C++14.
 
 #if defined _MSVC_LANG
@@ -75,7 +75,8 @@
 #define nsstsv_CPP11_OR_GREATER  ( nsstsv_CPLUSPLUS >= 201103L )
 #define nsstsv_CPP14_OR_GREATER  ( nsstsv_CPLUSPLUS >= 201402L )
 #define nsstsv_CPP17_OR_GREATER  ( nsstsv_CPLUSPLUS >= 201703L )
-#define nsstsv_CPP20_OR_GREATER  ( nsstsv_CPLUSPLUS >= 202000L )
+#define nsstsv_CPP20_OR_GREATER  ( nsstsv_CPLUSPLUS >= 202002L )
+#define nsstsv_CPP23_OR_GREATER  ( nsstsv_CPLUSPLUS >= 202300L )
 
 // C++ language version (represent 98 as 3):
 
