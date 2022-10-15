@@ -5,7 +5,7 @@
 
 project( example LANGUAGES CXX )
 
-set( unit_name "status-value" )
+# unit_name provided by toplevel CMakeLists.txt
 set( PACKAGE   "${unit_name}-lite" )
 
 message( STATUS "Subproject '${PROJECT_NAME}'")
