@@ -59,6 +59,11 @@
 # endif
 #endif
 
+// half-open range [lo..hi):
+#define nsstsv_BETWEEN( v, lo, hi ) ( (lo) <= (v) && (v) < (hi) )
+
+// Presence of language & library features:
+
 #define nsstsv_CPP98_OR_GREATER  ( nsstsv_CPLUSPLUS >= 199711L )
 #define nsstsv_CPP11_OR_GREATER  ( nsstsv_CPLUSPLUS >= 201103L )
 #define nsstsv_CPP14_OR_GREATER  ( nsstsv_CPLUSPLUS >= 201402L )
@@ -74,7 +79,7 @@
 
 #define nsstsv_HAVE_CONSTEXPR_14   nsstsv_CPP14_000
 #define nsstsv_HAVE_NOEXCEPT       nsstsv_CPP11_140
-#define nsstsv_HAVE_NORETURN       nsstsv_CPP17_000
+#define nsstsv_HAVE_NORETURN     ( nsstsv_CPP11_140 && ! nsstsv_BETWEEN( nsstsv_COMPILER_GNUC_VERSION, 1, 480 ) )
 
 #if nsstsv_HAVE_CONSTEXPR_14
 # define nsstsv_constexpr14 constexpr

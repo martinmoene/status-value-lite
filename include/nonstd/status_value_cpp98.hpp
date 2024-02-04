@@ -122,7 +122,7 @@
 
 #define nsstsv_HAVE_CONSTEXPR_11   nsstsv_CPP11_140
 #define nsstsv_HAVE_NOEXCEPT       nsstsv_CPP11_140
-#define nsstsv_HAVE_NORETURN       nsstsv_CPP17_000
+#define nsstsv_HAVE_NORETURN     ( nsstsv_CPP11_140 && ! nsstsv_BETWEEN( nsstsv_COMPILER_GNUC_VERSION, 1, 480 ) )
 #define nsstsv_HAVE_NULLPTR        nsstsv_CPP11_000
 #define nsstsv_HAVE_REF_QUALIFIER  nsstsv_CPP11_140
 
